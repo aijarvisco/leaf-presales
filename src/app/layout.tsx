@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { GeistSans } from 'geist/font/sans'
 import './globals.css'
 import Navbar from '@/components/layout/Navbar'
+import CookieBanner from '@/components/CookieBanner'
 
 export const metadata: Metadata = {
   title: 'Nissan Leaf — Reserve o seu',
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={GeistSans.className}>
         <Navbar />
         {children}
+        <CookieBanner />
       </body>
     </html>
   )
