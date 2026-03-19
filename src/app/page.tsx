@@ -1,10 +1,11 @@
 import Hero from '@/components/sections/Hero'
+import Highlights from '@/components/sections/Highlights'
 
 export default function Home() {
   return (
     <main>
       <Hero />
-      {/* Remaining sections added in subsequent tasks */}
+      <Highlights />
     </main>
   )
 }
