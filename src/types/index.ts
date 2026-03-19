@@ -22,8 +22,6 @@ export interface SavingsResult {
   co2AvoidedKgPerYear: number
 }
 
-export type ConfiguratorMode = '3d' | 'image-sequence'
-
 export type ConfiguratorView = 'exterior' | 'interior'
 
 export interface VehicleVersion {
