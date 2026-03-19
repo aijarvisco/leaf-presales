@@ -2,7 +2,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import ConfiguratorViewer from '@/components/configurator/ConfiguratorViewer'
-import ColorSwitcher from '@/components/configurator/ColorSwitcher'
 import type { ConfiguratorView } from '@/types'
 
 const VIEWS: { id: ConfiguratorView; label: string }[] = [
@@ -10,48 +9,47 @@ const VIEWS: { id: ConfiguratorView; label: string }[] = [
   { id: 'interior', label: 'Interior' },
 ]
 
-// Replace with real color options from Nissan PT asset list
-const COLORS = [
-  { id: 'branco', label: 'Branco Pérola', hex: '#F0EDE8' },
-  { id: 'azul', label: 'Azul Elétrico', hex: '#1A4FA0' },
-  { id: 'cinzento', label: 'Cinzento Cósmico', hex: '#6B6B6B' },
-]
-
 export default function Configurator() {
   const [view, setView] = useState<ConfiguratorView>('exterior')
-  const [colorId, setColorId] = useState(COLORS[0].id)
+  const [badgeVisible, setBadgeVisible] = useState(true)
 
   return (
-    <section id="configurador" className="py-24 px-6 md:px-12 bg-surface">
-      <motion.h2
-        className="text-4xl md:text-5xl font-bold text-center mb-12"
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-      >
-        Descobre o teu Leaf.
-      </motion.h2>
+    <section id="configurador" className="relative min-h-screen w-full overflow-hidden">
+      {/* Full-bleed viewer */}
+      <div className="absolute inset-0">
+        <ConfiguratorViewer
+          view={view}
+          onFirstInteraction={() => setBadgeVisible(false)}
+        />
+      </div>
 
-      {/* View toggle */}
-      <div className="flex justify-center gap-1 mb-8">
+      {/* 360° badge — top-left */}
+      <motion.div
+        className="absolute top-6 left-6 flex items-center gap-2 bg-black/40 backdrop-blur-sm text-white text-sm font-medium px-3 py-2 rounded-full pointer-events-none"
+        animate={{ opacity: badgeVisible ? 1 : 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M2 8h12M2 8l3-3M2 8l3 3M14 8l-3-3M14 8l-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        <span>360°</span>
+      </motion.div>
+
+      {/* View toggle — bottom-center */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-1 bg-black/40 backdrop-blur-sm rounded-full p-1">
         {VIEWS.map(({ id, label }) => (
           <button
             key={id}
             onClick={() => setView(id)}
             className={`
-              px-6 py-2 rounded-full text-sm font-medium transition-all duration-200
-              ${view === id ? 'bg-accent text-white' : 'text-text-secondary hover:text-white'}
+              px-5 py-2 rounded-full text-sm font-medium transition-all duration-200
+              ${view === id ? 'bg-white text-black' : 'text-white/70 hover:text-white'}
             `}
           >
             {label}
           </button>
         ))}
       </div>
-
-      <ConfiguratorViewer view={view} colorId={colorId} />
-
-      <ColorSwitcher colors={COLORS} activeColor={colorId} onSelect={setColorId} />
     </section>
   )
 }
