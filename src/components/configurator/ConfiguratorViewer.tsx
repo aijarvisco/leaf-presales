@@ -1,32 +1,36 @@
 'use client'
+import { motion } from 'framer-motion'
 import type { ConfiguratorView } from '@/types'
-import ImageSequenceViewer from './ImageSequenceViewer'
-import ThreeDViewer from './ThreeDViewer'
-
-// Placeholder image sets — replace with real assets
-const PLACEHOLDER_IMAGES = {
-  exterior: {
-    branco: ['/images/placeholder-hero.jpg'],
-    azul: ['/images/placeholder-hero.jpg'],
-    cinzento: ['/images/placeholder-hero.jpg'],
-  },
-  interior: {
-    branco: ['/images/placeholder-hero.jpg'],
-    azul: ['/images/placeholder-hero.jpg'],
-    cinzento: ['/images/placeholder-hero.jpg'],
-  },
-}
+import Canvas360Viewer from './Canvas360Viewer'
+import InteriorViewer from './InteriorViewer'
 
 interface ConfiguratorViewerProps {
   view: ConfiguratorView
-  colorId: string
+  onFirstInteraction?: () => void
 }
 
-const mode = process.env.NEXT_PUBLIC_CONFIGURATOR_MODE ?? 'image-sequence'
+export default function ConfiguratorViewer({ view, onFirstInteraction }: ConfiguratorViewerProps) {
+  return (
+    <div className="relative w-full h-full">
+      {/* Exterior — stays mounted */}
+      <motion.div
+        className="absolute inset-0"
+        animate={{ opacity: view === 'exterior' ? 1 : 0 }}
+        transition={{ duration: 0.4, ease: 'easeInOut' }}
+        style={{ pointerEvents: view === 'exterior' ? 'auto' : 'none' }}
+      >
+        <Canvas360Viewer onFirstInteraction={onFirstInteraction} />
+      </motion.div>
 
-export default function ConfiguratorViewer({ view, colorId }: ConfiguratorViewerProps) {
-  if (mode === '3d') {
-    return <ThreeDViewer view={view} colorId={colorId} />
-  }
-  return <ImageSequenceViewer view={view} colorId={colorId} images={PLACEHOLDER_IMAGES} />
+      {/* Interior — stays mounted */}
+      <motion.div
+        className="absolute inset-0"
+        animate={{ opacity: view === 'interior' ? 1 : 0 }}
+        transition={{ duration: 0.4, ease: 'easeInOut' }}
+        style={{ pointerEvents: view === 'interior' ? 'auto' : 'none' }}
+      >
+        <InteriorViewer />
+      </motion.div>
+    </div>
+  )
 }
