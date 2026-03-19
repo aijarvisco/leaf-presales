@@ -10,6 +10,7 @@
 
   --font-family-sans: var(--font-geist-sans), Inter, system-ui, sans-serif;
   --font-family-cormorant: var(--font-cormorant), Georgia, serif;
+  --font-family-heading: var(--font-space-grotesk), system-ui, sans-serif;
 
   --animate-fade-up: fadeUp 0.6s ease-out forwards;
   --animate-count-up: countUp 1s ease-out forwards;
@@ -24,6 +25,7 @@
   }
 
   h1, h2, h3, h4 {
-    @apply font-sans font-semibold tracking-tight;
+    font-family: var(--font-family-heading);
+    @apply font-bold tracking-tight;
   }
 }
