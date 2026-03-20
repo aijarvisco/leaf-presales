@@ -54,8 +54,8 @@ A local `BatteryIcon` component defined inside `RangeSavings.tsx`. Not extracted
 
 - **Container**: `flex justify-center mb-12`
 - **SVG**: `width="80" height="80" viewBox="0 0 80 80"`
-- **Track circle**: `cx="40" cy="40" r="34"`, `strokeWidth="1.5"`, `stroke="rgba(255,255,255,0.15)"`, `fill="none"`, rotated `-90deg` via `transform="rotate(-90 40 40)"`
-- **Fill arc**: `<motion.circle>` — same `cx/cy/r`, `strokeWidth="1.5"`, `stroke="#FA5C40"`, `fill="none"`, `strokeLinecap="round"`, `style={{ pathLength: fillProgress, rotate: -90 }}` where `rotate` is applied via CSS transform origin
+- **Track circle**: `cx="40" cy="40" r="34"`, `strokeWidth="1.5"`, `stroke="rgba(255,255,255,0.15)"`, `fill="none"` — no rotation needed (full 360° stroke, rotation has no visual effect)
+- **Fill arc**: `<motion.circle>` — same `cx/cy/r`, `strokeWidth="1.5"`, `stroke="#FA5C40"`, `fill="none"`, `strokeLinecap="round"`, `style={{ pathLength: scrollYProgress, rotate: -90 }}` — `rotate: -90` starts the fill from the top (12 o'clock), CSS `transform-origin: 50% 50%` applies around the circle center
 - **Lightning bolt**: `<path>` centered at `(40, 40)`, standard bolt shape, `fill="white"`, approximately 22×28px within the SVG
 
 ### Bolt path
@@ -72,12 +72,29 @@ const { scrollYProgress } = useScroll({
   target: sectionRef,
   offset: ["start end", "center center"],
 })
-const fillProgress = useTransform(scrollYProgress, [0, 1], [0, 1])
 ```
 
 - `scrollYProgress` goes `0→1` as the section travels from entering the bottom of the viewport to its center reaching the viewport center.
-- `fillProgress` is passed directly as `pathLength` on the `<motion.circle>` — Framer Motion handles `pathLength` natively (0 = empty, 1 = full stroke).
-- `useScroll` and `useTransform` are imported from `framer-motion` (already a project dependency).
+- Pass `scrollYProgress` directly as `pathLength` on the `<motion.circle>` — no `useTransform` needed, the values are already `0→1`.
+- Framer Motion handles `pathLength` natively for SVG shapes (0 = empty stroke, 1 = full stroke).
+
+### Updated imports
+
+```tsx
+import { useRef } from 'react'
+import { motion, useScroll, type MotionValue } from 'framer-motion'
+```
+
+- `useTransform` is no longer needed.
+- `MotionValue` is imported as a type for the `BatteryIcon` prop signature.
+
+### BatteryIcon prop type
+
+```tsx
+function BatteryIcon({ pathLength }: { pathLength: MotionValue<number> }) {
+```
+
+Pass `scrollYProgress` from the parent: `<BatteryIcon pathLength={scrollYProgress} />`.
 
 ---
 
