@@ -71,10 +71,42 @@ All places that call `drawFrame` pass the raw wrapped float instead of a rounded
 - ResizeObserver callback: `drawFrame(wrapFrame(frameAccRef.current))`
 - Initial load (frame 0): `drawFrame(0)` (unchanged, integer is fine)
 
-### 5. Test Updates
+### 5. Preconditions
 
-- Update `FRAME_COUNT` from 104 to 120
-- Adjust `wrapFrame` tests for float return values (no more rounding)
+- `drawFrame` expects a non-negative, pre-wrapped float in `[0, FRAME_COUNT)`. All call sites must pass through `wrapFrame` first.
+- All frames are fully opaque photographs — no `clearRect` needed before drawing since each frame covers the entire canvas.
+
+### 6. Test Updates
+
+Update `FRAME_COUNT` from 104 to 120 and `SENSITIVITY` from 0.25 to 0.45.
+
+**`wrapFrame` tests** — now returns floats, no rounding:
+
+```typescript
+// Basic
+wrapFrame(0)      → 0
+wrapFrame(45.3)   → 45.3   // preserves fractional part
+
+// Forward wrap
+wrapFrame(120)    → 0
+wrapFrame(120.5)  → 0.5
+wrapFrame(121)    → 1
+
+// Negative wrap
+wrapFrame(-1)     → 119
+wrapFrame(-0.3)   → 119.7
+wrapFrame(-120)   → 0
+```
+
+**`accumulateFrameIndex` tests** — update SENSITIVITY to 0.45:
+
+```typescript
+// 1 frame per ~2.2px drag (1/0.45 ≈ 2.22)
+accumulateFrameIndex(0, 10)  → 4.5
+accumulateFrameIndex(10, -10) → 5.5
+```
+
+**Remove the rounding test** (`'handles floating point input by rounding'`) since `wrapFrame` no longer rounds.
 
 ## Files Changed
 
