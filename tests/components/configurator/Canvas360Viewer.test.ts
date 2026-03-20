@@ -33,18 +33,18 @@ describe('wrapFrame', () => {
 
 describe('accumulateFrameIndex', () => {
   it('advances by SENSITIVITY * delta pixels', () => {
-    expect(accumulateFrameIndex(0, 4)).toBeCloseTo(1)
-    expect(accumulateFrameIndex(0, 8)).toBeCloseTo(2)
+    expect(accumulateFrameIndex(0, 10)).toBeCloseTo(4.5)
+    expect(accumulateFrameIndex(0, 20)).toBeCloseTo(9)
   })
 
   it('goes negative on leftward drag', () => {
-    expect(accumulateFrameIndex(10, -4)).toBeCloseTo(9)
+    expect(accumulateFrameIndex(10, -10)).toBeCloseTo(5.5)
   })
 
   it('accumulates across multiple calls', () => {
     let idx = 0
-    idx = accumulateFrameIndex(idx, 4)
-    idx = accumulateFrameIndex(idx, 4)
-    expect(idx).toBeCloseTo(2)
+    idx = accumulateFrameIndex(idx, 10)
+    idx = accumulateFrameIndex(idx, 10)
+    expect(idx).toBeCloseTo(9)
   })
 })
