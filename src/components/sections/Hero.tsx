@@ -49,16 +49,6 @@ export default function Hero() {
     }
   }
 
-  function scaleRule() {
-    if (prefersReducedMotion) return {}
-    return {
-      initial: { scaleX: 0 },
-      animate: { scaleX: 1 },
-      transition: { duration: 0.5, delay: 0.15, ease: 'easeOut' as const },
-      style: { transformOrigin: 'left center' },
-    }
-  }
-
   return (
     <section ref={heroRef} className="relative h-screen overflow-hidden">
 
@@ -106,61 +96,47 @@ export default function Hero() {
 
       {/* Content block — fades and lifts on scroll */}
       <motion.div
-        className="absolute bottom-16 md:bottom-20 left-0 pl-8 md:pl-16 lg:pl-24 z-20"
+        className="absolute bottom-16 md:bottom-20 left-8 md:left-16 lg:left-24 right-8 md:right-16 lg:right-24 z-20 flex flex-col md:flex-row items-start md:items-end md:justify-between gap-6"
         style={{ opacity: textOpacity, y: textY }}
       >
-        {/* Label */}
-        <motion.p
-          className="text-xs md:text-sm text-white/50 tracking-[0.2em] font-sans font-light uppercase mb-4"
-          {...entryFade(0)}
-        >
-          Nissan Leaf · 100% Elétrico · Reserva Antecipada
-        </motion.p>
+        {/* Left — copy block */}
+        <div>
+          {/* Label */}
+          <motion.p
+            className="text-xs md:text-sm text-white/60 tracking-widest font-sans font-medium uppercase mb-3"
+            {...entryFade(0)}
+          >
+            Nissan Leaf
+          </motion.p>
 
-        {/* Thin rule */}
-        <motion.div
-          className="w-12 border-t border-white/30 mb-6"
-          {...scaleRule()}
-        />
-
-        {/* Headline — two lines with italic/roman contrast */}
-        <h1 className="font-cormorant font-light leading-none mb-4">
-          <span className="block overflow-hidden">
-            <motion.span
-              className="block text-6xl md:text-7xl lg:text-[9rem] text-white italic"
-              {...clipReveal(0.3)}
+          {/* Headline */}
+          <div className="block overflow-hidden mb-4">
+            <motion.h1
+              className="font-sans font-bold text-5xl md:text-6xl lg:text-7xl text-white leading-none"
+              {...clipReveal(0.2)}
             >
-              Além do
-            </motion.span>
-          </span>
-          <span className="block overflow-hidden">
-            <motion.span
-              className="block text-6xl md:text-7xl lg:text-[9rem] text-white not-italic"
-              {...clipReveal(0.45)}
+              O futuro já não está à espera.
+            </motion.h1>
+          </div>
+
+          {/* Sub-label + reassurance */}
+          <motion.div {...fadeUp(0.5)}>
+            <p className="text-sm font-sans font-semibold text-white">
+              Reserva já.
+            </p>
+            <motion.p
+              className="text-sm font-sans font-light text-white/60"
+              {...fadeUp(0.6)}
             >
-              Horizonte.
-            </motion.span>
-          </span>
-        </h1>
+              Com certezas. Sem compromisso.
+            </motion.p>
+          </motion.div>
+        </div>
 
-        {/* Subline */}
-        <motion.p
-          className="text-base md:text-lg text-white/70 font-sans font-light max-w-md mb-8"
-          {...fadeUp(0.7)}
-        >
-          O Nissan Leaf foi construído para quem nunca parou de imaginar.
-        </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          className="flex flex-row gap-4"
-          {...fadeUp(0.9)}
-        >
+        {/* Right — CTA */}
+        <motion.div {...fadeUp(0.8)}>
           <Button variant="primary" onClick={() => scrollTo('reservar')}>
             Reservar agora
-          </Button>
-          <Button variant="ghost" onClick={() => scrollTo('contacto')}>
-            Saber mais
           </Button>
         </motion.div>
       </motion.div>
