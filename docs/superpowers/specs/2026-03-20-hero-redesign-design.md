@@ -15,7 +15,7 @@ A single bottom container uses `flex justify-between items-end` pinned to the bo
 
 **Left (copy block)**
 1. Label: `Nissan Leaf` — `text-xs md:text-sm`, `font-sans font-medium`, `text-white/60`, `tracking-widest uppercase`
-2. Headline: `O futuro já não está à espera.` — `font-cormorant font-bold`, `text-5xl md:text-6xl lg:text-7xl`, `text-white leading-none`, single line
+2. Headline: `O futuro já não está à espera.` — `font-sans font-bold`, `text-5xl md:text-6xl lg:text-7xl`, `text-white leading-none`, single line
 3. Sub-label: `Reserva já.` — `text-sm`, `font-sans font-semibold`, `text-white`, `mt-4`
 4. Reassurance line: `Com certezas. Sem compromisso.` — `text-sm`, `font-sans font-light`, `text-white/60`
 
