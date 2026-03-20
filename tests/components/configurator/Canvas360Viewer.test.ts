@@ -2,7 +2,7 @@ const FRAME_COUNT = 120
 const SENSITIVITY = 0.45
 
 function wrapFrame(raw: number): number {
-  return ((raw % FRAME_COUNT) + FRAME_COUNT) % FRAME_COUNT
+  return ((Math.floor(raw) % FRAME_COUNT) + FRAME_COUNT) % FRAME_COUNT
 }
 
 function accumulateFrameIndex(current: number, deltaPixels: number): number {
@@ -14,19 +14,21 @@ describe('wrapFrame', () => {
     expect(wrapFrame(0)).toBe(0)
   })
 
-  it('preserves fractional part', () => {
-    expect(wrapFrame(45.3)).toBeCloseTo(45.3)
+  it('floors fractional input', () => {
+    expect(wrapFrame(0.4)).toBe(0)
+    expect(wrapFrame(0.9)).toBe(0)
+    expect(wrapFrame(45.7)).toBe(45)
   })
 
   it('wraps forward past FRAME_COUNT', () => {
     expect(wrapFrame(120)).toBe(0)
-    expect(wrapFrame(120.5)).toBeCloseTo(0.5)
-    expect(wrapFrame(121)).toBeCloseTo(1)
+    expect(wrapFrame(121)).toBe(1)
+    expect(wrapFrame(121.5)).toBe(1)
   })
 
   it('wraps backward (negative index)', () => {
-    expect(wrapFrame(-1)).toBeCloseTo(119)
-    expect(wrapFrame(-0.3)).toBeCloseTo(119.7)
+    expect(wrapFrame(-1)).toBe(119)
+    expect(wrapFrame(-0.3)).toBe(119)
     expect(wrapFrame(-120)).toBe(0)
   })
 })
