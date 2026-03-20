@@ -16,7 +16,7 @@ Replace the current interactive StatCard grid with a clean, Apple-inspired batte
 
 ### Overall structure
 
-- Dark background (`#0A0A0A`), `py-24` vertical padding, `px-6 md:px-12` horizontal padding.
+- Background: `bg-background` (resolves to `--color-background: #0A0A0A`), `py-24` vertical padding, `px-6 md:px-12` horizontal padding.
 - Single centered container (`max-w-7xl mx-auto`).
 - Two stacked blocks: **header block** then **stats grid**.
 
@@ -24,7 +24,7 @@ Replace the current interactive StatCard grid with a clean, Apple-inspired batte
 
 - Left-aligned, `max-w-xl` (~560px) so the text doesn't stretch too wide on large screens.
 - Contains, top to bottom:
-  1. Section heading (`h2`)
+  1. Section heading (`h2`) — the global `@layer base` in `globals.css` applies `font-family: Space Grotesk`, `font-bold`, and `tracking-tight` to all `h2` elements automatically. No extra font classes needed on the element.
   2. Body paragraph
   3. "Calcular a minha poupança →" CTA button
 
@@ -48,22 +48,25 @@ Each cell, top to bottom:
 | Element | Style |
 |---|---|
 | Qualifier ("Até") | `text-sm text-text-secondary` — omit for stats that don't use "Até" |
-| Number | `text-7xl md:text-8xl font-bold` in coral `#FA5C40` |
-| Unit | `text-2xl md:text-3xl font-medium` in coral `#FA5C40`, inline after number |
-| Descriptor | `text-sm text-text-secondary mt-2` |
+| Number + Unit (same line) | Number: `text-7xl md:text-8xl font-bold` in coral `#FA5C40`. Unit: `text-2xl md:text-3xl font-medium` in coral `#FA5C40`, rendered inline after the number. Both wrapped in a flex row with `items-end gap-x-2` so the unit sits at the baseline of the number with a small consistent gap. |
+| Descriptor | `text-sm text-text-secondary mt-2` — `text-text-secondary` maps to `--color-text-secondary: #A1A1A1`, already declared in `src/app/globals.css` under `@theme`. No new tokens needed. |
+
+Vertical stacking order per cell: qualifier (if present) → [number + unit on same line] → descriptor.
 
 ### Four stats
 
-| Qualifier | Number | Unit | Descriptor |
+All stat values are **hardcoded string literals** — no JS `number` values, no runtime formatting. This avoids locale issues and is consistent with the static, no-count-up approach.
+
+| Qualifier | Number (string) | Unit | Descriptor |
 |---|---|---|---|
-| Até | 75 | kWh | Capacidade da bateria |
-| Até | 592 | km | Autonomia em ciclo WLTP |
-| *(none)* | 30 | min | De 20 a 80% em carga rápida |
-| *(none)* | 7,2 | km/kWh | Eficiência energética |
+| `"Até"` | `"75"` | `"kWh"` | `"Capacidade da bateria"` |
+| `"Até"` | `"592"` | `"km"` | `"Autonomia em ciclo WLTP"` |
+| `""` (omit) | `"30"` | `"min"` | `"De 20 a 80% em carga rápida"` |
+| `""` (omit) | `"7,2"` | `"km/kWh"` | `"Eficiência energética"` |
 
 > **Unit conversions applied:**
 > - 368 miles × 1.609 = 592 km
-> - 4.5 miles/kWh × 1.609 = 7.2 km/kWh (displayed as 7,2 with Portuguese decimal comma)
+> - 4.5 miles/kWh × 1.609 ≈ 7.2 km/kWh — rendered as `"7,2"` (Portuguese decimal comma, hardcoded string)
 
 ---
 
@@ -82,16 +85,30 @@ a energia nunca te vai falhar.
 ## CTA Button
 
 - Label: **"Calcular a minha poupança →"**
-- Style: ghost/outlined — `border border-white/30 text-white hover:bg-white/5 transition-colors`
+- Style: ghost/outlined — `border border-white/30 text-white hover:bg-white/5 transition-colors px-5 py-2.5 rounded-lg text-sm font-medium`
 - Placement: left-aligned, below the body paragraph, within the header block.
-- Behaviour: opens the existing `SavingsCalculator` inside the existing `Modal` component (same logic currently in `RangeSavings`).
+- State: `const [modalOpen, setModalOpen] = useState(false)`. Button sets `modalOpen` to `true`. `Modal` receives `open={modalOpen}` and `onClose={() => setModalOpen(false)}`.
+- Modal children: render a wrapping `<div>` with an `<h3 className="text-2xl font-bold mb-4">A tua poupança</h3>` title, followed by `<SavingsCalculator />` — identical structure to the existing `RangeSavings` modal content.
+- Imports:
+  - `import Modal from '@/components/ui/Modal'` — file confirmed at `src/components/ui/Modal.tsx`. Prop interface: `open: boolean`, `onClose: () => void`, `children: React.ReactNode`.
+  - `import SavingsCalculator from '@/components/forms/SavingsCalculator'` — file confirmed at `src/components/forms/SavingsCalculator.tsx`
 
 ---
 
 ## Animations
 
-- Header block: `motion.div` fade-up on scroll (`opacity 0→1`, `y 24→0`, `duration 0.6`, `viewport once`).
-- Stats grid: `motion.div` fade-up with `staggerChildren 0.1` so cells appear in sequence.
+- Header block: `motion.div` with `initial={{ opacity: 0, y: 24 }}`, `whileInView={{ opacity: 1, y: 0 }}`, `viewport={{ once: true }}`, `transition={{ duration: 0.6, ease: 'easeOut' }}`.
+- Stats grid: parent is a `motion.div` with `variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}`. Each cell is a `motion.div` with `variants={itemVariants}` (no `initial`/`animate` overrides — inherits stagger from parent). Variants:
+  ```ts
+  const containerVariants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.1 } },
+  }
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+  }
+  ```
 - No count-up animation on the numbers (keep it clean and static, consistent with the Apple reference).
 
 ---
