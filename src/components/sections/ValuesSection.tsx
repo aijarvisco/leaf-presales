@@ -45,12 +45,6 @@ const VALUES = [
   },
 ]
 
-// Cumulative track-relative start position of each card
-function cardPos(i: number): number {
-  if (i === 0) return 0
-  return WIDE_WIDTH + GAP + (i - 1) * (NARROW_WIDTH + GAP)
-}
-
 const springConfig = { type: 'spring' as const, stiffness: 320, damping: 32, mass: 0.45 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
