@@ -2,20 +2,20 @@
 import { useEffect, useRef, useState } from 'react'
 
 // --- Constants ---
-const SENSITIVITY = 0.25         // frames per pixel dragged
-const DAMPING = 0.92             // velocity decay per rAF frame
-const VELOCITY_THRESHOLD = 0.005 // px/ms — inertia stops below this
-const FRAME_COUNT = 104
+const SENSITIVITY = 0.45         // frames per pixel dragged
+const DAMPING = 0.95             // velocity decay per rAF frame
+const VELOCITY_THRESHOLD = 0.001 // px/ms — inertia stops below this
+const FRAME_COUNT = 120
 
 // --- Frame URL array ---
 const encode = (name: string) => `/images/360/${encodeURIComponent(name)}`
 const FRAMES: string[] = [
   encode('filters-quality-60-.png'),
-  ...Array.from({ length: 103 }, (_, i) => encode(`filters-quality-60- (${i + 1}).png`)),
+  ...Array.from({ length: 119 }, (_, i) => encode(`filters-quality-60- (${i + 1}).png`)),
 ]
 
 function wrapFrame(raw: number): number {
-  return ((Math.round(raw) % FRAME_COUNT) + FRAME_COUNT) % FRAME_COUNT
+  return ((raw % FRAME_COUNT) + FRAME_COUNT) % FRAME_COUNT
 }
 
 interface Canvas360ViewerProps {
@@ -35,14 +35,30 @@ export default function Canvas360Viewer({ onFirstInteraction }: Canvas360ViewerP
 
   const [loading, setLoading] = useState(true)
 
-  // Draw the current frame to canvas
-  const drawFrame = (index: number) => {
+  // Draw frame with sub-frame interpolation via alpha blending.
+  // Expects a pre-wrapped float in [0, FRAME_COUNT).
+  const drawFrame = (floatIndex: number) => {
     const canvas = canvasRef.current
-    const img = imagesRef.current[index]
-    if (!canvas || !img) return
+    if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+
+    const floor = Math.floor(floatIndex) % FRAME_COUNT
+    const ceil = (floor + 1) % FRAME_COUNT
+    const t = floatIndex - Math.floor(floatIndex)
+
+    const imgA = imagesRef.current[floor]
+    const imgB = imagesRef.current[ceil]
+    if (!imgA) return
+
+    ctx.globalAlpha = 1.0
+    ctx.drawImage(imgA, 0, 0, canvas.width, canvas.height)
+
+    if (t > 0.001 && imgB) {
+      ctx.globalAlpha = t
+      ctx.drawImage(imgB, 0, 0, canvas.width, canvas.height)
+      ctx.globalAlpha = 1.0
+    }
   }
 
   // Preload all frames
