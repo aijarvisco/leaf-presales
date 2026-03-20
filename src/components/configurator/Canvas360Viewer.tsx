@@ -5,13 +5,15 @@ import { useEffect, useRef, useState } from 'react'
 const SENSITIVITY = 0.45         // frames per pixel dragged
 const DAMPING = 0.92             // velocity decay per rAF frame
 const VELOCITY_THRESHOLD = 0.005 // px/ms — inertia stops below this
-const FRAME_COUNT = 120
-
 // --- Frame URL array ---
-const encode = (name: string) => `/images/360/${encodeURIComponent(name)}`
-const FRAMES: string[] = Array.from({ length: 120 }, (_, i) =>
-  encode(`filters-quality-60- (${i}).png`)
-)
+const encode = (n: number) => `/images/360/filters-quality-60-${n}.png`
+const FRAME_NUMBERS = [
+  0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 36, 37, 38, 39,
+  40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 72,
+]
+const FRAME_COUNT = FRAME_NUMBERS.length
+const FRAMES: string[] = FRAME_NUMBERS.map(encode)
 
 function wrapFrame(raw: number): number {
   return ((Math.floor(raw) % FRAME_COUNT) + FRAME_COUNT) % FRAME_COUNT
