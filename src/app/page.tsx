@@ -16,10 +16,10 @@ export default function Home() {
       <Hero />
       <Highlights />
       <Configurator />
-      <RangeSavings />
+      {false && <RangeSavings />}
       <VersionComparison onSelectVersion={setSelectedVersion} />
       <CTASection selectedVersion={selectedVersion} />
-      <ClosingSection />
+      <ClosingSection selectedVersion={selectedVersion} />
     </main>
   )
 }
