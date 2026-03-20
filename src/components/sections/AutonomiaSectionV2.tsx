@@ -84,7 +84,7 @@ export default function AutonomiaSectionV2() {
                 {stat.qualifier ? (
                   <p style={{ fontSize: '21px', color: '#86868b', fontWeight: 400 }}>{stat.qualifier}</p>
                 ) : (
-                  <p style={{ fontSize: '21px', color: 'transparent', fontWeight: 400 }}>&nbsp;</p>
+                  <p aria-hidden="true" style={{ fontSize: '21px', color: 'transparent', fontWeight: 400 }}>&nbsp;</p>
                 )}
                 <div className="flex items-baseline gap-2">
                   <span style={{ fontSize: '48px', fontWeight: 500, color: 'white', letterSpacing: '-0.003em' }}>
