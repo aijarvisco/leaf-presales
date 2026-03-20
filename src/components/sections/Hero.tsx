@@ -18,6 +18,7 @@ export default function Hero() {
   const textY = useTransform(scrollYProgress, [0, 0.4], [0, -24])
   const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.05])
 
+  // onClick-only — safe after hydration ('use client' is set)
   const scrollTo = (id: string) =>
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
@@ -58,6 +59,7 @@ export default function Hero() {
         style={{ scale: videoScale }}
       >
         <video
+          aria-hidden="true"
           autoPlay
           muted
           loop
@@ -120,17 +122,18 @@ export default function Hero() {
           </div>
 
           {/* Sub-label + reassurance */}
-          <motion.div {...fadeUp(0.5)}>
-            <p className="text-sm font-sans font-semibold text-white">
-              Reserva já.
-            </p>
-            <motion.p
-              className="text-sm font-sans font-light text-white/60"
-              {...fadeUp(0.6)}
-            >
-              Com certezas. Sem compromisso.
-            </motion.p>
-          </motion.div>
+          <motion.p
+            className="text-sm font-sans font-semibold text-white"
+            {...fadeUp(0.5)}
+          >
+            Reserva já.
+          </motion.p>
+          <motion.p
+            className="text-sm font-sans font-light text-white/60"
+            {...fadeUp(0.6)}
+          >
+            Com certezas. Sem compromisso.
+          </motion.p>
         </div>
 
         {/* Right — CTA */}
