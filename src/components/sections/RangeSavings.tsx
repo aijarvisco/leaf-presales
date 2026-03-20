@@ -1,6 +1,6 @@
 'use client'
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { useRef, useState } from 'react'
+import { motion, useScroll, type MotionValue } from 'framer-motion'
 import Modal from '@/components/ui/Modal'
 import SavingsCalculator from '@/components/forms/SavingsCalculator'
 
@@ -21,12 +21,57 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
 }
 
+function BatteryIcon({ pathLength }: { pathLength: MotionValue<number> }) {
+  return (
+    <div className="flex justify-center mb-12">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+        {/* Track circle */}
+        <circle
+          cx="40"
+          cy="40"
+          r="34"
+          strokeWidth="1.5"
+          stroke="rgba(255,255,255,0.15)"
+          fill="none"
+        />
+        {/* Animated fill arc */}
+        <motion.circle
+          cx="40"
+          cy="40"
+          r="34"
+          strokeWidth="1.5"
+          stroke="#FA5C40"
+          fill="none"
+          strokeLinecap="round"
+          style={{ pathLength, rotate: -90 }}
+        />
+        {/* Lightning bolt */}
+        <path
+          d="M 43 22 L 33 42 L 40 42 L 37 58 L 47 38 L 40 38 Z"
+          fill="white"
+        />
+      </svg>
+    </div>
+  )
+}
+
 export default function RangeSavings() {
   const [modalOpen, setModalOpen] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'center center'],
+  })
 
   return (
-    <section id="autonomia" className="bg-background py-24 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="autonomia"
+      className="bg-background py-32 md:py-40"
+      ref={sectionRef}
+    >
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+
+        <BatteryIcon pathLength={scrollYProgress} />
 
         {/* Header block */}
         <motion.div
@@ -39,7 +84,7 @@ export default function RangeSavings() {
           <h2 className="text-4xl md:text-5xl mb-5">
             Uma bateria que vai onde tu vais.
           </h2>
-          <p className="text-text-secondary leading-relaxed mb-8">
+          <p className="text-lg text-text-secondary leading-relaxed mb-8">
             O Leaf foi concebido para a tua vida real — não para um circuito de testes.
             Com até 592 km de autonomia e carregamento rápido em 30 minutos,
             a energia nunca te vai falhar.
@@ -48,7 +93,7 @@ export default function RangeSavings() {
             onClick={() => setModalOpen(true)}
             className="border border-white/30 text-white hover:bg-white/5 transition-colors px-5 py-2.5 rounded-lg text-sm font-medium cursor-pointer"
           >
-            Calcular a minha poupança →
+            Calcular a minha poupança <span aria-hidden="true">→</span>
           </button>
         </motion.div>
 
