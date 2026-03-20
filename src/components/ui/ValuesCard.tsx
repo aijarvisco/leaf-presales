@@ -28,6 +28,7 @@ export default function ValuesCard({
           src={imageSrc}
           alt={imageAlt}
           fill
+          sizes={`${width}px`}
           className="object-cover pointer-events-none"
           draggable={false}
         />
