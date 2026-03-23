@@ -45,7 +45,6 @@ describe('getVersionInclusions', () => {
   it('visia returns all true features', () => {
     const items = getVersionInclusions('visia')
     items.forEach(item => expect(item.label).toBeTruthy())
-    expect(items.some(i => i.inherited)).toBe(false)
   })
 
   it('n-connecta returns only the delta vs visia', () => {

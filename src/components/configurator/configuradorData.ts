@@ -15,7 +15,6 @@ export interface ExteriorColor {
 
 export interface InclusionItem {
   label: string
-  inherited: boolean
 }
 
 export const VERSIONS: Version[] = [
@@ -110,11 +109,11 @@ export function getVersionInclusions(versionId: string): InclusionItem[] {
   if (index === 0) {
     return Object.entries(version.features)
       .filter(([, value]) => value)
-      .map(([label]) => ({ label, inherited: false }))
+      .map(([label]) => ({ label }))
   }
 
   const previous = VERSIONS[index - 1]
   return Object.entries(version.features)
     .filter(([label, value]) => value && !previous.features[label])
-    .map(([label]) => ({ label, inherited: false }))
+    .map(([label]) => ({ label }))
 }
