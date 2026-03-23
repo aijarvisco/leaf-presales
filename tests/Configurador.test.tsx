@@ -24,7 +24,7 @@ jest.mock('framer-motion', () => {
 // Mock next/image
 jest.mock('next/image', () => ({
   __esModule: true,
-  default: ({ alt, ...props }: { alt: string; [key: string]: unknown }) =>
+  default: ({ alt, fill, priority, sizes, quality, placeholder, blurDataURL, onLoad, onError, ...props }: { alt: string; fill?: boolean; priority?: boolean; sizes?: string; quality?: number; placeholder?: string; blurDataURL?: string; onLoad?: () => void; onError?: () => void; [key: string]: unknown }) =>
     React.createElement('img', { alt, ...props }),
 }))
 
