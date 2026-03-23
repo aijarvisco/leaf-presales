@@ -21,11 +21,14 @@ describe('StickyBar', () => {
     expect(screen.getAllByText(/34/)).toHaveLength(2) // desktop and mobile
   })
 
-  it('calls onReserve when the CTA button is clicked', () => {
+  it('calls onReserve when the CTA button is clicked (desktop and mobile)', () => {
     const onReserve = jest.fn()
     render(<StickyBar {...defaultProps} onReserve={onReserve} />)
-    fireEvent.click(screen.getAllByRole('button', { name: /reservar/i })[0])
-    expect(onReserve).toHaveBeenCalledTimes(1)
+    const buttons = screen.getAllByRole('button', { name: /reservar/i })
+    expect(buttons).toHaveLength(2)
+    fireEvent.click(buttons[0])
+    fireEvent.click(buttons[1])
+    expect(onReserve).toHaveBeenCalledTimes(2)
   })
 
   it('updates when version changes', () => {
