@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion, type Transition } from 'framer-motion'
 import { INTERIOR_IMAGES } from './configuradorData'
@@ -24,6 +24,10 @@ export default function ImagePanel({
   onSlideChange,
 }: ImagePanelProps) {
   const [direction, setDirection] = useState(0)
+
+  useEffect(() => {
+    if (view === 'interior') setDirection(0)
+  }, [view])
 
   function goTo(index: number) {
     setDirection(index > slideIndex ? 1 : -1)
@@ -113,10 +117,10 @@ export default function ImagePanel({
           </button>
 
           {/* Dots */}
-          <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-[6px] z-10">
+          <div className="absolute bottom-24 left-1/2 -translate-x-1/2 flex items-center gap-[6px] z-10">
             {INTERIOR_IMAGES.map((_, i) => (
               <button
-                key={i}
+                key={INTERIOR_IMAGES[i]}
                 onClick={() => goTo(i)}
                 aria-label={`Ir para imagem ${i + 1}`}
                 className={`h-[6px] rounded-full transition-all duration-300 ${
