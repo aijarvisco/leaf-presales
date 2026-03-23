@@ -14,7 +14,6 @@ export default function OptionsPanel({
   onSelectVersion,
   onSelectColor,
 }: OptionsPanelProps) {
-  const activeVersion = VERSIONS.find(v => v.id === selectedVersionId) ?? VERSIONS[1]
   const inclusions = getVersionInclusions(selectedVersionId)
   const prevVersionName = VERSIONS[VERSIONS.findIndex(v => v.id === selectedVersionId) - 1]?.name
 
@@ -92,6 +91,7 @@ export default function OptionsPanel({
       </div>
 
       {/* 3. Interior colour */}
+      {/* Hardcoded: only one interior option exists. When INTERIOR_COLORS is added to configuradorData, this should be data-driven. */}
       <div>
         <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-3">
           Cor interior
