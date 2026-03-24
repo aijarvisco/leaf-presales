@@ -14,7 +14,7 @@ export default function Home() {
   const [selectedVersion, setSelectedVersion] = useState<string | undefined>(undefined)
 
   return (
-    <main>
+    <main className="pb-24 md:pb-20">
       <div className="h-screen flex flex-col">
         <SiteHeader />
         <Hero />
