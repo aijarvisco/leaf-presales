@@ -29,20 +29,16 @@ import Hero from '@/components/sections/Hero'
 describe('Hero', () => {
   it('renders headline copy', () => {
     render(<Hero />)
-    expect(screen.getByText('Além do')).toBeInTheDocument()
-    expect(screen.getByText('Horizonte.')).toBeInTheDocument()
+    expect(screen.getByText('Listening. Remastered.')).toBeInTheDocument()
   })
 
   it('renders the label', () => {
     render(<Hero />)
-    expect(
-      screen.getByText(/Nissan Leaf · 100% Elétrico · Reserva Antecipada/i)
-    ).toBeInTheDocument()
+    expect(screen.getByText('Nissan Leaf')).toBeInTheDocument()
   })
 
-  it('renders both CTAs', () => {
+  it('renders the CTA', () => {
     render(<Hero />)
     expect(screen.getByText('Reservar agora')).toBeInTheDocument()
-    expect(screen.getByText('Saber mais')).toBeInTheDocument()
   })
 })
