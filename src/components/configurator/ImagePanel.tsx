@@ -1,10 +1,11 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { AnimatePresence, motion, type Transition } from 'framer-motion'
 import { INTERIOR_IMAGES } from './configuradorData'
+import Canvas360Viewer from '@/components/configurator/Canvas360Viewer'
 
-type ImageView = 'exterior' | 'interior'
+type ImageView = 'exterior' | 'interior' | '360'
 
 interface ImagePanelProps {
   exteriorImageSrc: string
@@ -24,6 +25,15 @@ export default function ImagePanel({
   onSlideChange,
 }: ImagePanelProps) {
   const [direction, setDirection] = useState(0)
+  const [glassVisible, setGlassVisible] = useState(false)
+  const prevSrcRef = useRef(exteriorImageSrc)
+
+  useEffect(() => {
+    if (exteriorImageSrc !== prevSrcRef.current) {
+      prevSrcRef.current = exteriorImageSrc
+      setGlassVisible(true)
+    }
+  }, [exteriorImageSrc])
 
   useEffect(() => {
     if (view === 'interior') setDirection(0)
@@ -45,23 +55,36 @@ export default function ImagePanel({
   return (
     <div className="relative w-full h-full overflow-hidden bg-[#0A0A0A]">
 
-      {/* Exterior: crossfade on color change */}
-      <AnimatePresence mode="wait">
-        {view === 'exterior' && (
+      {/* Exterior image */}
+      {view === 'exterior' && (
+        <div className="absolute inset-0">
+          <Image
+            src={exteriorImageSrc}
+            alt="Nissan Leaf — cor exterior"
+            fill
+            className="object-cover"
+            priority
+            onLoad={() => setGlassVisible(false)}
+          />
+        </div>
+      )}
+
+      {/* Glass overlay — appears on color change, fades out once image loads */}
+      <AnimatePresence>
+        {view === 'exterior' && glassVisible && (
           <motion.div
-            key={exteriorImageSrc}
-            className="absolute inset-0"
+            className="absolute inset-0 z-10 backdrop-blur-md bg-white/20"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
           >
-            <Image
-              src={exteriorImageSrc}
-              alt="Nissan Leaf — cor exterior"
-              fill
-              className="object-cover"
-              priority
+            {/* Shimmer sweep */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+              initial={{ x: '-100%' }}
+              animate={{ x: '100%' }}
+              transition={{ duration: 0.7, ease: 'easeInOut' }}
             />
           </motion.div>
         )}
@@ -132,21 +155,75 @@ export default function ImagePanel({
         </div>
       )}
 
-      {/* Exterior / Interior toggle pill */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-1 bg-black/40 backdrop-blur-sm rounded-full p-1 z-10">
-        {(['exterior', 'interior'] as ImageView[]).map((v) => (
+      {/* Bottom controls — hidden in 360 view */}
+      {view !== '360' && (
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 z-10">
+          {/* Vista 360 — standalone pill */}
           <button
-            key={v}
-            onClick={() => onViewChange(v)}
-            aria-pressed={view === v}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 capitalize ${
-              view === v ? 'bg-white text-black' : 'text-white/70 hover:text-white'
-            }`}
+            onClick={() => onViewChange('360')}
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-black/40 backdrop-blur-sm text-white text-sm font-medium hover:bg-black/60 transition-colors"
           >
-            {v === 'exterior' ? 'Exterior' : 'Interior'}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="8" cy="8" r="6.5" stroke="white" strokeWidth="1.25"/>
+              <ellipse cx="8" cy="8" rx="3" ry="6.5" stroke="white" strokeWidth="1.25"/>
+              <line x1="1.5" y1="8" x2="14.5" y2="8" stroke="white" strokeWidth="1.25"/>
+            </svg>
+            Vista 360
           </button>
-        ))}
-      </div>
+
+          {/* Exterior / Interior toggle pill */}
+          <div className="flex gap-1 bg-black/40 backdrop-blur-sm rounded-full p-1">
+            {(['exterior', 'interior'] as ImageView[]).map((v) => (
+              <button
+                key={v}
+                onClick={() => onViewChange(v)}
+                aria-pressed={view === v}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 capitalize ${
+                  view === v ? 'bg-white text-black' : 'text-white/70 hover:text-white'
+                }`}
+              >
+                {v === 'exterior' ? 'Exterior' : 'Interior'}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 360 view */}
+      <AnimatePresence>
+        {view === '360' && (
+          <motion.div
+            key="360-view"
+            className="absolute inset-0 z-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Canvas360Viewer />
+
+            {/* Drag hint — auto-fades after 2s, pointer-events-none so it doesn't block dragging */}
+            <motion.p
+              className="pointer-events-none absolute bottom-20 left-1/2 -translate-x-1/2 text-sm font-medium text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] whitespace-nowrap z-20"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 0 }}
+              transition={{ delay: 2, duration: 0.6 }}
+            >
+              ← Drag to explore →
+            </motion.p>
+
+            {/* Close button */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
+              <button
+                onClick={() => onViewChange('exterior')}
+                className="px-8 py-3 rounded-full bg-[#0A0A0A] text-white text-sm font-semibold hover:bg-[#0A0A0A]/80 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
