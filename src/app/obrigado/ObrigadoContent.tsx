@@ -23,7 +23,7 @@ export default function ObrigadoContent() {
       : `/api/payment-intent/retrieve?id=${paymentIntentId}`
 
     fetch(url)
-      .then((r) => r.json())
+      .then((r) => { if (!r.ok) throw new Error(r.statusText); return r.json() })
       .then(setOrder)
       .catch(() => null)
   }, [sessionId, paymentIntentId])

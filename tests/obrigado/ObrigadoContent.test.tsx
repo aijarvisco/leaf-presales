@@ -27,6 +27,7 @@ describe('ObrigadoContent', () => {
       get: (key: string) => key === 'session_id' ? 'cs_test_123' : null,
     })
     mockFetch.mockResolvedValueOnce({
+      ok: true,
       json: async () => ({ email: 'joao@test.com', amount: '€300.00', paymentIntentId: 'pi_abc' }),
     })
     render(<ObrigadoContent />)
@@ -39,6 +40,7 @@ describe('ObrigadoContent', () => {
       get: (key: string) => key === 'payment_intent' ? 'pi_test_456' : null,
     })
     mockFetch.mockResolvedValueOnce({
+      ok: true,
       json: async () => ({ email: 'maria@test.com', amount: '€300.00', paymentIntentId: 'pi_test_456' }),
     })
     render(<ObrigadoContent />)

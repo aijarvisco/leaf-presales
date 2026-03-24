@@ -34,6 +34,7 @@ describe('POST /api/payment-intent', () => {
     expect(mockCreate).toHaveBeenCalledWith(expect.objectContaining({
       amount: 30000,
       currency: 'eur',
+      automatic_payment_methods: { enabled: true },
       metadata: expect.objectContaining({ versionId: 'visia' }),
     }))
   })
