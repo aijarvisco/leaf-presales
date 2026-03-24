@@ -6,19 +6,6 @@ import { stripePromise } from '@/lib/stripe-client'
 import Button from '@/components/ui/Button'
 import type { StripeError } from '@stripe/stripe-js'
 
-const appearance = {
-  theme: 'night' as const,
-  variables: {
-    colorBackground: '#1A1A1A',
-    colorText: '#FFFFFF',
-    colorTextSecondary: '#A1A1A1',
-    colorPrimary: '#0070C9',
-    colorDanger: '#f87171',
-    borderRadius: '8px',
-    fontSizeBase: '14px',
-  },
-}
-
 const COUNTRIES = [
   { code: 'PT', label: 'Portugal' },
   { code: 'ES', label: 'Espanha' },
@@ -96,7 +83,7 @@ export default function StripePaymentForm({ versionId }: Props) {
   }
 
   return (
-    <Elements stripe={stripePromise} options={{ clientSecret, appearance }}>
+    <Elements stripe={stripePromise} options={{ clientSecret }}>
       <CardElementForm clientSecret={clientSecret} />
     </Elements>
   )
