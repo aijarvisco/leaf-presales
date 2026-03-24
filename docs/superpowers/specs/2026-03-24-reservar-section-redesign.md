@@ -39,8 +39,12 @@ Accordion uses local `useState<number | null>` (index of open item, `null` = all
 
 ### Right Column
 
-- Existing `StripePaymentForm` component, unchanged.
-- Security note below: "Pagamento seguro via Stripe · Depósito 100% reembolsável".
+- `StripePaymentForm` with light-mode input styling (white background context):
+  - Input fields: `bg-white border border-[#D1D1D1] text-[#0A0A0A] placeholder-[#A1A1A1]`
+  - Card element wrapper: `bg-white border border-[#D1D1D1]`
+  - Stripe `CardElement` base color: `#0A0A0A` (dark text on white)
+  - Select field: same as inputs
+- Security note below: "Pagamento seguro via Stripe · Depósito 100% reembolsável" — `text-[#0A0A0A]`.
 
 ---
 
@@ -127,7 +131,7 @@ interface ContactDrawerProps {
 | `LeadSection` | `src/components/sections/LeadSection.tsx` | New |
 | `ContactDrawer` | `src/components/ui/ContactDrawer.tsx` | New |
 | `ContactForm` | `src/components/forms/ContactForm.tsx` | No change |
-| `StripePaymentForm` | `src/components/forms/StripePaymentForm.tsx` | No change |
+| `StripePaymentForm` | `src/components/forms/StripePaymentForm.tsx` | Light-mode input styling |
 | `page.tsx` | `src/app/page.tsx` | Add `<LeadSection />` between `<CTASection />` and `<ClosingSection />` |
 
 ---
@@ -147,7 +151,7 @@ page.tsx
 
 ## Out of Scope
 
-- No changes to `ContactForm` or `StripePaymentForm` internals.
+- No changes to `ContactForm` internals — it renders inside the dark `ContactDrawer` panel and keeps its existing dark styling.
 - No animation library changes — use Tailwind transitions only for the drawer.
 - No new API routes.
 
