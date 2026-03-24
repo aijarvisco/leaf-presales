@@ -22,12 +22,13 @@ Redesign the `#reservar` area into two distinct sections:
 
 ### Layout
 
-Two-column grid (`md:grid-cols-2`), items aligned to start. Section background: `bg-surface`.
+- Background: `bg-white`, padding: `pt-48 pb-48`, container: `max-w-5xl mx-auto px-6`.
+- Two-column grid (`md:grid-cols-2`), items aligned to start.
 
 ### Left Column
 
-- **Title:** "Reserva o teu Leaf hoje."
-- **Paragraph:** "Garante o teu lugar com um depósito de €300, totalmente reembolsável. Sem compromisso adicional até à entrega."
+- **Title:** "Reserva o teu Leaf hoje." — style: `text-[56px] leading-tight font-medium text-[#0A0A0A] tracking-[-0.07em]` (matches Highlights section title)
+- **Paragraph:** "Garante o teu lugar com um depósito de €300, totalmente reembolsável. Sem compromisso adicional até à entrega." — `text-[#0A0A0A]` (dark text on white background)
 - **FAQ Accordion** — 4 items, one open at a time (controlled local state):
   1. *O depósito é reembolsável?* — Sim, 100% reembolsável sem qualquer condição antes da entrega.
   2. *Quando serei contactado após a reserva?* — A nossa equipa entrará em contacto nas 48 horas seguintes.
@@ -49,12 +50,11 @@ Accordion uses local `useState<number | null>` (index of open item, `null` = all
 
 ### Layout
 
-- Background: `bg-background` (visually separates from `CTASection` which uses `bg-surface`).
-- Padding consistent with other sections (`py-24 px-6 md:px-12`).
+- Background: `bg-white`, padding: `pt-48 pb-48`, container: `max-w-5xl mx-auto px-6`.
 
 ### Content
 
-1. **Eyebrow label** — small, intentionally left-aligned (not centered): *"Ainda com dúvidas?"*
+1. **Title** — left-aligned: *"Ainda com dúvidas?"* — style: `text-[56px] leading-tight font-medium text-[#0A0A0A] tracking-[-0.07em]` (matches Highlights section title). Placed above the banner with `mb-20` to mirror Highlights spacing.
 2. **Image banner** — full-width, ~480px tall. DOM structure:
    ```
    <div class="relative h-[480px] w-full overflow-hidden rounded-xl">  ← positioned container
