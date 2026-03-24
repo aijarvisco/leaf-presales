@@ -1,0 +1,21 @@
+// src/app/api/payment-intent/route.ts
+import { NextRequest, NextResponse } from 'next/server'
+import { stripe } from '@/lib/stripe'
+
+const DEPOSIT_AMOUNT_CENTS = 30000 // €300.00
+
+export async function POST(req: NextRequest) {
+  const { versionId } = await req.json() as { versionId?: string }
+
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: DEPOSIT_AMOUNT_CENTS,
+      currency: 'eur',
+      metadata: { versionId: versionId ?? '' },
+    })
+
+    return NextResponse.json({ clientSecret: paymentIntent.client_secret })
+  } catch {
+    return NextResponse.json({ error: 'Failed to create payment intent' }, { status: 500 })
+  }
+}
