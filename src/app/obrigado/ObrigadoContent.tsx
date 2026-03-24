@@ -12,15 +12,21 @@ interface OrderDetails {
 export default function ObrigadoContent() {
   const params = useSearchParams()
   const sessionId = params.get('session_id')
+  const paymentIntentId = params.get('payment_intent')
   const [order, setOrder] = useState<OrderDetails | null>(null)
 
   useEffect(() => {
-    if (!sessionId) return
-    fetch(`/api/checkout/session?id=${sessionId}`)
+    if (!sessionId && !paymentIntentId) return
+
+    const url = sessionId
+      ? `/api/checkout/session?id=${sessionId}`
+      : `/api/payment-intent/retrieve?id=${paymentIntentId}`
+
+    fetch(url)
       .then((r) => r.json())
       .then(setOrder)
       .catch(() => null)
-  }, [sessionId])
+  }, [sessionId, paymentIntentId])
 
   return (
     <div className="max-w-xl text-center">
