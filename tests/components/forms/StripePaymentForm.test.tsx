@@ -58,6 +58,8 @@ describe('StripePaymentForm', () => {
       .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true }) }) // update endpoint
     mockConfirmCardPayment.mockResolvedValueOnce({ error: null })
 
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
+
     render(<StripePaymentForm />)
     await waitFor(() => screen.getByLabelText(/Nome completo/i))
 
@@ -91,11 +93,21 @@ describe('StripePaymentForm', () => {
               line1: 'Rua das Flores 1',
               city: 'Lisboa',
               postal_code: '1000-001',
+              country: 'PT',
             }),
           }),
         }),
       }),
     )
+
+    // Verify the redirect was attempted (jsdom throws "Not implemented: navigation")
+    await waitFor(() => {
+      expect(consoleErrorSpy).toHaveBeenCalled()
+      const errorCall = consoleErrorSpy.mock.calls.find(call =>
+        call[0]?.toString?.().includes('navigation')
+      )
+      expect(errorCall).toBeDefined()
+    })
   })
 
   it('shows error and re-enables button if update endpoint fails', async () => {
