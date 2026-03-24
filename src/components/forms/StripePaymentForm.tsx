@@ -21,18 +21,18 @@ const COUNTRIES = [
 ]
 
 const inputClass =
-  'w-full rounded-lg border border-white/10 bg-[#1A1A1A] px-4 py-2.5 text-sm text-white placeholder-[#A1A1A1] focus:border-[#0070C9] focus:outline-none'
+  'w-full rounded-lg border border-[#D1D1D1] bg-white px-4 py-2.5 text-sm text-[#0A0A0A] placeholder-[#A1A1A1] focus:border-[#0070C9] focus:outline-none'
 
 const cardElementStyle = {
   style: {
     base: {
-      color: '#FFFFFF',
+      color: '#0A0A0A',
       fontFamily: 'inherit',
       fontSize: '14px',
       '::placeholder': { color: '#A1A1A1' },
-      backgroundColor: '#1A1A1A',
+      backgroundColor: '#FFFFFF',
     },
-    invalid: { color: '#f87171' },
+    invalid: { color: '#dc2626' },
   },
 }
 
@@ -71,13 +71,13 @@ export default function StripePaymentForm({ versionId }: Props) {
   if (!clientSecret) {
     return (
       <div data-testid="payment-form-skeleton" className="space-y-3 animate-pulse">
-        <div className="h-10 rounded-lg bg-card" />
-        <div className="h-10 rounded-lg bg-card" />
-        <div className="h-10 rounded-lg bg-card" />
-        <div className="h-10 rounded-lg bg-card" />
-        <div className="h-10 rounded-lg bg-card" />
-        <div className="h-10 rounded-lg bg-card" />
-        <div className="h-11 rounded-lg bg-card" />
+        <div className="h-10 rounded-lg bg-gray-100" />
+        <div className="h-10 rounded-lg bg-gray-100" />
+        <div className="h-10 rounded-lg bg-gray-100" />
+        <div className="h-10 rounded-lg bg-gray-100" />
+        <div className="h-10 rounded-lg bg-gray-100" />
+        <div className="h-10 rounded-lg bg-gray-100" />
+        <div className="h-11 rounded-lg bg-gray-100" />
       </div>
     )
   }
@@ -153,7 +153,7 @@ function CardElementForm({ clientSecret }: { clientSecret: string }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       <div>
-        <label htmlFor="billing-name" className="mb-1 block text-xs text-[#A1A1A1]">Nome completo</label>
+        <label htmlFor="billing-name" className="mb-1 block text-xs text-[#6B6B6B]">Nome completo</label>
         <input
           id="billing-name"
           type="text"
@@ -166,7 +166,7 @@ function CardElementForm({ clientSecret }: { clientSecret: string }) {
       </div>
 
       <div>
-        <label htmlFor="billing-line1" className="mb-1 block text-xs text-[#A1A1A1]">Morada</label>
+        <label htmlFor="billing-line1" className="mb-1 block text-xs text-[#6B6B6B]">Morada</label>
         <input
           id="billing-line1"
           type="text"
@@ -180,7 +180,7 @@ function CardElementForm({ clientSecret }: { clientSecret: string }) {
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label htmlFor="billing-city" className="mb-1 block text-xs text-[#A1A1A1]">Cidade</label>
+          <label htmlFor="billing-city" className="mb-1 block text-xs text-[#6B6B6B]">Cidade</label>
           <input
             id="billing-city"
             type="text"
@@ -192,7 +192,7 @@ function CardElementForm({ clientSecret }: { clientSecret: string }) {
           />
         </div>
         <div>
-          <label htmlFor="billing-postal" className="mb-1 block text-xs text-[#A1A1A1]">Código postal</label>
+          <label htmlFor="billing-postal" className="mb-1 block text-xs text-[#6B6B6B]">Código postal</label>
           <input
             id="billing-postal"
             type="text"
@@ -206,7 +206,7 @@ function CardElementForm({ clientSecret }: { clientSecret: string }) {
       </div>
 
       <div>
-        <label htmlFor="billing-country" className="mb-1 block text-xs text-[#A1A1A1]">País</label>
+        <label htmlFor="billing-country" className="mb-1 block text-xs text-[#6B6B6B]">País</label>
         <select
           id="billing-country"
           required
@@ -221,7 +221,7 @@ function CardElementForm({ clientSecret }: { clientSecret: string }) {
       </div>
 
       <div>
-        <label htmlFor="billing-taxid" className="mb-1 block text-xs text-[#A1A1A1]">NIF / NIPC</label>
+        <label htmlFor="billing-taxid" className="mb-1 block text-xs text-[#6B6B6B]">NIF / NIPC</label>
         <input
           id="billing-taxid"
           type="text"
@@ -233,7 +233,7 @@ function CardElementForm({ clientSecret }: { clientSecret: string }) {
         />
       </div>
 
-      <div className="rounded-lg border border-white/10 bg-[#1A1A1A] px-4 py-3">
+      <div className="rounded-lg border border-[#D1D1D1] bg-white px-4 py-3">
         <CardElement options={cardElementStyle} />
       </div>
 
