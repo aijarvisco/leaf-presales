@@ -8,6 +8,7 @@ import AutonomiaSectionV2 from '@/components/sections/AutonomiaSectionV2'
 import ValuesSection from '@/components/sections/ValuesSection'
 import Configurador from '@/components/sections/Configurador'
 import CTASection from '@/components/sections/CTASection'
+import LeadSection from '@/components/sections/LeadSection'
 import ClosingSection from '@/components/sections/ClosingSection'
 
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
       <Configurator />
       <Configurador onSelectVersion={setSelectedVersion} />
       <CTASection selectedVersion={selectedVersion} />
+      <LeadSection />
       <ClosingSection />
     </main>
   )
