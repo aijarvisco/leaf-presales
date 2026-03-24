@@ -5,9 +5,9 @@ import { stripe } from '@/lib/stripe'
 const DEPOSIT_AMOUNT_CENTS = 30000 // €300.00
 
 export async function POST(req: NextRequest) {
-  const { versionId } = await req.json() as { versionId?: string }
-
   try {
+    const { versionId } = await req.json() as { versionId?: string }
+
     const paymentIntent = await stripe.paymentIntents.create({
       amount: DEPOSIT_AMOUNT_CENTS,
       currency: 'eur',
