@@ -26,6 +26,14 @@ export default function ContactDrawer({ isOpen, onClose }: ContactDrawerProps) {
     return () => window.removeEventListener('keydown', handleKey)
   }, [isOpen, onClose])
 
+  // Lock body scroll when drawer is open
+  useEffect(() => {
+    if (!isOpen) return
+    const original = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = original }
+  }, [isOpen])
+
   if (!mounted) return null
 
   return createPortal(
