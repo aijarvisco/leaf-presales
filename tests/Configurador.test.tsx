@@ -28,6 +28,18 @@ jest.mock('next/image', () => ({
     React.createElement('img', { alt, ...props }),
 }))
 
+jest.mock('@/components/configurator/Canvas360Viewer', () => ({
+  __esModule: true,
+  default: () => React.createElement('div', { 'data-testid': 'canvas-360-viewer' }),
+}))
+
+// jsdom doesn't implement ResizeObserver — provide a no-op stub
+global.ResizeObserver = class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
 import Configurador from '@/components/sections/Configurador'
 
 describe('Configurador', () => {
@@ -38,7 +50,7 @@ describe('Configurador', () => {
 
   it('renders the section heading', () => {
     render(<Configurador onSelectVersion={jest.fn()} />)
-    expect(screen.getByText('Escolhe a tua versão.')).toBeInTheDocument()
+    expect(screen.getByText('Configure o Nissan Leaf à medida da sua energia.')).toBeInTheDocument()
   })
 
   it('renders all 3 version buttons', () => {
@@ -64,5 +76,25 @@ describe('Configurador', () => {
     render(<Configurador onSelectVersion={jest.fn()} />)
     const buttons = screen.getAllByRole('button', { name: /reservar agora/i })
     expect(buttons.length).toBeGreaterThan(0)
+  })
+
+  it('renders the Vista 360 button', () => {
+    render(<Configurador onSelectVersion={jest.fn()} />)
+    expect(screen.getByRole('button', { name: /vista 360/i })).toBeInTheDocument()
+  })
+
+  it('clicking Vista 360 shows the 360 viewer', () => {
+    render(<Configurador onSelectVersion={jest.fn()} />)
+    fireEvent.click(screen.getByRole('button', { name: /vista 360/i }))
+    expect(screen.getByTestId('canvas-360-viewer')).toBeInTheDocument()
+  })
+
+  it('clicking a color while in 360 view closes the 360 viewer', () => {
+    render(<Configurador onSelectVersion={jest.fn()} />)
+    fireEvent.click(screen.getByRole('button', { name: /vista 360/i }))
+    expect(screen.getByTestId('canvas-360-viewer')).toBeInTheDocument()
+    // Click any non-selected color (default is Turquoise, so click Fuji Sunset Red)
+    fireEvent.click(screen.getByRole('radio', { name: /fuji sunset red/i }))
+    expect(screen.queryByTestId('canvas-360-viewer')).not.toBeInTheDocument()
   })
 })
