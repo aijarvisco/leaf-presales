@@ -3,33 +3,26 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import StripePaymentForm from '@/components/forms/StripePaymentForm'
 
-// Mock the entire @stripe/react-stripe-js package
-const mockConfirmPayment = jest.fn()
-const mockUseStripe = jest.fn(() => ({ confirmPayment: mockConfirmPayment }))
-const mockUseElements = jest.fn(() => ({}))
+const mockConfirmCardPayment = jest.fn()
+const mockGetElement = jest.fn(() => ({})) // returns a fake card element
 
 jest.mock('@stripe/react-stripe-js', () => ({
   Elements: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-  PaymentElement: () => <div data-testid="payment-element" />,
-  useStripe: () => mockUseStripe(),
-  useElements: () => mockUseElements(),
+  CardElement: () => <div data-testid="card-element" />,
+  useStripe: () => ({ confirmCardPayment: mockConfirmCardPayment }),
+  useElements: () => ({ getElement: mockGetElement }),
 }))
 
-// Mock the stripe-client singleton
 jest.mock('@/lib/stripe-client', () => ({ stripePromise: Promise.resolve(null) }))
 
 const mockFetch = jest.fn()
 global.fetch = mockFetch
 
-describe('StripePaymentForm', () => {
-  // window.location.origin is set to 'http://localhost:3000' via
-  // testEnvironmentOptions.url in jest.config.ts (required for jsdom 30+)
+// clientSecret used across tests — intentId derived from the prefix before _secret_
+const CLIENT_SECRET = 'pi_test123_secret_xyz'
 
-  beforeEach(() => {
-    jest.clearAllMocks()
-    // Restore useStripe implementation after clearAllMocks resets it
-    mockUseStripe.mockImplementation(() => ({ confirmPayment: mockConfirmPayment }))
-  })
+describe('StripePaymentForm', () => {
+  beforeEach(() => jest.clearAllMocks())
 
   it('shows a loading skeleton while fetching clientSecret', () => {
     mockFetch.mockReturnValue(new Promise(() => {})) // never resolves
@@ -37,13 +30,19 @@ describe('StripePaymentForm', () => {
     expect(screen.getByTestId('payment-form-skeleton')).toBeInTheDocument()
   })
 
-  it('renders the PaymentElement after fetching clientSecret', async () => {
+  it('renders billing fields and card element after fetching clientSecret', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
-      json: async () => ({ clientSecret: 'pi_test_secret' }),
+      json: async () => ({ clientSecret: CLIENT_SECRET }),
     })
     render(<StripePaymentForm />)
-    await waitFor(() => expect(screen.getByTestId('payment-element')).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByTestId('card-element')).toBeInTheDocument())
+    expect(screen.getByLabelText(/Nome completo/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/Morada/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/Cidade/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/Código postal/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/País/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/NIF \/ NIPC/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Reservar agora/i })).toBeInTheDocument()
   })
 
@@ -53,31 +52,88 @@ describe('StripePaymentForm', () => {
     await waitFor(() => expect(screen.getByRole('button', { name: /Tentar novamente/i })).toBeInTheDocument())
   })
 
-  it('calls confirmPayment with the correct return_url on submit', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ clientSecret: 'pi_test_secret' }),
-    })
-    mockConfirmPayment.mockResolvedValueOnce({ error: null })
-    render(<StripePaymentForm versionId="visia" />)
-    await waitFor(() => screen.getByRole('button', { name: /Reservar agora/i }))
+  it('calls update endpoint then confirmCardPayment with billing details on submit', async () => {
+    mockFetch
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ clientSecret: CLIENT_SECRET }) }) // PI creation
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true }) }) // update endpoint
+    mockConfirmCardPayment.mockResolvedValueOnce({ error: null })
+
+    render(<StripePaymentForm />)
+    await waitFor(() => screen.getByLabelText(/Nome completo/i))
+
+    await userEvent.type(screen.getByLabelText(/Nome completo/i), 'João Silva')
+    await userEvent.type(screen.getByLabelText(/Morada/i), 'Rua das Flores 1')
+    await userEvent.type(screen.getByLabelText(/Cidade/i), 'Lisboa')
+    await userEvent.type(screen.getByLabelText(/Código postal/i), '1000-001')
+    await userEvent.type(screen.getByLabelText(/NIF \/ NIPC/i), '123456789')
     await userEvent.click(screen.getByRole('button', { name: /Reservar agora/i }))
-    expect(mockConfirmPayment).toHaveBeenCalledWith(expect.objectContaining({
-      confirmParams: expect.objectContaining({
-        return_url: 'http://localhost:3000/obrigado',
+
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
+
+    // Second fetch is the update endpoint
+    expect(mockFetch).toHaveBeenNthCalledWith(
+      2,
+      '/api/payment-intent/update',
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({ clientSecret: CLIENT_SECRET, taxId: '123456789' }),
       }),
-    }))
+    )
+
+    // confirmCardPayment receives billing_details
+    expect(mockConfirmCardPayment).toHaveBeenCalledWith(
+      CLIENT_SECRET,
+      expect.objectContaining({
+        payment_method: expect.objectContaining({
+          billing_details: expect.objectContaining({
+            name: 'João Silva',
+            address: expect.objectContaining({
+              line1: 'Rua das Flores 1',
+              city: 'Lisboa',
+              postal_code: '1000-001',
+            }),
+          }),
+        }),
+      }),
+    )
   })
 
-  it('shows a Stripe error message when confirmPayment fails', async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ clientSecret: 'pi_test_secret' }),
-    })
-    mockConfirmPayment.mockResolvedValueOnce({ error: { message: 'O teu cartão foi recusado.' } })
+  it('shows error and re-enables button if update endpoint fails', async () => {
+    mockFetch
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ clientSecret: CLIENT_SECRET }) })
+      .mockResolvedValueOnce({ ok: false })
     render(<StripePaymentForm />)
-    await waitFor(() => screen.getByRole('button', { name: /Reservar agora/i }))
+    await waitFor(() => screen.getByLabelText(/Nome completo/i))
+
+    await userEvent.type(screen.getByLabelText(/Nome completo/i), 'João Silva')
+    await userEvent.type(screen.getByLabelText(/Morada/i), 'Rua das Flores 1')
+    await userEvent.type(screen.getByLabelText(/Cidade/i), 'Lisboa')
+    await userEvent.type(screen.getByLabelText(/Código postal/i), '1000-001')
+    await userEvent.type(screen.getByLabelText(/NIF \/ NIPC/i), '123456789')
     await userEvent.click(screen.getByRole('button', { name: /Reservar agora/i }))
+
+    await waitFor(() => expect(screen.getByRole('alert')).toBeInTheDocument())
+    expect(mockConfirmCardPayment).not.toHaveBeenCalled()
+    expect(screen.getByRole('button', { name: /Reservar agora/i })).not.toBeDisabled()
+  })
+
+  it('shows Stripe error message and re-enables button when confirmCardPayment fails', async () => {
+    mockFetch
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ clientSecret: CLIENT_SECRET }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true }) })
+    mockConfirmCardPayment.mockResolvedValueOnce({ error: { message: 'O teu cartão foi recusado.' } })
+
+    render(<StripePaymentForm />)
+    await waitFor(() => screen.getByLabelText(/Nome completo/i))
+
+    await userEvent.type(screen.getByLabelText(/Nome completo/i), 'João Silva')
+    await userEvent.type(screen.getByLabelText(/Morada/i), 'Rua das Flores 1')
+    await userEvent.type(screen.getByLabelText(/Cidade/i), 'Lisboa')
+    await userEvent.type(screen.getByLabelText(/Código postal/i), '1000-001')
+    await userEvent.type(screen.getByLabelText(/NIF \/ NIPC/i), '123456789')
+    await userEvent.click(screen.getByRole('button', { name: /Reservar agora/i }))
+
     await waitFor(() => expect(screen.getByText('O teu cartão foi recusado.')).toBeInTheDocument())
+    expect(screen.getByRole('button', { name: /Reservar agora/i })).not.toBeDisabled()
   })
 })
