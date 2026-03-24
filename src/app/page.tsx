@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import SiteHeader from '@/components/layout/SiteHeader'
 import Hero from '@/components/sections/Hero'
 import Highlights from '@/components/sections/Highlights'
 import Configurator from '@/components/sections/Configurator'
@@ -13,15 +14,18 @@ export default function Home() {
   const [selectedVersion, setSelectedVersion] = useState<string | undefined>(undefined)
 
   return (
-    <main className="pb-24 md:pb-20">
-      <Hero />
+    <main>
+      <div className="h-screen flex flex-col">
+        <SiteHeader />
+        <Hero />
+      </div>
       <Highlights />
       <AutonomiaSectionV2 />
       <ValuesSection />
       <Configurator />
       <Configurador onSelectVersion={setSelectedVersion} />
       <CTASection selectedVersion={selectedVersion} />
-      <ClosingSection selectedVersion={selectedVersion} />
+      <ClosingSection />
     </main>
   )
 }

@@ -1,21 +1,16 @@
 import type { Metadata } from 'next'
-import { GeistSans } from 'geist/font/sans'
-import { Cormorant_Garamond, Space_Grotesk } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
-import Navbar from '@/components/layout/Navbar'
 import CookieBanner from '@/components/CookieBanner'
 
-const cormorant = Cormorant_Garamond({
-  weight: ['300'],
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  variable: '--font-cormorant',
-})
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-space-grotesk',
+const nissanBrand = localFont({
+  src: [
+    { path: '../../public/fonts/Nissan Brand Light.otf', weight: '300', style: 'normal' },
+    { path: '../../public/fonts/Nissan Brand Regular.otf', weight: '400', style: 'normal' },
+    { path: '../../public/fonts/Nissan Brand Bold.otf', weight: '700', style: 'normal' },
+  ],
+  variable: '--font-nissan',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -25,9 +20,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt" className={`${cormorant.variable} ${spaceGrotesk.variable}`}>
-      <body className={GeistSans.className}>
-        <Navbar />
+    <html lang="pt" className={nissanBrand.variable}>
+      <body className={nissanBrand.className}>
         {children}
         <CookieBanner />
       </body>
