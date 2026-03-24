@@ -28,13 +28,13 @@ jest.mock('@/components/forms/StripePaymentForm', () => ({
 import CTASection from '@/components/sections/CTASection'
 
 describe('CTASection', () => {
-  it('renders the payment form and contact form side by side', () => {
+  it('renders the payment form and FAQ accordion', () => {
     render(<CTASection selectedVersion="visia" />)
     expect(screen.getByTestId('stripe-payment-form')).toBeInTheDocument()
-    // Contact form is present
-    expect(screen.getByText(/Preferes falar primeiro/i)).toBeInTheDocument()
-    // No redirect button
-    expect(screen.queryByRole('button', { name: /Reservar agora/i })).not.toBeInTheDocument()
+    // Section title is present
+    expect(screen.getByText(/Reserva o teu Leaf hoje/i)).toBeInTheDocument()
+    // FAQ questions are rendered
+    expect(screen.getByText(/O depósito é reembolsável/i)).toBeInTheDocument()
   })
 
   it('renders the security note', () => {
