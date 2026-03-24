@@ -22,6 +22,9 @@ const mockFetch = jest.fn()
 global.fetch = mockFetch
 
 describe('StripePaymentForm', () => {
+  // window.location.origin is set to 'http://localhost:3000' via
+  // testEnvironmentOptions.url in jest.config.ts (required for jsdom 30+)
+
   beforeEach(() => {
     jest.clearAllMocks()
     // Restore useStripe implementation after clearAllMocks resets it

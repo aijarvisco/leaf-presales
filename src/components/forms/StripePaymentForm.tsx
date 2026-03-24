@@ -97,9 +97,9 @@ function PaymentElementForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <PaymentElement options={{ fields: { billingDetails: { email: 'always' } } }} />
-      {error && <p className="text-sm text-red-400">{error}</p>}
-      <Button type="submit" variant="primary" className="w-full" disabled={submitting || !stripe}>
+      <PaymentElement />
+      {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
+      <Button type="submit" variant="primary" className="w-full" disabled={submitting || !stripe || !elements}>
         {submitting ? 'A processar...' : 'Reservar agora — €300'}
       </Button>
     </form>
