@@ -41,7 +41,7 @@ describe('POST /api/payment-intent/update', () => {
       body: JSON.stringify({ clientSecret: 'pi_3Pxyz_secret_abc', taxId: 'PT123' }),
     })
     await POST(req)
-    expect(mockUpdate).toHaveBeenCalledWith('pi_3Pxyz', expect.anything())
+    expect(mockUpdate).toHaveBeenCalledWith('pi_3Pxyz', { metadata: { taxId: 'PT123' } })
   })
 
   it('returns 500 when Stripe throws', async () => {
