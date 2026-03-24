@@ -51,7 +51,7 @@ export default function Hero() {
   }
 
   return (
-    <section ref={heroRef} className="relative h-screen overflow-hidden">
+    <section ref={heroRef} className="relative flex-1 overflow-hidden">
 
       {/* Video background — wrapped for Ken Burns scroll scale */}
       <motion.div
@@ -105,34 +105,34 @@ export default function Hero() {
         <div>
           {/* Label */}
           <motion.p
-            className="text-xs md:text-sm text-white/60 tracking-widest font-sans font-medium uppercase mb-3"
+            className="text-lg md:text-lg text-white font-sans font-medium uppercase mb-2"
             {...entryFade(0)}
           >
             Nissan Leaf
           </motion.p>
 
           {/* Headline */}
-          <div className="block overflow-hidden mb-4">
+          <div className="block overflow-hidden mb-6">
             <motion.h1
-              className="font-sans font-bold text-5xl md:text-6xl lg:text-7xl text-white leading-none"
+              className="font-sans font-semibold text-5xl md:text-6xl lg:text-7xl text-white leading-none"
               {...clipReveal(0.2)}
             >
-              O futuro já não está à espera.
+              Listening. Remastered.
             </motion.h1>
           </div>
 
           {/* Sub-label + reassurance */}
           <motion.p
-            className="text-sm font-sans font-semibold text-white"
+            className="text-lg font-sans font-medium text-white"
             {...fadeUp(0.5)}
           >
             Reserva já.
           </motion.p>
           <motion.p
-            className="text-sm font-sans font-light text-white/60"
+            className="text-lg font-sans font-light text-white"
             {...fadeUp(0.6)}
           >
-            Com certezas. Sem compromisso.
+            Disponível para entrega em Outubro.
           </motion.p>
         </div>
 
