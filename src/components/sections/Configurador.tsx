@@ -2,17 +2,15 @@
 import { useState, useEffect, useRef } from 'react'
 import ImagePanel from '@/components/configurator/ImagePanel'
 import OptionsPanel from '@/components/configurator/OptionsPanel'
+import ReservationDrawer from '@/components/ui/ReservationDrawer'
 import { VERSIONS, EXTERIOR_COLORS } from '@/components/configurator/configuradorData'
 
-interface ConfiguradorProps {
-  onSelectVersion: (versionId: string) => void
-}
-
-export default function Configurador({ onSelectVersion }: ConfiguradorProps) {
+export default function Configurador() {
   const [selectedVersionId, setSelectedVersionId] = useState('n-connecta')
   const [selectedColorId, setSelectedColorId] = useState('TURQUOISE')
   const [imageView, setImageView] = useState<'exterior' | 'interior' | '360'>('exterior')
   const [slideIndex, setSlideIndex] = useState(0)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
   // Scroll-pin refs — all mutations go straight to the DOM, no re-renders needed
   const sectionRef  = useRef<HTMLElement>(null)
@@ -22,7 +20,6 @@ export default function Configurador({ onSelectVersion }: ConfiguradorProps) {
 
   function handleVersionSelect(id: string) {
     setSelectedVersionId(id)
-    onSelectVersion(id)
   }
 
   function handleColorSelect(id: string) {
@@ -34,7 +31,7 @@ export default function Configurador({ onSelectVersion }: ConfiguradorProps) {
   const activeColor   = EXTERIOR_COLORS.find(c => c.id === selectedColorId) ?? EXTERIOR_COLORS[0]
 
   function handleReserve() {
-    document.getElementById('reservar')?.scrollIntoView({ behavior: 'smooth' })
+    setIsDrawerOpen(true)
   }
 
   useEffect(() => {
@@ -146,6 +143,15 @@ export default function Configurador({ onSelectVersion }: ConfiguradorProps) {
         </div>
       </div>
 
+      <ReservationDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        versionId={activeVersion.id}
+        versionName={activeVersion.name}
+        colorName={activeColor.name}
+        colorImageSrc={activeColor.imageSrc}
+        price={activeVersion.price}
+      />
     </section>
   )
 }

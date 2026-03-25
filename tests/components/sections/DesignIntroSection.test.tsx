@@ -39,14 +39,14 @@ describe('DesignIntroSection', () => {
     expect(document.getElementById('design-intro')).toBeInTheDocument()
   })
 
-  it('renders the Design label', () => {
+  it('renders the section label', () => {
     render(<DesignIntroSection />)
-    expect(screen.getByText('Design')).toBeInTheDocument()
+    expect(screen.getByText('Interior')).toBeInTheDocument()
   })
 
   it('renders the title', () => {
     render(<DesignIntroSection />)
-    expect(screen.getByText('Uma forma que fala por si.')).toBeInTheDocument()
+    expect(screen.getByText('Espaço para todas as suas aventuras.')).toBeInTheDocument()
   })
 
   it('renders the car image with correct alt text', () => {

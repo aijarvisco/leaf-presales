@@ -33,6 +33,17 @@ jest.mock('@/components/configurator/Canvas360Viewer', () => ({
   default: () => React.createElement('div', { 'data-testid': 'canvas-360-viewer' }),
 }))
 
+// Mock ReservationDrawer so tests don't need Stripe context
+jest.mock('@/components/ui/ReservationDrawer', () => ({
+  __esModule: true,
+  default: ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>
+    isOpen
+      ? React.createElement('div', { 'data-testid': 'reservation-drawer' },
+          React.createElement('button', { onClick: onClose }, 'Fechar')
+        )
+      : null,
+}))
+
 // jsdom doesn't implement ResizeObserver — provide a no-op stub
 global.ResizeObserver = class ResizeObserver {
   observe() {}
@@ -44,57 +55,67 @@ import Configurador from '@/components/sections/Configurador'
 
 describe('Configurador', () => {
   it('renders with id="configurador"', () => {
-    const { container } = render(<Configurador onSelectVersion={jest.fn()} />)
+    const { container } = render(<Configurador />)
     expect(container.querySelector('#configurador')).toBeInTheDocument()
   })
 
   it('renders the section heading', () => {
-    render(<Configurador onSelectVersion={jest.fn()} />)
-    expect(screen.getByText('Configure o Nissan Leaf à medida da sua energia.')).toBeInTheDocument()
+    render(<Configurador />)
+    expect(screen.getByText('Escolhe a tua versão.')).toBeInTheDocument()
   })
 
   it('renders all 3 version buttons', () => {
-    render(<Configurador onSelectVersion={jest.fn()} />)
+    render(<Configurador />)
     expect(screen.getByText('Visia')).toBeInTheDocument()
     expect(screen.getAllByText('N-Connecta').length).toBeGreaterThan(0)
     expect(screen.getByText('Tekna')).toBeInTheDocument()
   })
 
-  it('calls onSelectVersion when a version tab is clicked', () => {
-    const onSelectVersion = jest.fn()
-    render(<Configurador onSelectVersion={onSelectVersion} />)
-    fireEvent.click(screen.getByText('Tekna'))
-    expect(onSelectVersion).toHaveBeenCalledWith('tekna')
-  })
-
   it('renders the sticky bar with default version N-Connecta', () => {
-    render(<Configurador onSelectVersion={jest.fn()} />)
+    render(<Configurador />)
     expect(screen.getAllByText('N-Connecta').length).toBeGreaterThan(0)
   })
 
   it('renders the Reservar agora CTA button', () => {
-    render(<Configurador onSelectVersion={jest.fn()} />)
+    render(<Configurador />)
     const buttons = screen.getAllByRole('button', { name: /reservar agora/i })
     expect(buttons.length).toBeGreaterThan(0)
   })
 
   it('renders the Vista 360 button', () => {
-    render(<Configurador onSelectVersion={jest.fn()} />)
+    render(<Configurador />)
     expect(screen.getByRole('button', { name: /vista 360/i })).toBeInTheDocument()
   })
 
   it('clicking Vista 360 shows the 360 viewer', () => {
-    render(<Configurador onSelectVersion={jest.fn()} />)
+    render(<Configurador />)
     fireEvent.click(screen.getByRole('button', { name: /vista 360/i }))
     expect(screen.getByTestId('canvas-360-viewer')).toBeInTheDocument()
   })
 
   it('clicking a color while in 360 view closes the 360 viewer', () => {
-    render(<Configurador onSelectVersion={jest.fn()} />)
+    render(<Configurador />)
     fireEvent.click(screen.getByRole('button', { name: /vista 360/i }))
     expect(screen.getByTestId('canvas-360-viewer')).toBeInTheDocument()
     // Click any non-selected color (default is Turquoise, so click Fuji Sunset Red)
     fireEvent.click(screen.getByRole('radio', { name: /fuji sunset red/i }))
     expect(screen.queryByTestId('canvas-360-viewer')).not.toBeInTheDocument()
+  })
+
+  it('clicking Reservar agora opens the reservation drawer', () => {
+    render(<Configurador />)
+    expect(screen.queryByTestId('reservation-drawer')).not.toBeInTheDocument()
+    const buttons = screen.getAllByRole('button', { name: /reservar agora/i })
+    fireEvent.click(buttons[0])
+    expect(screen.getByTestId('reservation-drawer')).toBeInTheDocument()
+  })
+
+  it('closing the drawer hides it', () => {
+    render(<Configurador />)
+    const buttons = screen.getAllByRole('button', { name: /reservar agora/i })
+    fireEvent.click(buttons[0])
+    expect(screen.getByTestId('reservation-drawer')).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Fechar'))
+    expect(screen.queryByTestId('reservation-drawer')).not.toBeInTheDocument()
   })
 })

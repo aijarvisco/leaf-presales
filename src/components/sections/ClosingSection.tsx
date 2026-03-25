@@ -1,33 +1,11 @@
 'use client'
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface ClosingSectionProps {
-  selectedVersion?: string
-}
-
-export default function ClosingSection({ selectedVersion }: ClosingSectionProps) {
-  const [loading, setLoading] = useState(false)
-
+export default function ClosingSection() {
   const scrollTo = (id: string) =>
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-
-  const handleReserve = async () => {
-    setLoading(true)
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ versionId: selectedVersion }),
-      })
-      const { url } = await res.json()
-      if (url) window.location.href = url
-    } catch {
-      setLoading(false)
-    }
-  }
 
   return (
     <>
@@ -94,16 +72,15 @@ export default function ClosingSection({ selectedVersion }: ClosingSectionProps)
 
             {/* Large CTA — reserve */}
             <button
-              onClick={handleReserve}
-              disabled={loading}
-              className="group flex flex-col justify-between gap-5 flex-1 px-6 py-5 bg-[#E07055] text-left cursor-pointer transition-colors duration-200 hover:bg-[#CC6249] disabled:opacity-70 disabled:cursor-not-allowed"
+              onClick={() => scrollTo('configurador')}
+              className="group flex flex-col justify-between gap-5 flex-1 px-6 py-5 bg-[#E07055] text-left cursor-pointer transition-colors duration-200 hover:bg-[#CC6249]"
             >
               <div>
                 <p className="text-[10px] font-medium uppercase tracking-widest text-white/60 mb-2">
                   Reservar agora
                 </p>
                 <p className="text-base font-light text-white leading-relaxed">
-                  {loading ? 'A redirecionar...' : 'Garante o teu lugar com €300 totalmente reembolsável.'}
+                  Garante o teu lugar com €300 totalmente reembolsável.
                 </p>
               </div>
               <div className="flex items-center justify-between">
