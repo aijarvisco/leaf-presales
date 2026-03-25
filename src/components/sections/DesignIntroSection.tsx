@@ -33,7 +33,8 @@ export default function DesignIntroSection() {
 
       {/* Car image — renders after text, naturally sits on top */}
       <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#D5D9DF]"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#D5D9DF] w-screen min-w-[900px]"
+        style={{ aspectRatio: '2680 / 1200' }}
         initial={{ x: '110vw' }}
         whileInView={{ x: 0 }}
         viewport={{ once: true, amount: 0 }}
@@ -42,11 +43,10 @@ export default function DesignIntroSection() {
         <Image
           src="/images/leaf-top-view.png"
           alt="Nissan Leaf — vista de cima"
-          width={2680}
-          height={1200}
+          fill
+          className="object-contain"
           sizes="100vw"
-          priority={false}
-          className="w-screen min-w-[900px] h-auto"
+          loading="eager"
         />
       </motion.div>
     </section>
