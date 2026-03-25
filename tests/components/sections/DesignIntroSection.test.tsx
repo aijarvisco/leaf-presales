@@ -12,6 +12,7 @@ jest.mock('framer-motion', () => {
       {},
       {
         get: (_: unknown, tag: string) =>
+          // eslint-disable-next-line react/display-name
           React.forwardRef(({ children, ...props }: React.HTMLAttributes<HTMLElement>, ref) =>
             React.createElement(tag, { ...props, ref }, children)
           ),
@@ -19,15 +20,16 @@ jest.mock('framer-motion', () => {
     ),
     useScroll: () => ({ scrollYProgress: { get: () => 0 } }),
     useTransform: () => 0,
+    useReducedMotion: () => false,
   }
 })
 
 // next/image renders a plain <img> in tests
-jest.mock('next/image', () =>
-  React.forwardRef(({ src, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>, ref) =>
-    React.createElement('img', { src, alt, ...props, ref })
-  )
-)
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: ({ alt, fill, priority, sizes, quality, placeholder, blurDataURL, onLoad, onError, ...props }: { alt: string; fill?: boolean; priority?: boolean; sizes?: string; quality?: number; placeholder?: string; blurDataURL?: string; onLoad?: () => void; onError?: () => void; [key: string]: unknown }) =>
+    React.createElement('img', { alt, ...props }),
+}))
 
 import DesignIntroSection from '@/components/sections/DesignIntroSection'
 
