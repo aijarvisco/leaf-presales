@@ -3,6 +3,7 @@ import { useState } from 'react'
 import SiteHeader from '@/components/layout/SiteHeader'
 import Hero from '@/components/sections/Hero'
 import Highlights from '@/components/sections/Highlights'
+import DesignIntroSection from '@/components/sections/DesignIntroSection'
 import Configurator from '@/components/sections/Configurator'
 import AutonomiaSectionV2 from '@/components/sections/AutonomiaSectionV2'
 import ValuesSection from '@/components/sections/ValuesSection'
@@ -21,6 +22,7 @@ export default function Home() {
         <Hero />
       </div>
       <Highlights />
+      <DesignIntroSection />
       <AutonomiaSectionV2 />
       <ValuesSection />
       <Configurator />
