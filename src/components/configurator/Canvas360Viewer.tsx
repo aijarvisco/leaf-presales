@@ -1,8 +1,10 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 
+interface CursorPos { x: number; y: number }
+
 // --- Constants ---
-const SENSITIVITY = 0.45         // frames per pixel dragged
+const SENSITIVITY = 0.2          // frames per pixel dragged
 const DAMPING = 0.92             // velocity decay per rAF frame
 const VELOCITY_THRESHOLD = 0.005 // px/ms — inertia stops below this
 // --- Frame URL array ---
@@ -19,11 +21,7 @@ function wrapFrame(raw: number): number {
   return ((Math.floor(raw) % FRAME_COUNT) + FRAME_COUNT) % FRAME_COUNT
 }
 
-interface Canvas360ViewerProps {
-  onFirstInteraction?: () => void
-}
-
-export default function Canvas360Viewer({ onFirstInteraction }: Canvas360ViewerProps) {
+export default function Canvas360Viewer() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imagesRef = useRef<HTMLImageElement[]>([])
   const frameAccRef = useRef(0)       // floating-point frame accumulator
@@ -32,18 +30,33 @@ export default function Canvas360Viewer({ onFirstInteraction }: Canvas360ViewerP
   const lastTime = useRef(0)
   const velocity = useRef(0)          // px/ms
   const rafId = useRef<number | null>(null)
-  const hasInteracted = useRef(false)
 
   const [loading, setLoading] = useState(true)
+  const [cursorPos, setCursorPos] = useState<CursorPos>({ x: 0, y: 0 })
+  const [cursorVisible, setCursorVisible] = useState(false)
 
-  // Draw the current frame to canvas
+  // Draw the current frame to canvas using object-cover behaviour (no distortion)
   const drawFrame = (index: number) => {
     const canvas = canvasRef.current
     const img = imagesRef.current[index]
     if (!canvas || !img) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+
+    const cw = canvas.width
+    const ch = canvas.height
+    const iw = img.naturalWidth
+    const ih = img.naturalHeight
+    if (!iw || !ih) return
+
+    const scale = Math.max(cw / iw, ch / ih)
+    const sw = iw * scale
+    const sh = ih * scale
+    const sx = (cw - sw) / 2
+    const sy = (ch - sh) / 2
+
+    ctx.clearRect(0, 0, cw, ch)
+    ctx.drawImage(img, sx, sy, sw, sh)
   }
 
   // Preload all frames
@@ -101,6 +114,11 @@ export default function Canvas360Viewer({ onFirstInteraction }: Canvas360ViewerP
     rafId.current = requestAnimationFrame(step)
   }
 
+  const updateCursorPos = (e: React.PointerEvent) => {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    setCursorPos({ x: e.clientX - rect.left, y: e.clientY - rect.top })
+  }
+
   const handlePointerDown = (e: React.PointerEvent) => {
     if (rafId.current !== null) cancelAnimationFrame(rafId.current)
     isDragging.current = true
@@ -108,16 +126,12 @@ export default function Canvas360Viewer({ onFirstInteraction }: Canvas360ViewerP
     lastTime.current = e.timeStamp
     velocity.current = 0
     ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+    updateCursorPos(e)
   }
 
   const handlePointerMove = (e: React.PointerEvent) => {
+    updateCursorPos(e)
     if (!isDragging.current) return
-
-    // Fire onFirstInteraction once on first actual move
-    if (!hasInteracted.current && onFirstInteraction) {
-      hasInteracted.current = true
-      onFirstInteraction()
-    }
 
     const dx = e.clientX - lastX.current
     const dt = e.timeStamp - lastTime.current
@@ -130,6 +144,8 @@ export default function Canvas360Viewer({ onFirstInteraction }: Canvas360ViewerP
     lastTime.current = e.timeStamp
   }
 
+
+
   const handlePointerUp = () => {
     if (!isDragging.current) return
     isDragging.current = false
@@ -137,14 +153,32 @@ export default function Canvas360Viewer({ onFirstInteraction }: Canvas360ViewerP
   }
 
   return (
-    <div className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing select-none">
+    <div
+      className="absolute inset-0 w-full h-full select-none"
+      style={{ cursor: 'none' }}
+    >
+      {/* Custom cursor */}
+      {cursorVisible && (
+        <div
+          className="pointer-events-none absolute z-20 flex items-center gap-2 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-150"
+          style={{ left: cursorPos.x, top: cursorPos.y }}
+        >
+          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white/90 shadow-md">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 10H17M3 10L7 6M3 10L7 14M17 10L13 6M17 10L13 14" stroke="#111827" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <span className="text-sm font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">360°</span>
+        </div>
+      )}
       <canvas
         ref={canvasRef}
         className="w-full h-full"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
-        onPointerLeave={handlePointerUp}
+        onPointerLeave={(e) => { handlePointerUp(); setCursorVisible(false) }}
+        onPointerEnter={() => setCursorVisible(true)}
       />
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

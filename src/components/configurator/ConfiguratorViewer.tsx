@@ -6,10 +6,9 @@ import InteriorViewer from './InteriorViewer'
 
 interface ConfiguratorViewerProps {
   view: ConfiguratorView
-  onFirstInteraction?: () => void
 }
 
-export default function ConfiguratorViewer({ view, onFirstInteraction }: ConfiguratorViewerProps) {
+export default function ConfiguratorViewer({ view }: ConfiguratorViewerProps) {
   return (
     <div className="relative w-full h-full">
       {/* Exterior — stays mounted */}
@@ -19,7 +18,7 @@ export default function ConfiguratorViewer({ view, onFirstInteraction }: Configu
         transition={{ duration: 0.4, ease: 'easeInOut' }}
         style={{ pointerEvents: view === 'exterior' ? 'auto' : 'none' }}
       >
-        <Canvas360Viewer onFirstInteraction={onFirstInteraction} />
+        <Canvas360Viewer />
       </motion.div>
 
       {/* Interior — stays mounted */}

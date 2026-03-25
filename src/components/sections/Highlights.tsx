@@ -1,169 +1,213 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react'
+import { motion, useMotionValue, animate } from 'framer-motion'
 import HighlightCard from '@/components/ui/HighlightCard'
 
 const HIGHLIGHTS = [
   {
-    imageSrc: '/images/889248-F308-25TDIEU_PZ1D_L5_PS_YBR_005_HERO.png',
-    imageAlt: 'Design exterior do Nissan Leaf',
-    category: 'DESIGN',
-    label: 'Design que impressiona',
-    description: 'Linhas curvas e uma silhueta moderna que redefinem o que um elétrico pode ser.',
+    imageSrc: '/images/nissan-leaf-lights.jpg',
+    imageAlt: 'Nissan Leaf glass display',
+    description: "A glass display that's 2x more scratch resistant than Series 10.",
+    textPosition: 'bottom' as const,
   },
   {
     imageSrc: '/images/889249-F308-25TDIEU_PZ1D_L5_PS_YBR_006_HERO.png',
     imageAlt: 'Interior tecnológico do Nissan Leaf',
-    category: 'TECNOLOGIA',
-    label: 'Tecnologia no centro',
     description: 'Cockpit digital, conectividade total e sistemas de assistência à condução.',
+    textPosition: 'bottom' as const,
   },
   {
     imageSrc: '/images/889857a-F275-25TDIEULHD_PZ1D_01_LO.jpg',
     imageAlt: 'Autonomia do Nissan Leaf',
-    category: 'AUTONOMIA',
-    label: 'Vai mais longe',
     description: 'Autonomia real para o teu dia a dia, com carregamento rápido onde precisas.',
+    textPosition: 'bottom' as const,
   },
   {
     imageSrc: '/images/889861-F275-25TDIEU_PZ1D_03_LO.jpg',
     imageAlt: 'Nissan Leaf 100% elétrico',
-    category: 'ELÉTRICO',
-    label: 'Zero emissões',
     description: '100% elétrico. Contribui para um futuro mais limpo a cada quilómetro.',
+    textPosition: 'bottom' as const,
   },
 ]
 
-const GAP = 24 // px — matches gap-6
+const GAP = 20
+const CONTAINER_MAX = 1024 // max-w-5xl
+const CONTAINER_PAD = 24  // px-6
 
-const trackSpring = { type: 'spring' as const, stiffness: 300, damping: 30, mass: 0.5 }
-const cardTransition = { type: 'tween' as const, duration: 0.3, ease: 'easeInOut' as const }
-
-function getScale(distance: number) {
-  if (distance === 0) return 1
-  if (distance === 1) return 0.92
-  return 0.88
-}
-
-function getOpacity(distance: number) {
-  if (distance === 0) return 1
-  if (distance === 1) return 0.6
-  return 0.4
-}
+const springConfig = { type: 'spring' as const, stiffness: 320, damping: 32, mass: 0.45 }
 
 export default function Highlights() {
   const [activeIndex, setActiveIndex] = useState(0)
-  const [cardWidth, setCardWidth] = useState(0)
   const [viewportWidth, setViewportWidth] = useState(0)
-  const cardRef = useRef<HTMLDivElement>(null)
+  const carouselRef = useRef<HTMLDivElement>(null)
+  const isWheeling = useRef(false)
+  const isDragging = useRef(false)
+  const pointerStartX = useRef(0)
+  const xAtDragStart = useRef(0)
 
+  const x = useMotionValue(0)
+
+  // containerLeft matches the title's max-w-5xl px-6 alignment
+  const containerLeft = viewportWidth > 0 ? Math.max((viewportWidth - CONTAINER_MAX) / 2, 0) + CONTAINER_PAD : 0
+
+  // Card width: at index 0, first card starts at containerLeft and fills the rest with 50% of next card peeking
+  // containerLeft + cardWidth + GAP + 0.5 * cardWidth = viewportWidth  →  cardWidth = (viewportWidth - containerLeft - GAP) / 1.5
+  const cardWidth = viewportWidth > 0 ? Math.round((viewportWidth - containerLeft - GAP) / 1.5) : 0
+
+  // Index 0: aligned with container. Index > 0: 25% of prev card peeks from viewport left edge.
+  const getOffset = (index: number) => {
+    if (index === 0) return containerLeft
+    return 0.25 * cardWidth + GAP - index * (cardWidth + GAP)
+  }
+  const targetOffset = getOffset(activeIndex)
+
+  // Animate to target whenever activeIndex or layout changes
   useEffect(() => {
-    setViewportWidth(window.innerWidth)
+    if (!cardWidth) return
+    animate(x, targetOffset, springConfig)
+  }, [targetOffset]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  useLayoutEffect(() => {
+    const vw = window.innerWidth
+    setViewportWidth(vw)
+    const cl = Math.max((vw - CONTAINER_MAX) / 2, 0) + CONTAINER_PAD
+    x.set(cl)
     const handleResize = () => setViewportWidth(window.innerWidth)
     window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-    if (!cardRef.current) return () => window.removeEventListener('resize', handleResize)
+  const handleWheel = useCallback((e: WheelEvent) => {
+    if (Math.abs(e.deltaX) < Math.abs(e.deltaY) * 0.5 && Math.abs(e.deltaX) < 15) return
+    e.preventDefault()
+    if (isWheeling.current) return
+    isWheeling.current = true
 
-    const ro = new ResizeObserver(() => {
-      if (cardRef.current) {
-        setCardWidth(cardRef.current.getBoundingClientRect().width)
-      }
-    })
-    ro.observe(cardRef.current)
+    const delta = Math.abs(e.deltaX) >= Math.abs(e.deltaY) ? e.deltaX : e.deltaY
+    if (delta > 20) setActiveIndex(i => Math.min(i + 1, HIGHLIGHTS.length - 1))
+    else if (delta < -20) setActiveIndex(i => Math.max(i - 1, 0))
 
-    return () => {
-      ro.disconnect()
-      window.removeEventListener('resize', handleResize)
-    }
+    setTimeout(() => { isWheeling.current = false }, 550)
   }, [])
 
-  const getOffset = (index: number) =>
-    viewportWidth / 2 - cardWidth / 2 - index * (cardWidth + GAP)
+  useEffect(() => {
+    const el = carouselRef.current
+    if (!el) return
+    el.addEventListener('wheel', handleWheel, { passive: false })
+    return () => el.removeEventListener('wheel', handleWheel)
+  }, [handleWheel])
 
-  const targetOffset = getOffset(activeIndex)
-  const maxRight = getOffset(0)
-  const maxLeft = getOffset(HIGHLIGHTS.length - 1)
+  const handlePointerDown = (e: React.PointerEvent) => {
+    isDragging.current = true
+    pointerStartX.current = e.clientX
+    xAtDragStart.current = x.get()
+    ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+  }
 
-  const handleDragEnd = (
-    _: unknown,
-    info: { offset: { x: number }; velocity: { x: number } },
-  ) => {
-    const { offset, velocity } = info
-    if (Math.abs(velocity.x) > 500) {
-      if (velocity.x < 0) setActiveIndex(i => Math.min(i + 1, HIGHLIGHTS.length - 1))
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDragging.current) return
+    const delta = e.clientX - pointerStartX.current
+    x.set(xAtDragStart.current + delta)
+  }
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (!isDragging.current) return
+    isDragging.current = false
+    const delta = e.clientX - pointerStartX.current
+    const vel = x.getVelocity()
+
+    if (Math.abs(vel) > 300) {
+      if (vel < 0) setActiveIndex(i => Math.min(i + 1, HIGHLIGHTS.length - 1))
       else setActiveIndex(i => Math.max(i - 1, 0))
-    } else if (Math.abs(offset.x) > cardWidth / 2) {
-      if (offset.x < 0) setActiveIndex(i => Math.min(i + 1, HIGHLIGHTS.length - 1))
+    } else if (Math.abs(delta) > cardWidth / 4) {
+      if (delta < 0) setActiveIndex(i => Math.min(i + 1, HIGHLIGHTS.length - 1))
       else setActiveIndex(i => Math.max(i - 1, 0))
+    } else {
+      animate(x, targetOffset, springConfig)
     }
   }
 
   return (
-    <section id="highlights" className="pt-32 pb-32 bg-white overflow-hidden">
+    <section id="highlights" className="pt-48 pb-48 bg-white overflow-hidden">
       {/* Title */}
-      <div className="max-w-4xl mx-auto px-6 text-center mb-24">
+      <div className="max-w-5xl mx-auto px-6 mb-20">
         <motion.h2
-          className="text-6xl md:text-8xl text-[#0A0A0A]"
-          initial={{ opacity: 0, y: 24 }}
+          className="text-[56px] leading-tight font-medium text-[#0A0A0A] tracking-[-0.07em]"
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.55 }}
         >
-          Feito para te surpreender.
+          Desenhado para surpreender.
         </motion.h2>
       </div>
 
       {/* Carousel track */}
-      <div className="w-full overflow-hidden">
+      <div
+        ref={carouselRef}
+        className="w-full overflow-hidden cursor-grab active:cursor-grabbing select-none touch-none"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+      >
         <motion.div
           className="flex flex-row"
-          style={{ gap: GAP }}
-          drag="x"
-          dragConstraints={{ left: maxLeft, right: maxRight }}
-          dragElastic={0.1}
-          animate={{ x: targetOffset }}
-          transition={trackSpring}
-          onDragEnd={handleDragEnd}
+          style={{ gap: GAP, x }}
         >
-          {HIGHLIGHTS.map((h, i) => {
-            const distance = Math.abs(i - activeIndex)
-            return (
-              <div
-                key={h.label}
-                ref={i === 0 ? cardRef : undefined}
-                className="shrink-0"
-              >
-                <motion.div
-                  animate={{
-                    scale: getScale(distance),
-                    opacity: getOpacity(distance),
-                  }}
-                  transition={cardTransition}
-                >
-                  <HighlightCard {...h} isActive={i === activeIndex} />
-                </motion.div>
-              </div>
-            )
-          })}
+          {HIGHLIGHTS.map((h, i) => (
+            <div
+              key={h.imageSrc}
+              className="shrink-0"
+              style={{ width: cardWidth || undefined }}
+            >
+              <HighlightCard {...h} />
+            </div>
+          ))}
         </motion.div>
       </div>
 
-      {/* Pagination dots */}
-      <div className="flex justify-center items-center gap-2 mt-10">
-        {HIGHLIGHTS.map((_, i) => (
-          <motion.button
-            key={i}
-            layout
-            onClick={() => setActiveIndex(i)}
-            className={`h-2 rounded-full cursor-pointer ${
-              i === activeIndex ? 'bg-gray-800 w-6' : 'bg-gray-300 w-2'
-            }`}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            aria-label={`Ir para destaque ${i + 1}`}
-          />
-        ))}
+      {/* Pagination */}
+      <div className="flex justify-center items-center gap-4 mt-10">
+        <button
+          onClick={() => setActiveIndex(i => Math.max(i - 1, 0))}
+          disabled={activeIndex === 0}
+          suppressHydrationWarning
+          aria-label="Anterior"
+          className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-gray-200 disabled:opacity-30 flex items-center justify-center transition-colors duration-200 cursor-pointer disabled:cursor-default"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M9 2L4 7L9 12" stroke="#0A0A0A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+
+        <div className="flex items-center gap-[6px]">
+          {HIGHLIGHTS.map((_, i) => (
+            <motion.button
+              key={i}
+              layout
+              onClick={() => setActiveIndex(i)}
+              className={`h-[6px] rounded-full cursor-pointer transition-colors duration-300 ${
+                i === activeIndex ? 'bg-[#0A0A0A] w-5' : 'bg-gray-300 w-[6px]'
+              }`}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
+              aria-label={`Ir para destaque ${i + 1}`}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={() => setActiveIndex(i => Math.min(i + 1, HIGHLIGHTS.length - 1))}
+          disabled={activeIndex === HIGHLIGHTS.length - 1}
+          suppressHydrationWarning
+          aria-label="Próximo"
+          className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-gray-200 disabled:opacity-30 flex items-center justify-center transition-colors duration-200 cursor-pointer disabled:cursor-default"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M5 2L10 7L5 12" stroke="#0A0A0A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
       </div>
     </section>
   )

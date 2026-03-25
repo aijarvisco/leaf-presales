@@ -7,7 +7,6 @@ const STATS = [
   { qualifier: 'Até', number: '75',  unit: 'kWh',    descriptor: 'Capacidade da bateria' },
   { qualifier: 'Até', number: '592', unit: 'km',      descriptor: 'Autonomia em ciclo WLTP' },
   { qualifier: '',    number: '30',  unit: 'min',     descriptor: 'De 20 a 80% em carga rápida' },
-  { qualifier: '',    number: '7,2', unit: 'km/kWh',  descriptor: 'Eficiência energética' },
 ]
 
 const statsContainerVariants = {
@@ -57,12 +56,12 @@ export default function AutonomiaSectionV2() {
           className="absolute inset-x-0 z-10 flex flex-col items-center text-center px-6"
           style={{ top: copyY }}
         >
-          <p className="font-normal mb-3" style={{ fontSize: '24px', color: '#86868b' }}>
+          <p className="font-normal text-3xl max-w-5xl mx-auto">
             Autonomia
           </p>
           <h2
-            className="font-semibold text-white"
-            style={{ fontSize: '80px', lineHeight: 1.07, letterSpacing: '-0.005em' }}
+            className="leading-none text-white font-medium tracking-[-0.07em] max-w-3xl"
+            style={{ fontSize: '80px' }}
           >
             Uma bateria que vai onde tu vais.
           </h2>
@@ -70,11 +69,11 @@ export default function AutonomiaSectionV2() {
 
         {/* Stats panel */}
         <motion.div
-          className="absolute bottom-12 inset-x-0 z-10 px-16"
+          className="absolute bottom-24 inset-x-0 z-10 px-16"
           style={{ opacity: statsOpacity }}
         >
           <motion.div
-            className="grid grid-cols-4 gap-8"
+            className="grid grid-cols-3 gap-8 max-w-6xl mx-auto"
             variants={statsContainerVariants}
             initial="hidden"
             animate={statsVisible ? 'visible' : 'hidden'}
@@ -87,10 +86,10 @@ export default function AutonomiaSectionV2() {
                   <p aria-hidden="true" style={{ fontSize: '21px', color: 'transparent', fontWeight: 400 }}>&nbsp;</p>
                 )}
                 <div className="flex items-baseline gap-2">
-                  <span style={{ fontSize: '48px', fontWeight: 500, color: 'white', letterSpacing: '-0.003em' }}>
+                  <span style={{ fontSize: '56px', fontWeight: 500, color: 'white', letterSpacing: '-0.02em' }}>
                     {stat.number}
                   </span>
-                  <span style={{ fontSize: '48px', fontWeight: 500, color: 'white', letterSpacing: '-0.003em' }}>
+                  <span style={{ fontSize: '56px', fontWeight: 500, color: 'white', letterSpacing: '-0.02em' }}>
                     {stat.unit}
                   </span>
                 </div>

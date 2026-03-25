@@ -36,9 +36,9 @@ export default function ValuesCard({
 
       {/* Text below image */}
       <div className="mt-4">
-        <p className="text-[17px] leading-snug text-[#0A0A0A]">
-          <strong className="font-medium">{boldText}</strong>{' '}
-          <span className="font-normal text-[#3a3a3a] text-[15px]">{bodyText}</span>
+        <p className="text-lg leading-snug text-[#0A0A0A] max-w-2xl">
+          <strong className="font-semibold">{boldText}</strong>{' '}
+          <span className="font-normal text-[#3a3a3a]">{bodyText}</span>
         </p>
       </div>
     </div>
