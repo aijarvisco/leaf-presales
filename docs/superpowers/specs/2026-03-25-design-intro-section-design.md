@@ -96,7 +96,7 @@ The `0.5s` delay ensures the text is visible for a beat before the car covers it
 - **Format:** RGBA PNG (has a transparent channel — background is transparent, not white)
 - **Actual size:** 2680 × 1200 px
 
-**Critical — transparency handling:** Because the image has genuine transparency, the car image wrapper **must** include a `bg-white` class so the white "ground" fills in and the text is fully occluded when the car is centered:
+**Critical — transparency handling:** Because the image has genuine transparency, the car image wrapper **must** include `bg-[#D5D9DF]` (matching the section background) so the transparent pixels are invisible during the slide-in and the text is fully occluded when the car is centered:
 
 ```tsx
 <motion.div
