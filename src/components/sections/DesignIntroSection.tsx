@@ -36,7 +36,7 @@ export default function DesignIntroSection() {
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#D5D9DF]"
         initial={{ x: '110vw' }}
         whileInView={{ x: 0 }}
-        viewport={{ once: true, amount: 0.4 }}
+        viewport={{ once: true, amount: 0 }}
         transition={{ type: 'spring', stiffness: 60, damping: 20, mass: 1, delay: 0.5 }}
       >
         <Image
