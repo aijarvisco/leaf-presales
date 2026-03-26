@@ -133,7 +133,7 @@ export default function Highlights() {
       {/* Title */}
       <div className="max-w-5xl mx-auto px-6 mb-20">
         <motion.h2
-          className="text-[56px] leading-tight font-medium text-[#0A0A0A] tracking-[-0.07em]"
+          className="text-[56px] leading-none font-medium text-[#0A0A0A] tracking-[-0.07em]"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

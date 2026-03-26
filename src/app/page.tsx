@@ -17,6 +17,7 @@ export default function Home() {
       </div>
       <Highlights />
       <DesignIntroSection />
+      <ValuesSection />
       <AutonomiaSectionV2 />
       <ValuesSection />
       <Configurador />

@@ -6,7 +6,7 @@ import ReservationDrawer from '@/components/ui/ReservationDrawer'
 import { VERSIONS, EXTERIOR_COLORS } from '@/components/configurator/configuradorData'
 
 export default function Configurador() {
-  const [selectedVersionId, setSelectedVersionId] = useState('n-connecta')
+  const [selectedVersionId, setSelectedVersionId] = useState('visia')
   const [selectedColorId, setSelectedColorId] = useState('TURQUOISE')
   const [imageView, setImageView] = useState<'exterior' | 'interior' | '360'>('exterior')
   const [slideIndex, setSlideIndex] = useState(0)
@@ -27,7 +27,7 @@ export default function Configurador() {
     setSelectedColorId(id)
   }
 
-  const activeVersion = VERSIONS.find(v => v.id === selectedVersionId) ?? VERSIONS[1]
+  const activeVersion = VERSIONS.find(v => v.id === selectedVersionId) ?? VERSIONS[0]
   const activeColor   = EXTERIOR_COLORS.find(c => c.id === selectedColorId) ?? EXTERIOR_COLORS[0]
 
   function handleReserve() {

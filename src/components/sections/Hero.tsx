@@ -105,7 +105,7 @@ export default function Hero() {
         <div>
           {/* Label */}
           <motion.p
-            className="text-lg md:text-lg text-white font-sans font-medium uppercase mb-2"
+            className="text-lg md:text-lg text-white font-medium uppercase mb-2 tracking-[-0.07em] leading-none"
             {...entryFade(0)}
           >
             Nissan Leaf
@@ -114,7 +114,7 @@ export default function Hero() {
           {/* Headline */}
           <div className="block overflow-hidden mb-6">
             <motion.h1
-              className="font-sans font-semibold text-5xl md:text-6xl lg:text-7xl text-white leading-none"
+              className="font-medium text-5xl md:text-6xl lg:text-7xl text-white leading-none tracking-[-0.07em]"
               {...clipReveal(0.2)}
             >
               Listening. Remastered.
@@ -123,13 +123,13 @@ export default function Hero() {
 
           {/* Sub-label + reassurance */}
           <motion.p
-            className="text-lg font-sans font-medium text-white"
+            className="text-lg font-medium text-white tracking-[-0.07em] leading-none"
             {...fadeUp(0.5)}
           >
             Reserva já.
           </motion.p>
           <motion.p
-            className="text-lg font-sans font-light text-white"
+            className="text-lg font-light text-white"
             {...fadeUp(0.6)}
           >
             Disponível para entrega em Outubro.

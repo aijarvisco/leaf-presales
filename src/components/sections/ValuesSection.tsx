@@ -141,9 +141,9 @@ export default function ValuesSection() {
 
       {/* Title block */}
       <div className="max-w-5xl mx-auto px-6 mb-20 text-center">
-        <p className="font-semibold text-xl text-[#86868b] mb-2">Values</p>
+        <p className="font-medium text-xl text-[#86868b] mb-2 tracking-[-0.07em] leading-none">Values</p>
         <h2
-          className="font-medium tracking-[-0.07em] text-[#0A0A0A] leading-tight max-w-5xl"
+          className="font-medium tracking-[-0.07em] text-[#0A0A0A] leading-none max-w-5xl"
           style={{ fontSize: '56px' }}
         >
           Designed to make a difference.

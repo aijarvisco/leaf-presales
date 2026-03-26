@@ -21,11 +21,11 @@ export default function OptionsPanel({
     <div className="px-8 py-12 space-y-10">
 
       {/* Heading */}
-      <div>
-        <p className="text-sm font-semibold text-[#86868b] uppercase tracking-wider mb-2">
+      <div className="flex flex-col items-center text-center">
+        <p className="leading-none text-3xl font-medium tracking-[-0.07em] text-[#0A0A0A]/60">
           Configurador
         </p>
-        <h2 className="text-3xl md:text-4xl font-semibold text-[#0A0A0A] leading-tight">
+        <h2 className="text-3xl md:text-4xl font-medium tracking-[-0.07em] leading-none text-[#0A0A0A]">
           Escolhe a tua versão.
         </h2>
       </div>

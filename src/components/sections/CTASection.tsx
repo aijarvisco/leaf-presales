@@ -41,7 +41,7 @@ export default function CTASection({ selectedVersion }: CTASectionProps) {
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
           >
-            <h2 className="text-[56px] leading-tight font-medium text-[#0A0A0A] tracking-[-0.07em] mb-8">
+            <h2 className="text-[56px] leading-none font-medium text-[#0A0A0A] tracking-[-0.07em] mb-8">
               Reserva o teu Leaf hoje.
             </h2>
             <p className="text-[#0A0A0A] mb-10 leading-relaxed">

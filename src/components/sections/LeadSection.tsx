@@ -14,7 +14,7 @@ export default function LeadSection() {
 
         {/* Title */}
         <motion.h2
-          className="text-[56px] leading-tight font-medium text-[#0A0A0A] tracking-[-0.07em] mb-20"
+          className="text-[56px] leading-none font-medium text-[#0A0A0A] tracking-[-0.07em] mb-20"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
