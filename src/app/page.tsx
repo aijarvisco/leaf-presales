@@ -6,12 +6,11 @@ import DesignIntroSection from '@/components/sections/DesignIntroSection'
 import AutonomiaSectionV2 from '@/components/sections/AutonomiaSectionV2'
 import ValuesSection from '@/components/sections/ValuesSection'
 import Configurador from '@/components/sections/Configurador'
-import LeadSection from '@/components/sections/LeadSection'
 import ClosingSection from '@/components/sections/ClosingSection'
 
 export default function Home() {
   return (
-    <main className="pb-24 md:pb-20">
+    <main>
       <div className="h-screen flex flex-col">
         <SiteHeader />
         <Hero />
@@ -21,8 +20,7 @@ export default function Home() {
       <AutonomiaSectionV2 />
       <ValuesSection />
       <Configurador />
-      <LeadSection />
-      <ClosingSection />
+<ClosingSection />
     </main>
   )
 }
