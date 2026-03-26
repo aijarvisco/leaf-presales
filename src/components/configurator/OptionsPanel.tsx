@@ -32,6 +32,9 @@ export default function OptionsPanel({
 
       {/* 1. Version selector */}
       <div>
+        <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-3">
+          Versões
+        </p>
         <div
           role="tablist"
           className="grid grid-cols-3 gap-2"
@@ -60,7 +63,7 @@ export default function OptionsPanel({
       {/* 2. Exterior colour */}
       <div>
         <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-3">
-          Cor exterior
+          Exterior
         </p>
         <div
           role="radiogroup"
@@ -94,7 +97,7 @@ export default function OptionsPanel({
       {/* Hardcoded: only one interior option exists. When INTERIOR_COLORS is added to configuradorData, this should be data-driven. */}
       <div>
         <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-3">
-          Cor interior
+          Interior
         </p>
         <div className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-[#0A0A0A] text-white cursor-default">
           <span className="w-4 h-4 rounded-full flex-shrink-0 bg-[#1a1a1a] border border-white/20" />
@@ -105,7 +108,7 @@ export default function OptionsPanel({
       {/* 4. Inclusions */}
       <div>
         <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-3">
-          O que inclui
+          Incluído
         </p>
         {prevVersionName && (
           <p className="text-sm text-[#86868b] mb-3">

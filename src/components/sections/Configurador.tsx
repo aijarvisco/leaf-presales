@@ -149,6 +149,7 @@ export default function Configurador() {
         versionId={activeVersion.id}
         versionName={activeVersion.name}
         colorName={activeColor.name}
+        colorHex={activeColor.hex}
         colorImageSrc={activeColor.imageSrc}
         price={activeVersion.price}
       />

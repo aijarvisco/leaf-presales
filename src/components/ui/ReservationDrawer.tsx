@@ -10,6 +10,7 @@ interface ReservationDrawerProps {
   versionId: string
   versionName: string
   colorName: string
+  colorHex: string
   colorImageSrc: string
   price: number
 }
@@ -20,6 +21,7 @@ export default function ReservationDrawer({
   versionId,
   versionName,
   colorName,
+  colorHex,
   colorImageSrc,
   price,
 }: ReservationDrawerProps) {
@@ -64,13 +66,13 @@ export default function ReservationDrawer({
       {/* Drawer panel — slides from the RIGHT, matching ContactDrawer direction.
           bg-white is intentional: matches the light Stripe form styling. */}
       <div
-        className={`fixed right-0 top-0 z-50 h-full w-full md:w-[420px] bg-white flex flex-col transition-transform duration-300 ease-in-out ${
+        className={`fixed right-0 top-0 z-50 h-full w-full md:w-[35%] bg-white flex flex-col transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-          <h2 className="text-lg font-medium text-[#0A0A0A]">Reserva</h2>
+          <h2 className="text-3xl font-medium tracking-[-0.07em] leading-none text-[#0A0A0A]">Reserva</h2>
           <button
             onClick={onClose}
             aria-label="Fechar"
@@ -93,12 +95,19 @@ export default function ReservationDrawer({
                 className="object-cover"
               />
             </div>
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col flex-1">
               <span className="font-bold text-[#0A0A0A]">Nissan Leaf</span>
               <span className="text-sm text-[#86868b]">{versionName}</span>
-              <span className="text-sm text-[#86868b]">
-                {colorName} · €{price.toLocaleString('pt-PT')}
-              </span>
+              <div className="flex items-center justify-between mt-2">
+                <div className="flex items-center gap-1.5">
+                  <span
+                    className="w-3 h-3 rounded-full flex-shrink-0 border border-black/10"
+                    style={{ backgroundColor: colorHex }}
+                  />
+                  <span className="text-sm text-[#86868b]">{colorName}</span>
+                </div>
+                <span className="text-sm font-semibold text-[#0A0A0A]">€{price.toLocaleString('pt-PT')}</span>
+              </div>
             </div>
           </div>
 
