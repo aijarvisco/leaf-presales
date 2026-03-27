@@ -26,7 +26,7 @@ export default function ClosingSection() {
   return (
     <>
       {/* Full-screen closing section */}
-      <section ref={containerRef} style={{ height: '300vh' }}>
+      <section id="closing" ref={containerRef} style={{ height: '300vh' }}>
         <div className="sticky top-0 h-screen overflow-hidden">
         {/* Background image */}
         <div className="absolute inset-0 z-0">
