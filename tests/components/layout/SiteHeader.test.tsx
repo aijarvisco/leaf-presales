@@ -5,7 +5,7 @@ import SiteHeader from '@/components/layout/SiteHeader'
 
 describe('SiteHeader', () => {
   beforeEach(() => {
-    Object.defineProperty(window, 'scrollY', { value: 0, writable: true })
+    Object.defineProperty(window, 'scrollY', { value: 0, writable: true, configurable: true })
   })
 
   it('renders the Nissan logo', () => {
