@@ -29,16 +29,11 @@ import Hero from '@/components/sections/Hero'
 describe('Hero', () => {
   it('renders headline copy', () => {
     render(<Hero />)
-    expect(screen.getByText('Listening. Remastered.')).toBeInTheDocument()
+    expect(screen.getByText('Espaço para todas as suas aventuras')).toBeInTheDocument()
   })
 
   it('renders the label', () => {
     render(<Hero />)
     expect(screen.getByText('Nissan Leaf')).toBeInTheDocument()
-  })
-
-  it('renders the CTA', () => {
-    render(<Hero />)
-    expect(screen.getByText('Reservar agora')).toBeInTheDocument()
   })
 })

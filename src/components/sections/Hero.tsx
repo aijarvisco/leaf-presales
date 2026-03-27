@@ -1,7 +1,6 @@
 'use client'
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
-import Button from '@/components/ui/Button'
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null)
@@ -13,7 +12,6 @@ export default function Hero() {
   })
 
   // Scroll-driven values
-  const gradientOpacity = useTransform(scrollYProgress, [0, 0.6], [0.7, 1])
   const textOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0])
   const textY = useTransform(scrollYProgress, [0, 0.4], [0, -24])
   const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.05])
@@ -71,23 +69,6 @@ export default function Hero() {
         </video>
       </motion.div>
 
-      {/* Layer 1: top vignette — barely dims the sky */}
-      <div
-        className="absolute inset-0 z-10 pointer-events-none"
-        style={{
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 30%)',
-        }}
-      />
-
-      {/* Layer 2: bottom-to-solid gradient — darkens on scroll */}
-      <motion.div
-        className="absolute inset-0 z-10 pointer-events-none"
-        style={{
-          background: 'linear-gradient(to bottom, transparent 40%, #0A0A0A 100%)',
-          opacity: gradientOpacity,
-        }}
-      />
-
       {/* Layer 3: left edge vignette — contrast for the text block */}
       <div
         className="absolute inset-0 z-10 pointer-events-none"
@@ -98,14 +79,14 @@ export default function Hero() {
 
       {/* Content block — fades and lifts on scroll */}
       <motion.div
-        className="absolute bottom-16 md:bottom-20 left-8 md:left-16 lg:left-24 right-8 md:right-16 lg:right-24 z-20 flex flex-col md:flex-row items-start md:items-end md:justify-between gap-6"
+        className="absolute bottom-24 md:bottom-32 left-8 md:left-16 lg:left-24 z-20"
         style={{ opacity: textOpacity, y: textY }}
       >
         {/* Left — copy block */}
-        <div>
+        <div className="max-w-3xl">
           {/* Label */}
           <motion.p
-            className="text-lg md:text-lg text-white font-medium uppercase mb-2 tracking-[-0.07em] leading-none"
+            className="text-lg text-white font-medium uppercase mb-2 tracking-[-0.07em] leading-none"
             {...entryFade(0)}
           >
             Nissan Leaf
@@ -117,7 +98,7 @@ export default function Hero() {
               className="font-medium text-5xl md:text-6xl lg:text-7xl text-white leading-none tracking-[-0.07em]"
               {...clipReveal(0.2)}
             >
-              Listening. Remastered.
+              Espaço para todas as suas aventuras
             </motion.h1>
           </div>
 
@@ -135,13 +116,6 @@ export default function Hero() {
             Disponível para entrega em Outubro.
           </motion.p>
         </div>
-
-        {/* Right — CTA */}
-        <motion.div {...fadeUp(0.8)}>
-          <Button variant="primary" onClick={() => scrollTo('reservar')}>
-            Reservar agora
-          </Button>
-        </motion.div>
       </motion.div>
 
     </section>
