@@ -51,7 +51,7 @@ export default function Hero() {
   }
 
   return (
-    <section ref={heroRef} className="relative flex-1 overflow-hidden">
+    <section ref={heroRef} className="relative h-screen overflow-hidden">
 
       {/* Video background — wrapped for Ken Burns scroll scale */}
       <motion.div
