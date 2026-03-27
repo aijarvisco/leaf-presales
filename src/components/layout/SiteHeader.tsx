@@ -2,6 +2,16 @@
 import { useScroll, useTransform, useReducedMotion, motion, easeOut } from 'framer-motion'
 import Image from 'next/image'
 
+const staticStyle = {
+  width:          '100%',
+  height:         '64px',
+  borderRadius:   0,
+  background:     'rgba(0,0,0,0.85)',
+  backdropFilter: 'none',
+  paddingLeft:    '64px',
+  paddingRight:   '64px',
+}
+
 export default function SiteHeader() {
   const prefersReducedMotion = useReducedMotion()
   const { scrollY } = useScroll()
@@ -17,16 +27,6 @@ export default function SiteHeader() {
     paddingRight:   useTransform(scrollY, [0, 300], [64, 32],              { ease: easeOut }),
   }
 
-  const staticStyle = {
-    width:          '100%',
-    height:         '64px',
-    borderRadius:   0,
-    background:     'rgba(0,0,0,0.85)',
-    backdropFilter: 'none',
-    paddingLeft:    '64px',
-    paddingRight:   '64px',
-  }
-
   const scrollTo = (id: string) =>
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
@@ -35,7 +35,7 @@ export default function SiteHeader() {
       <motion.header
         className="mx-auto flex items-center justify-between pointer-events-auto"
         style={{
-          willChange: 'transform, backdrop-filter',
+          willChange: 'backdrop-filter',
           ...(prefersReducedMotion ? staticStyle : animatedStyle),
         }}
       >
