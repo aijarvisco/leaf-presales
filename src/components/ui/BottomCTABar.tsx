@@ -18,7 +18,7 @@ export default function BottomCTABar() {
     if (configurador) {
       const obs = new IntersectionObserver(([entry]) => {
         setConfiguradorVisible(entry.isIntersecting)
-      })
+      }, { threshold: 0 })
       obs.observe(configurador)
       observers.push(obs)
     }
@@ -26,7 +26,7 @@ export default function BottomCTABar() {
     if (closing) {
       const obs = new IntersectionObserver(([entry]) => {
         setClosingVisible(entry.isIntersecting)
-      })
+      }, { threshold: 0 })
       obs.observe(closing)
       observers.push(obs)
     }
