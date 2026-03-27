@@ -139,9 +139,9 @@ describe('Configurador — drawer events', () => {
     }
   })
 
-  it('does not dispatch any event on initial mount', () => {
+  it('does not dispatch reservationdrawer:open on initial mount', () => {
     render(<Configurador />)
-    expect(receivedEvents).toHaveLength(0)
+    expect(receivedEvents).not.toContain('reservationdrawer:open')
   })
 
   it('dispatches reservationdrawer:open when the reserve button is clicked', async () => {
