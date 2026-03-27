@@ -11,10 +11,8 @@ import ClosingSection from '@/components/sections/ClosingSection'
 export default function Home() {
   return (
     <main>
-      <div className="h-screen flex flex-col">
-        <SiteHeader />
-        <Hero />
-      </div>
+      <SiteHeader />
+      <Hero />
       <Highlights />
       <DesignIntroSection />
       <ValuesSection />
