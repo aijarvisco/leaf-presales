@@ -1,12 +1,46 @@
 // tests/components/layout/SiteHeader.test.tsx
 import React from 'react'
-import { render, screen, act, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
+import '@testing-library/jest-dom'
+
+// Track whether reduced motion is active — mutate this in individual tests
+let mockPrefersReducedMotion = false
+
+// Spy on useScroll so we can assert it is called window-level (no target)
+// eslint-disable-next-line no-var
+var mockUseScroll: jest.Mock
+
+jest.mock('framer-motion', () => {
+  const actual = jest.requireActual('framer-motion')
+  // Initialize inside the factory so it is available when Jest hoists this call
+  mockUseScroll = jest.fn(() => ({ scrollY: { get: () => 0 } }))
+  return {
+    ...actual,
+    motion: new Proxy(
+      {},
+      {
+        get: (_: unknown, tag: string) =>
+          // eslint-disable-next-line react/display-name
+          React.forwardRef(({ children, ...props }: React.HTMLAttributes<HTMLElement>, ref) =>
+            React.createElement(tag, { ...props, ref }, children)
+          ),
+      }
+    ),
+    useScroll: mockUseScroll,
+    useTransform: () => 0,
+    useReducedMotion: () => mockPrefersReducedMotion,
+  }
+})
+
 import SiteHeader from '@/components/layout/SiteHeader'
 
 describe('SiteHeader', () => {
   beforeEach(() => {
-    Object.defineProperty(window, 'scrollY', { value: 0, writable: true, configurable: true })
+    mockPrefersReducedMotion = false
+    mockUseScroll.mockClear()
   })
+
+  // ── Content ────────────────────────────────────────────────────────────────
 
   it('renders the Nissan logo', () => {
     render(<SiteHeader />)
@@ -23,41 +57,58 @@ describe('SiteHeader', () => {
     expect(screen.getByRole('button', { name: /^Reservar$/i })).toBeInTheDocument()
   })
 
-  it('has transparent background at top of page', () => {
+  // ── Scroll tracking ────────────────────────────────────────────────────────
+
+  it('calls useScroll without a target (window-level)', () => {
     render(<SiteHeader />)
-    const header = screen.getByRole('banner')
-    expect(header.className).toContain('bg-transparent')
-    expect(header.className).not.toContain('bg-black')
+    expect(mockUseScroll).toHaveBeenCalledWith()
   })
 
-  it('switches to black background after scrolling past 80px', () => {
+  // ── Structure ──────────────────────────────────────────────────────────────
+
+  it('outer wrapper is fixed and z-50', () => {
     render(<SiteHeader />)
-    Object.defineProperty(window, 'scrollY', { value: 100, writable: true })
-    act(() => { window.dispatchEvent(new Event('scroll')) })
+    const wrapper = screen.getByRole('banner').parentElement!
+    expect(wrapper.className).toContain('fixed')
+    expect(wrapper.className).toContain('z-50')
+  })
+
+  it('outer wrapper has pointer-events-none', () => {
+    render(<SiteHeader />)
+    const wrapper = screen.getByRole('banner').parentElement!
+    expect(wrapper.className).toContain('pointer-events-none')
+  })
+
+  it('inner header has pointer-events-auto', () => {
+    render(<SiteHeader />)
     const header = screen.getByRole('banner')
-    expect(header.className).toContain('bg-black')
+    expect(header.className).toContain('pointer-events-auto')
+  })
+
+  it('inner header has no bg-transparent or bg-black className (background is animated via style)', () => {
+    render(<SiteHeader />)
+    const header = screen.getByRole('banner')
     expect(header.className).not.toContain('bg-transparent')
-  })
-
-  it('returns to transparent background when scrolled back above 80px', () => {
-    render(<SiteHeader />)
-    // scroll down
-    Object.defineProperty(window, 'scrollY', { value: 100, writable: true })
-    act(() => { window.dispatchEvent(new Event('scroll')) })
-    // scroll back up
-    Object.defineProperty(window, 'scrollY', { value: 0, writable: true })
-    act(() => { window.dispatchEvent(new Event('scroll')) })
-    const header = screen.getByRole('banner')
-    expect(header.className).toContain('bg-transparent')
     expect(header.className).not.toContain('bg-black')
   })
 
-  it('is fixed-positioned (z-50)', () => {
+  // ── Reduced motion ─────────────────────────────────────────────────────────
+
+  it('applies solid static background when prefers-reduced-motion is set', () => {
+    mockPrefersReducedMotion = true
     render(<SiteHeader />)
-    const header = screen.getByRole('banner')
-    expect(header.className).toContain('fixed')
-    expect(header.className).toContain('z-50')
+    const header = screen.getByRole('banner') as HTMLElement
+    expect(header.style.background).toMatch(/rgba\(0,\s*0,\s*0,\s*0\.85\)/)
   })
+
+  it('applies full width when prefers-reduced-motion is set', () => {
+    mockPrefersReducedMotion = true
+    render(<SiteHeader />)
+    const header = screen.getByRole('banner') as HTMLElement
+    expect(header.style.width).toBe('100%')
+  })
+
+  // ── Interactions ───────────────────────────────────────────────────────────
 
   it('"Ser Contactado" button triggers scroll to #contacto', () => {
     const mockScrollIntoView = jest.fn()
