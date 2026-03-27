@@ -7,19 +7,23 @@ import AutonomiaSectionV2 from '@/components/sections/AutonomiaSectionV2'
 import ValuesSection from '@/components/sections/ValuesSection'
 import Configurador from '@/components/sections/Configurador'
 import ClosingSection from '@/components/sections/ClosingSection'
+import BottomCTABar from '@/components/ui/BottomCTABar'
 
 export default function Home() {
   return (
-    <main>
-      <SiteHeader />
-      <Hero />
-      <Highlights />
-      <DesignIntroSection />
-      <ValuesSection />
-      <AutonomiaSectionV2 />
-      <ValuesSection />
-      <Configurador />
-      <ClosingSection />
-    </main>
+    <>
+      <main>
+        <SiteHeader />
+        <Hero />
+        <Highlights />
+        <DesignIntroSection />
+        <ValuesSection />
+        <AutonomiaSectionV2 />
+        <ValuesSection />
+        <Configurador />
+        <ClosingSection />
+      </main>
+      <BottomCTABar />
+    </>
   )
 }
