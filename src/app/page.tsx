@@ -19,7 +19,7 @@ export default function Home() {
       <AutonomiaSectionV2 />
       <ValuesSection />
       <Configurador />
-<ClosingSection />
+      <ClosingSection />
     </main>
   )
 }

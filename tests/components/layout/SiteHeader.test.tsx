@@ -1,6 +1,6 @@
 // tests/components/layout/SiteHeader.test.tsx
 import React from 'react'
-import { render, screen, act } from '@testing-library/react'
+import { render, screen, act, fireEvent } from '@testing-library/react'
 import SiteHeader from '@/components/layout/SiteHeader'
 
 describe('SiteHeader', () => {
@@ -57,5 +57,35 @@ describe('SiteHeader', () => {
     const header = screen.getByRole('banner')
     expect(header.className).toContain('fixed')
     expect(header.className).toContain('z-50')
+  })
+
+  it('"Ser Contactado" button triggers scroll to #contacto', () => {
+    const mockScrollIntoView = jest.fn()
+    const mockGetElementById = jest.spyOn(document, 'getElementById').mockReturnValue({
+      scrollIntoView: mockScrollIntoView,
+    } as unknown as HTMLElement)
+
+    render(<SiteHeader />)
+    fireEvent.click(screen.getByRole('button', { name: /Ser Contactado/i }))
+
+    expect(mockGetElementById).toHaveBeenCalledWith('contacto')
+    expect(mockScrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
+
+    mockGetElementById.mockRestore()
+  })
+
+  it('"Reservar" button triggers scroll to #reservar', () => {
+    const mockScrollIntoView = jest.fn()
+    const mockGetElementById = jest.spyOn(document, 'getElementById').mockReturnValue({
+      scrollIntoView: mockScrollIntoView,
+    } as unknown as HTMLElement)
+
+    render(<SiteHeader />)
+    fireEvent.click(screen.getByRole('button', { name: /^Reservar$/i }))
+
+    expect(mockGetElementById).toHaveBeenCalledWith('reservar')
+    expect(mockScrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
+
+    mockGetElementById.mockRestore()
   })
 })
