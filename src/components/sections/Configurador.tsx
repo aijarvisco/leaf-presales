@@ -17,6 +17,7 @@ export default function Configurador() {
   const clipRef     = useRef<HTMLDivElement>(null)  // flex-1 clip area
   const contentRef  = useRef<HTMLDivElement>(null)  // absolute inner content
   const overflowRef = useRef(0)                     // cached overflow height
+  const drawerEventMounted = useRef(false)
 
   function handleVersionSelect(id: string) {
     setSelectedVersionId(id)
@@ -74,6 +75,16 @@ export default function Configurador() {
       window.removeEventListener('resize', measure)
     }
   }, [])
+
+  useEffect(() => {
+    if (!drawerEventMounted.current) {
+      drawerEventMounted.current = true
+      return
+    }
+    window.dispatchEvent(new CustomEvent(
+      isDrawerOpen ? 'reservationdrawer:open' : 'reservationdrawer:close'
+    ))
+  }, [isDrawerOpen])
 
   return (
     <section ref={sectionRef} id="configurador" className="relative bg-white">

@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 // Mock framer-motion (same pattern as Hero.test.tsx)
@@ -117,5 +117,49 @@ describe('Configurador', () => {
     expect(screen.getByTestId('reservation-drawer')).toBeInTheDocument()
     fireEvent.click(screen.getByText('Fechar'))
     expect(screen.queryByTestId('reservation-drawer')).not.toBeInTheDocument()
+  })
+})
+
+describe('Configurador — drawer events', () => {
+  let receivedEvents: string[] = []
+
+  beforeEach(() => {
+    receivedEvents = []
+    const handler = (e: Event) => receivedEvents.push(e.type)
+    window.addEventListener('reservationdrawer:open', handler)
+    window.addEventListener('reservationdrawer:close', handler)
+    ;(window as Window & { __testHandler?: EventListener }).__testHandler = handler
+  })
+
+  afterEach(() => {
+    const h = (window as Window & { __testHandler?: EventListener }).__testHandler
+    if (h) {
+      window.removeEventListener('reservationdrawer:open', h)
+      window.removeEventListener('reservationdrawer:close', h)
+    }
+  })
+
+  it('does not dispatch any event on initial mount', () => {
+    render(<Configurador />)
+    expect(receivedEvents).toHaveLength(0)
+  })
+
+  it('dispatches reservationdrawer:open when the reserve button is clicked', async () => {
+    render(<Configurador />)
+    await act(async () => {
+      fireEvent.click(screen.getAllByRole('button', { name: /reservar agora/i })[0])
+    })
+    expect(receivedEvents).toContain('reservationdrawer:open')
+  })
+
+  it('dispatches reservationdrawer:close when the drawer is closed', async () => {
+    render(<Configurador />)
+    await act(async () => {
+      fireEvent.click(screen.getAllByRole('button', { name: /reservar agora/i })[0])
+    })
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /fechar/i }))
+    })
+    expect(receivedEvents).toContain('reservationdrawer:close')
   })
 })
