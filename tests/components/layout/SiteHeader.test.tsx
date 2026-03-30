@@ -31,6 +31,7 @@ describe('SiteHeader', () => {
 
   // ── Structure ──────────────────────────────────────────────────────────────
 
+  // SiteHeader uses `absolute` (not fixed) — the header scrolls with the page by design
   it('outer wrapper is z-50', () => {
     render(<SiteHeader />)
     const wrapper = screen.getByRole('banner').parentElement!

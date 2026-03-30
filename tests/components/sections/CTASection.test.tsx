@@ -29,12 +29,12 @@ import CTASection from '@/components/sections/CTASection'
 
 describe('CTASection', () => {
   it('renders the payment form', () => {
-    render(<CTASection selectedVersion="visia" />)
+    render(<CTASection selectedVersion="engage" />)
     expect(screen.getByTestId('stripe-payment-form')).toBeInTheDocument()
   })
 
   it('renders the section title', () => {
-    render(<CTASection selectedVersion="visia" />)
+    render(<CTASection selectedVersion="engage" />)
     expect(screen.getByText(/Reserva o teu Leaf hoje/i)).toBeInTheDocument()
   })
 
