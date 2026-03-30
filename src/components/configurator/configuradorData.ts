@@ -1,86 +1,104 @@
-export interface Version {
-  id: string
-  name: string
+export interface BatteryOption {
+  kWh: 52 | 75
   price: number
-  isPopular: boolean
-  features: Record<string, boolean>
+  commercialCode: string
 }
 
-export interface ExteriorColor {
+export interface TrimLevel {
+  id: 'engage' | 'advance' | 'evolve'
+  name: string
+  isPopular: boolean
+  batteryOptions?: BatteryOption[]
+  price?: number
+  highlights: string[]
+  availableColorIds: string[]
+}
+
+export interface ColorOption {
   id: string
   name: string
   hex: string
+  type: 'single-tone' | 'two-tone'
+  colorCode: string
   imageSrc: string
 }
 
-export interface InclusionItem {
-  label: string
-}
-
-export const VERSIONS: Version[] = [
+export const TRIM_LEVELS: TrimLevel[] = [
   {
-    id: 'visia',
-    name: 'Visia',
-    price: 29990,
+    id: 'engage',
+    name: 'Engage',
     isPopular: false,
-    features: {
-      'Jantes de liga leve 16"': true,
-      'Faróis LED': false,
-      'Ecrã 8" touchscreen': true,
-      'Apple CarPlay / Android Auto': true,
-      'Câmara de marcha-atrás': true,
-      'Carregamento rápido CHAdeMO': false,
-      'Teto de abrir': false,
-      'Sistema de som premium': false,
-      'Assistente de faixa': true,
-      'Travagem automática de emergência': true,
-    },
+    batteryOptions: [
+      { kWh: 52, price: 39900, commercialCode: 'LE52KEG20A---' },
+      { kWh: 75, price: 43300, commercialCode: 'LE75KEG20A---' },
+    ],
+    highlights: [
+      'Bateria 52 kWh ou 75 kWh',
+      'Jantes de liga leve 18"',
+      'Ecrã de infotenimento 12,3" + painel de instrumentos 12,3"',
+      'Android Auto & Apple CarPlay',
+      'ProPILOT Assist com Navi-link',
+      'Travagem automática dianteira e traseira',
+      'Bomba de calor + V2L + OBC 11 kW',
+    ],
+    availableColorIds: ['PEARL_WHITE', 'MIDNIGHT_BLACK', 'SKYLINE_GREY', 'FUJI_SUNSET_RED'],
   },
   {
-    id: 'n-connecta',
-    name: 'N-Connecta',
-    price: 34490,
+    id: 'advance',
+    name: 'Advance',
     isPopular: true,
-    features: {
-      'Jantes de liga leve 16"': true,
-      'Faróis LED': true,
-      'Ecrã 8" touchscreen': true,
-      'Apple CarPlay / Android Auto': true,
-      'Câmara de marcha-atrás': true,
-      'Carregamento rápido CHAdeMO': true,
-      'Teto de abrir': false,
-      'Sistema de som premium': false,
-      'Assistente de faixa': true,
-      'Travagem automática de emergência': true,
-    },
+    price: 49100,
+    highlights: [
+      'Tejadilho panorâmico escurecido',
+      'Head-up display 8"',
+      'Ecrã de infotenimento 14,3" + painel 14,3"',
+      'Bancos e volante aquecidos',
+      'Carregador wireless 15W',
+      'Serviços Google integrados (Maps, Assistente, Play)',
+      'Porta da bagageira elétrica',
+    ],
+    availableColorIds: [
+      'PEARL_WHITE_BLACK_ROOF',
+      'CERAMIC_GREY_BLACK_ROOF',
+      'SKYLINE_GREY_BLACK_ROOF',
+      'FUJI_SUNSET_RED_BLACK_ROOF',
+      'UNIVERSAL_BLUE_BLACK_ROOF',
+      'TURQUOISE_BLACK_ROOF',
+    ],
   },
   {
-    id: 'tekna',
-    name: 'Tekna',
-    price: 38990,
+    id: 'evolve',
+    name: 'Evolve',
     isPopular: false,
-    features: {
-      'Jantes de liga leve 16"': true,
-      'Faróis LED': true,
-      'Ecrã 8" touchscreen': true,
-      'Apple CarPlay / Android Auto': true,
-      'Câmara de marcha-atrás': true,
-      'Carregamento rápido CHAdeMO': true,
-      'Teto de abrir': true,
-      'Sistema de som premium': true,
-      'Assistente de faixa': true,
-      'Travagem automática de emergência': true,
-    },
+    price: 51600,
+    highlights: [
+      'Jantes de liga leve 19"',
+      'Banco de massagem do condutor',
+      'Bancos elétricos de 8 regulações (condutor e passageiro)',
+      'Sistema BOSE com subwoofer e 9 altifalantes',
+    ],
+    availableColorIds: [
+      'PEARL_WHITE_BLACK_ROOF',
+      'CERAMIC_GREY_BLACK_ROOF',
+      'SKYLINE_GREY_BLACK_ROOF',
+      'FUJI_SUNSET_RED_BLACK_ROOF',
+      'UNIVERSAL_BLUE_BLACK_ROOF',
+      'TURQUOISE_BLACK_ROOF',
+    ],
   },
 ]
 
-export const EXTERIOR_COLORS: ExteriorColor[] = [
-  { id: 'TURQUOISE',       name: 'Turquoise',       hex: '#4ABFBF', imageSrc: '/images/exterior-colors/TURQUOISE.png' },
-  { id: 'FUJI SUNSET RED', name: 'Fuji Sunset Red', hex: '#C0392B', imageSrc: '/images/exterior-colors/FUJI SUNSET RED.png' },
-  { id: 'PEARL WHITE',     name: 'Pearl White',     hex: '#F5F5F0', imageSrc: '/images/exterior-colors/PEARL WHITE.png' },
-  { id: 'UNIVERSAL BLUE',  name: 'Universal Blue',  hex: '#2C4A8E', imageSrc: '/images/exterior-colors/UNIVERSAL BLUE.png' },
-  { id: 'CERAMIC GREY',    name: 'Ceramic Grey',    hex: '#A8A8A0', imageSrc: '/images/exterior-colors/CERAMIC GREY.png' },
-  { id: 'SKYLINE GREY',    name: 'Skyline Grey',    hex: '#6B6B6B', imageSrc: '/images/exterior-colors/SKYLINE GREY.png' },
+export const COLOR_OPTIONS: ColorOption[] = [
+  { id: 'PEARL_WHITE',                name: 'Pearl White',                hex: '#F5F5F0', type: 'single-tone', colorCode: 'QBE', imageSrc: '/images/exterior-colors/PEARL_WHITE.png' },
+  { id: 'MIDNIGHT_BLACK',             name: 'Midnight Black',             hex: '#1A1A1A', type: 'single-tone', colorCode: 'GAT', imageSrc: '/images/exterior-colors/MIDNIGHT_BLACK.png' },
+  { id: 'SKYLINE_GREY',               name: 'Skyline Grey',               hex: '#6B6B6B', type: 'single-tone', colorCode: 'KAD', imageSrc: '/images/exterior-colors/SKYLINE_GREY.png' },
+  { id: 'FUJI_SUNSET_RED',            name: 'Fuji Sunset Red',            hex: '#C0392B', type: 'single-tone', colorCode: 'NBV', imageSrc: '/images/exterior-colors/FUJI_SUNSET_RED.png' },
+  { id: 'PEARL_WHITE_BLACK_ROOF',     name: 'Pearl White + Black Roof',   hex: '#F5F5F0', type: 'two-tone',   colorCode: 'XKJ', imageSrc: '/images/exterior-colors/PEARL_WHITE_BLACK_ROOF.png' },
+  { id: 'CERAMIC_GREY_BLACK_ROOF',    name: 'Ceramic Grey + Black Roof',  hex: '#A8A8A0', type: 'two-tone',   colorCode: 'XEX', imageSrc: '/images/exterior-colors/CERAMIC_GREY_BLACK_ROOF.png' },
+  { id: 'SKYLINE_GREY_BLACK_ROOF',    name: 'Skyline Grey + Black Roof',  hex: '#6B6B6B', type: 'two-tone',   colorCode: 'GAQ', imageSrc: '/images/exterior-colors/SKYLINE_GREY_BLACK_ROOF.png' },
+  { id: 'FUJI_SUNSET_RED_BLACK_ROOF', name: 'Fuji Sunset Red + Black Roof', hex: '#C0392B', type: 'two-tone', colorCode: 'YAU', imageSrc: '/images/exterior-colors/FUJI_SUNSET_RED_BLACK_ROOF.png' },
+  { id: 'UNIVERSAL_BLUE_BLACK_ROOF',  name: 'Universal Blue + Black Roof', hex: '#2C4A8E', type: 'two-tone', colorCode: 'XHQ', imageSrc: '/images/exterior-colors/UNIVERSAL_BLUE_BLACK_ROOF.png' },
+  { id: 'TURQUOISE_BLACK_ROOF',       name: 'Turquoise + Black Roof',     hex: '#4ABFBF', type: 'two-tone',   colorCode: 'YBR', imageSrc: '/images/exterior-colors/TURQUOISE_BLACK_ROOF.png' },
 ]
 
 export const INTERIOR_IMAGES: string[] = [
@@ -93,27 +111,10 @@ export const INTERIOR_IMAGES: string[] = [
   '/images/889888a-F275-25TDIEULHD_PZ1D_20_LO.jpg',
 ]
 
-/**
- * Returns the features to display in the Inclusions section for a given version.
- * - Visia: all features where value === true
- * - N-Connecta: only features that are true in N-Connecta but false in Visia (delta)
- * - Tekna: only features that are true in Tekna but false in N-Connecta (delta)
- * Returns [] for unknown version ids.
- */
-export function getVersionInclusions(versionId: string): InclusionItem[] {
-  const index = VERSIONS.findIndex(v => v.id === versionId)
-  if (index === -1) return []
-
-  const version = VERSIONS[index]
-
-  if (index === 0) {
-    return Object.entries(version.features)
-      .filter(([, value]) => value)
-      .map(([label]) => ({ label }))
+export function getEffectivePrice(trim: TrimLevel, batteryKwh?: 52 | 75): number {
+  if (trim.batteryOptions) {
+    const opt = trim.batteryOptions.find(b => b.kWh === (batteryKwh ?? 75))
+    return opt?.price ?? trim.batteryOptions[trim.batteryOptions.length - 1].price
   }
-
-  const previous = VERSIONS[index - 1]
-  return Object.entries(version.features)
-    .filter(([label, value]) => value && !previous.features[label])
-    .map(([label]) => ({ label }))
+  return trim.price!
 }
