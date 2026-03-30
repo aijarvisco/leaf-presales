@@ -55,6 +55,13 @@ export default function OptionsPanel({
               }`}
             >
               <span className="font-semibold text-sm">{t.name}</span>
+              {t.isPopular && (
+                <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
+                  t.id === selectedTrimId ? 'bg-white/20 text-white' : 'bg-[#0A0A0A] text-white'
+                }`}>
+                  Popular
+                </span>
+              )}
               <span className={`text-xs ${t.id === selectedTrimId ? 'text-white/60' : 'text-[#86868b]'}`}>
                 €{getEffectivePrice(t, t.id === 'engage' ? selectedBatteryKwh : undefined).toLocaleString('pt-PT')}
               </span>

@@ -26,6 +26,11 @@ describe('OptionsPanel — trim selector', () => {
     expect(screen.getByRole('tab', { name: /engage/i })).toHaveAttribute('aria-selected', 'false')
   })
 
+  it('shows Popular badge on Advance trim', () => {
+    render(<OptionsPanel {...defaultProps} />)
+    expect(screen.getByText('Popular')).toBeInTheDocument()
+  })
+
   it('calls onSelectTrim with the correct id when a trim is clicked', () => {
     const onSelectTrim = jest.fn()
     render(<OptionsPanel {...defaultProps} onSelectTrim={onSelectTrim} />)
