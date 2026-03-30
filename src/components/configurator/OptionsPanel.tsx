@@ -1,21 +1,27 @@
 'use client'
-import { VERSIONS, EXTERIOR_COLORS, getVersionInclusions } from './configuradorData'
+import { TRIM_LEVELS, COLOR_OPTIONS, getEffectivePrice } from './configuradorData'
 
 interface OptionsPanelProps {
-  selectedVersionId: string
+  selectedTrimId: string
   selectedColorId: string
-  onSelectVersion: (id: string) => void
+  selectedBatteryKwh: 52 | 75
+  onSelectTrim: (id: string) => void
   onSelectColor: (id: string) => void
+  onSelectBattery: (kWh: 52 | 75) => void
 }
 
 export default function OptionsPanel({
-  selectedVersionId,
+  selectedTrimId,
   selectedColorId,
-  onSelectVersion,
+  selectedBatteryKwh,
+  onSelectTrim,
   onSelectColor,
+  onSelectBattery,
 }: OptionsPanelProps) {
-  const inclusions = getVersionInclusions(selectedVersionId)
-  const prevVersionName = VERSIONS[VERSIONS.findIndex(v => v.id === selectedVersionId) - 1]?.name
+  const activeTrim    = TRIM_LEVELS.find(t => t.id === selectedTrimId) ?? TRIM_LEVELS[0]
+  const availableColors = COLOR_OPTIONS.filter(c => activeTrim.availableColorIds.includes(c.id))
+  const trimIndex     = TRIM_LEVELS.findIndex(t => t.id === selectedTrimId)
+  const prevTrimName  = trimIndex > 0 ? TRIM_LEVELS[trimIndex - 1].name : null
 
   return (
     <div className="px-8 py-12 space-y-10">
@@ -30,37 +36,58 @@ export default function OptionsPanel({
         </h2>
       </div>
 
-      {/* 1. Version selector */}
+      {/* 1. Trim selector */}
       <div>
         <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-3">
           Versões
         </p>
-        <div
-          role="tablist"
-          className="grid grid-cols-3 gap-2"
-        >
-          {VERSIONS.map((v) => (
+        <div role="tablist" className="grid grid-cols-3 gap-2">
+          {TRIM_LEVELS.map((t) => (
             <button
-              key={v.id}
+              key={t.id}
               role="tab"
-              aria-selected={v.id === selectedVersionId}
-              onClick={() => onSelectVersion(v.id)}
+              aria-selected={t.id === selectedTrimId}
+              onClick={() => onSelectTrim(t.id)}
               className={`flex flex-col items-center gap-1 rounded-xl py-3 px-2 text-center transition-colors ${
-                v.id === selectedVersionId
+                t.id === selectedTrimId
                   ? 'bg-[#0A0A0A] text-white'
                   : 'bg-gray-100 text-[#0A0A0A] hover:bg-gray-200'
               }`}
             >
-              <span className="font-semibold text-sm">{v.name}</span>
-              <span className={`text-xs ${v.id === selectedVersionId ? 'text-white/60' : 'text-[#86868b]'}`}>
-                €{v.price.toLocaleString('pt-PT')}
+              <span className="font-semibold text-sm">{t.name}</span>
+              <span className={`text-xs ${t.id === selectedTrimId ? 'text-white/60' : 'text-[#86868b]'}`}>
+                €{getEffectivePrice(t, t.id === 'engage' ? selectedBatteryKwh : undefined).toLocaleString('pt-PT')}
               </span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* 2. Exterior colour */}
+      {/* 2. Battery selector — Engage only */}
+      {activeTrim.id === 'engage' && activeTrim.batteryOptions && (
+        <div>
+          <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-3">
+            Bateria
+          </p>
+          <div className="flex gap-2">
+            {activeTrim.batteryOptions.map((opt) => (
+              <button
+                key={opt.kWh}
+                onClick={() => onSelectBattery(opt.kWh)}
+                className={`flex-1 py-2 px-4 rounded-full text-sm font-semibold transition-colors ${
+                  opt.kWh === selectedBatteryKwh
+                    ? 'bg-[#0A0A0A] text-white'
+                    : 'bg-gray-100 text-[#0A0A0A] hover:bg-gray-200'
+                }`}
+              >
+                {opt.kWh} kWh
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 3. Exterior colour */}
       <div>
         <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-3">
           Exterior
@@ -70,7 +97,7 @@ export default function OptionsPanel({
           aria-label="Cor exterior"
           className="space-y-1"
         >
-          {EXTERIOR_COLORS.map((color) => (
+          {availableColors.map((color) => (
             <button
               key={color.id}
               role="radio"
@@ -82,7 +109,6 @@ export default function OptionsPanel({
                   : 'bg-gray-50 text-[#0A0A0A] hover:bg-gray-100'
               }`}
             >
-              {/* Swatch */}
               <span
                 className="w-4 h-4 rounded-full flex-shrink-0 border border-black/10"
                 style={{ backgroundColor: color.hex }}
@@ -93,8 +119,7 @@ export default function OptionsPanel({
         </div>
       </div>
 
-      {/* 3. Interior colour */}
-      {/* Hardcoded: only one interior option exists. When INTERIOR_COLORS is added to configuradorData, this should be data-driven. */}
+      {/* 4. Interior colour — hardcoded, single option */}
       <div>
         <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-3">
           Interior
@@ -105,27 +130,25 @@ export default function OptionsPanel({
         </div>
       </div>
 
-      {/* 4. Inclusions */}
+      {/* 5. Highlights */}
       <div>
         <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-3">
           Incluído
         </p>
-        {prevVersionName && (
+        {prevTrimName && (
           <p className="text-sm text-[#86868b] mb-3">
-            Tudo da versão {prevVersionName} +
+            Tudo da versão {prevTrimName} +
           </p>
         )}
         <ul className="space-y-2">
-          {inclusions.map((item) => (
-            <li key={item.label} className="flex items-center gap-2 text-sm text-[#0A0A0A]">
+          {activeTrim.highlights.map((item) => (
+            <li key={item} className="flex items-center gap-2 text-sm text-[#0A0A0A]">
               <span className="text-green-600 font-semibold">✓</span>
-              {item.label}
+              {item}
             </li>
           ))}
         </ul>
       </div>
-
-      {/* 5. Features — TODO: v2 */}
 
     </div>
   )
