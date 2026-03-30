@@ -73,6 +73,7 @@ export default function OptionsPanel({
             {activeTrim.batteryOptions.map((opt) => (
               <button
                 key={opt.kWh}
+                aria-pressed={opt.kWh === selectedBatteryKwh}
                 onClick={() => onSelectBattery(opt.kWh)}
                 className={`flex-1 py-2 px-4 rounded-full text-sm font-semibold transition-colors ${
                   opt.kWh === selectedBatteryKwh
