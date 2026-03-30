@@ -66,14 +66,14 @@ describe('Configurador', () => {
 
   it('renders all 3 version buttons', () => {
     render(<Configurador />)
-    expect(screen.getByText('Visia')).toBeInTheDocument()
-    expect(screen.getAllByText('N-Connecta').length).toBeGreaterThan(0)
-    expect(screen.getByText('Tekna')).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: /engage/i })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: /advance/i })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: /evolve/i })).toBeInTheDocument()
   })
 
-  it('renders the sticky bar with default version N-Connecta', () => {
+  it('renders the CTA bar with default version Engage', () => {
     render(<Configurador />)
-    expect(screen.getAllByText('N-Connecta').length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/engage/i).length).toBeGreaterThan(0)
   })
 
   it('renders the Reservar agora CTA button', () => {
@@ -97,8 +97,7 @@ describe('Configurador', () => {
     render(<Configurador />)
     fireEvent.click(screen.getByRole('button', { name: /vista 360/i }))
     expect(screen.getByTestId('canvas-360-viewer')).toBeInTheDocument()
-    // Click any non-selected color (default is Turquoise, so click Fuji Sunset Red)
-    fireEvent.click(screen.getByRole('radio', { name: /fuji sunset red/i }))
+    fireEvent.click(screen.getByRole('radio', { name: /midnight black/i }))
     expect(screen.queryByTestId('canvas-360-viewer')).not.toBeInTheDocument()
   })
 

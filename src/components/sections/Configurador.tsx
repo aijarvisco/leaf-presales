@@ -3,23 +3,27 @@ import { useState, useEffect, useRef } from 'react'
 import ImagePanel from '@/components/configurator/ImagePanel'
 import OptionsPanel from '@/components/configurator/OptionsPanel'
 import ReservationDrawer from '@/components/ui/ReservationDrawer'
-import { VERSIONS, EXTERIOR_COLORS } from '@/components/configurator/configuradorData'
+import { TRIM_LEVELS, COLOR_OPTIONS, getEffectivePrice } from '@/components/configurator/configuradorData'
 
 export default function Configurador() {
-  const [selectedVersionId, setSelectedVersionId] = useState('visia')
-  const [selectedColorId, setSelectedColorId] = useState('TURQUOISE')
+  const [selectedTrimId, setSelectedTrimId] = useState<'engage' | 'advance' | 'evolve'>('engage')
+  const [selectedBatteryKwh, setSelectedBatteryKwh] = useState<52 | 75>(75)
+  const [selectedColorId, setSelectedColorId] = useState('PEARL_WHITE')
   const [imageView, setImageView] = useState<'exterior' | 'interior' | '360'>('exterior')
   const [slideIndex, setSlideIndex] = useState(0)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
-  // Scroll-pin refs — all mutations go straight to the DOM, no re-renders needed
   const sectionRef  = useRef<HTMLElement>(null)
-  const clipRef     = useRef<HTMLDivElement>(null)  // flex-1 clip area
-  const contentRef  = useRef<HTMLDivElement>(null)  // absolute inner content
-  const overflowRef = useRef(0)                     // cached overflow height
+  const clipRef     = useRef<HTMLDivElement>(null)
+  const contentRef  = useRef<HTMLDivElement>(null)
+  const overflowRef = useRef(0)
 
-  function handleVersionSelect(id: string) {
-    setSelectedVersionId(id)
+  function handleTrimSelect(id: string) {
+    const newTrim = TRIM_LEVELS.find(t => t.id === id)
+    if (!newTrim) return
+    setSelectedTrimId(id as 'engage' | 'advance' | 'evolve')
+    setSelectedBatteryKwh(75)
+    setSelectedColorId(newTrim.availableColorIds[0])
   }
 
   function handleColorSelect(id: string) {
@@ -27,8 +31,13 @@ export default function Configurador() {
     setSelectedColorId(id)
   }
 
-  const activeVersion = VERSIONS.find(v => v.id === selectedVersionId) ?? VERSIONS[0]
-  const activeColor   = EXTERIOR_COLORS.find(c => c.id === selectedColorId) ?? EXTERIOR_COLORS[0]
+  function handleBatterySelect(kWh: 52 | 75) {
+    setSelectedBatteryKwh(kWh)
+  }
+
+  const activeTrim   = TRIM_LEVELS.find(t => t.id === selectedTrimId) ?? TRIM_LEVELS[0]
+  const activeColor  = COLOR_OPTIONS.find(c => c.id === selectedColorId) ?? COLOR_OPTIONS[0]
+  const effectivePrice = getEffectivePrice(activeTrim, selectedBatteryKwh)
 
   function handleReserve() {
     setIsDrawerOpen(true)
@@ -42,7 +51,6 @@ export default function Configurador() {
 
     function measure() {
       if (window.innerWidth < 768) {
-        // Mobile: reset to natural layout
         section!.style.height = ''
         content!.style.transform = ''
         overflowRef.current = 0
@@ -51,7 +59,6 @@ export default function Configurador() {
       const overflow = Math.max(0, content!.scrollHeight - clip!.clientHeight)
       overflowRef.current = overflow
       section!.style.height = `calc(100vh + ${overflow}px)`
-      // Re-sync scroll position after resize
       onScroll()
     }
 
@@ -84,10 +91,8 @@ export default function Configurador() {
   return (
     <section ref={sectionRef} id="configurador" className="relative bg-white">
 
-      {/* Viewport frame: sticky on desktop, natural flow on mobile */}
       <div className="overflow-hidden flex flex-col md:flex-row md:sticky md:top-0 md:h-screen">
 
-        {/* Left — image panel */}
         <div className="w-full md:w-[65%] h-[50vh] md:h-full">
           <ImagePanel
             exteriorImageSrc={activeColor.imageSrc}
@@ -98,29 +103,28 @@ export default function Configurador() {
           />
         </div>
 
-        {/* Right — clip area + CTA */}
         <div className="w-full md:w-[35%] md:h-full flex flex-col">
 
-          {/* Clip window: on desktop, content scrolls here via JS translateY */}
           <div ref={clipRef} className="flex-1 overflow-hidden relative">
             <div ref={contentRef} className="md:absolute md:top-0 md:left-0 md:right-0 md:will-change-transform">
               <OptionsPanel
-                selectedVersionId={selectedVersionId}
+                selectedTrimId={selectedTrimId}
                 selectedColorId={selectedColorId}
-                onSelectVersion={handleVersionSelect}
+                selectedBatteryKwh={selectedBatteryKwh}
+                onSelectTrim={handleTrimSelect}
                 onSelectColor={handleColorSelect}
+                onSelectBattery={handleBatterySelect}
               />
             </div>
           </div>
 
-          {/* CTA bar — always pinned at the bottom of the right column */}
           <div className="border-t border-gray-100 bg-white px-8 py-5">
             {/* Desktop */}
             <div className="hidden md:flex items-center justify-between">
               <div className="flex flex-col">
-                <span className="text-xs text-[#86868b]">Nissan Leaf {activeVersion.name}</span>
+                <span className="text-xs text-[#86868b]">Nissan Leaf {activeTrim.name}</span>
                 <span className="text-lg font-semibold text-[#0A0A0A]">
-                  €{activeVersion.price.toLocaleString('pt-PT')}
+                  €{effectivePrice.toLocaleString('pt-PT')}
                 </span>
               </div>
               <button
@@ -134,8 +138,8 @@ export default function Configurador() {
             {/* Mobile */}
             <div className="flex md:hidden flex-col gap-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-[#0A0A0A]">{activeVersion.name}</span>
-                <span className="text-sm text-[#86868b]">€{activeVersion.price.toLocaleString('pt-PT')}</span>
+                <span className="text-sm font-semibold text-[#0A0A0A]">{activeTrim.name}</span>
+                <span className="text-sm text-[#86868b]">€{effectivePrice.toLocaleString('pt-PT')}</span>
               </div>
               <button
                 onClick={handleReserve}
@@ -152,12 +156,12 @@ export default function Configurador() {
       <ReservationDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        versionId={activeVersion.id}
-        versionName={activeVersion.name}
+        versionId={activeTrim.id}
+        versionName={activeTrim.name}
         colorName={activeColor.name}
         colorHex={activeColor.hex}
         colorImageSrc={activeColor.imageSrc}
-        price={activeVersion.price}
+        price={effectivePrice}
       />
     </section>
   )
