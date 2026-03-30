@@ -113,8 +113,11 @@ export const INTERIOR_IMAGES: string[] = [
 
 export function getEffectivePrice(trim: TrimLevel, batteryKwh?: 52 | 75): number {
   if (trim.batteryOptions) {
-    const opt = trim.batteryOptions.find(b => b.kWh === (batteryKwh ?? 75))
-    return opt?.price ?? trim.batteryOptions[trim.batteryOptions.length - 1].price
+    const kWh = batteryKwh ?? 75
+    const opt = trim.batteryOptions.find(b => b.kWh === kWh)
+    if (!opt) throw new Error(`No battery option for ${kWh} kWh in trim "${trim.id}"`)
+    return opt.price
   }
-  return trim.price!
+  if (trim.price == null) throw new Error(`TrimLevel "${trim.id}" has no price and no batteryOptions`)
+  return trim.price
 }

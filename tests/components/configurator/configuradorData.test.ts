@@ -113,4 +113,8 @@ describe('getEffectivePrice', () => {
   it('returns 51600 for Evolve', () => {
     expect(getEffectivePrice(evolve)).toBe(51600)
   })
+
+  it('throws when an unknown kWh value is passed for Engage', () => {
+    expect(() => getEffectivePrice(engage, 40 as 52 | 75)).toThrow('No battery option for 40 kWh')
+  })
 })
