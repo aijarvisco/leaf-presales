@@ -1,12 +1,22 @@
 'use client'
 import { useState, useEffect } from 'react'
 
+const HEADER_BOTTOM = 90 // top-6 (24px) + header height (64px) + small buffer
+
 export default function BottomCTABar() {
+  const [pastHeader, setPastHeader] = useState(false)
   const [configuradorVisible, setConfiguradorVisible] = useState(false)
   const [closingVisible, setClosingVisible] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
 
-  const hidden = configuradorVisible || closingVisible || drawerOpen
+  const hidden = !pastHeader || configuradorVisible || closingVisible || drawerOpen
+
+  // Show after scrolling past the header
+  useEffect(() => {
+    const onScroll = () => setPastHeader(window.scrollY > HEADER_BOTTOM)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   // IntersectionObserver for #configurador and #closing
   useEffect(() => {
@@ -52,19 +62,19 @@ export default function BottomCTABar() {
 
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 z-30 bg-[#1C1C1E] border-t border-white/10 pb-[env(safe-area-inset-bottom,0px)] transition-transform duration-300 ease-in-out motion-reduce:transition-none ${hidden ? 'translate-y-full' : ''}`}
+      className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-30 transition-all duration-300 ease-in-out motion-reduce:transition-none ${hidden ? 'translate-y-[calc(100%+2rem)] opacity-0 pointer-events-none' : 'opacity-100'}`}
       aria-hidden={hidden ? 'true' : undefined}
     >
-      <div className="h-14 flex items-center justify-between px-6 max-w-screen-2xl mx-auto">
-        <div className="flex items-center gap-2">
-          <span className="text-white font-semibold text-sm">Nissan Leaf</span>
-          <span className="text-white/50 text-sm">/ Entregas previstas em Maio</span>
+      <div className="flex items-center gap-24 bg-[#3A3A3C]/95 backdrop-blur-md rounded-full pl-7 pr-2.5 py-2.5 shadow-2xl">
+        <div className="flex items-baseline gap-3">
+          <span className="text-white font-semibold text-base whitespace-nowrap">Nissan Leaf</span>
+          <span className="text-white/50 text-sm whitespace-nowrap">Desde 29.900€</span>
         </div>
         <button
           onClick={scrollToConfigurador}
           tabIndex={hidden ? -1 : undefined}
           aria-label="Ir para o configurador"
-          className="bg-[#E8372F] text-white font-semibold text-sm px-5 py-2 rounded-full hover:bg-[#D42F27] transition-colors cursor-pointer"
+          className="bg-[#E8372F] text-white font-semibold text-base px-6 py-2.5 rounded-full hover:bg-[#D42F27] transition-colors cursor-pointer whitespace-nowrap"
         >
           Configurar
         </button>

@@ -42,3 +42,7 @@ next-env.d.ts
 
 # worktrees
 .worktrees/
+
+# large asset folders (too big for git)
+public/images/360/
+public/images/deprecated_images/

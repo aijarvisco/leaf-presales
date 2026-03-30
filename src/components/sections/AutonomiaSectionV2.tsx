@@ -2,6 +2,8 @@
 import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
 import Image from 'next/image'
+import Modal from '@/components/ui/Modal'
+import SavingsCalculator from '@/components/forms/SavingsCalculator'
 
 const STATS = [
   { qualifier: 'Até', number: '75',  unit: 'kWh',    descriptor: 'Capacidade da bateria' },
@@ -22,6 +24,7 @@ const statItemVariants = {
 export default function AutonomiaSectionV2() {
   const containerRef = useRef<HTMLElement>(null)
   const [statsVisible, setStatsVisible] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -32,7 +35,7 @@ export default function AutonomiaSectionV2() {
   const statsOpacity = useTransform(scrollYProgress, [0.45, 0.65], [0, 1])
 
   useMotionValueEvent(statsOpacity, 'change', (v) => {
-    if (v > 0.05) setStatsVisible(true)
+    setStatsVisible(v > 0.05)
   })
 
   return (
@@ -65,6 +68,31 @@ export default function AutonomiaSectionV2() {
           >
             Uma bateria que vai onde tu vais.
           </h2>
+
+          {/* EV Savings Calculator button — appears with stats */}
+          <motion.button
+            className="mt-6 flex items-center gap-3 rounded-full pl-5 pr-1.5 py-1.5 cursor-pointer select-none"
+            style={{ backgroundColor: '#1c1c1e' }}
+            variants={statItemVariants}
+            initial="hidden"
+            animate={statsVisible ? 'visible' : 'hidden'}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={() => setModalOpen(true)}
+          >
+            <span className="text-white font-medium" style={{ fontSize: '17px', letterSpacing: '-0.01em' }}>
+              Calculadora de Poupança EV
+            </span>
+            <span
+              className="flex items-center justify-center rounded-full shrink-0"
+              style={{ width: 32, height: 32, backgroundColor: '#E8453C' }}
+              aria-hidden="true"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7 2v10M2 7h10" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </span>
+          </motion.button>
         </motion.div>
 
         {/* Stats panel */}
@@ -100,6 +128,13 @@ export default function AutonomiaSectionV2() {
         </motion.div>
 
       </div>
+
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <div>
+          <h3 className="text-2xl font-bold mb-4">A tua poupança</h3>
+          <SavingsCalculator />
+        </div>
+      </Modal>
     </section>
   )
 }
