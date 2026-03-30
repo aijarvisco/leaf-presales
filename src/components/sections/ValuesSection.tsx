@@ -2,7 +2,7 @@
 'use client'
 
 import { useState, useRef, useEffect, useLayoutEffect, useCallback } from 'react'
-import { motion, useMotionValue, animate } from 'framer-motion'
+import { motion, useMotionValue, animate, type ValueAnimationTransition } from 'framer-motion'
 import ValuesCard from '@/components/ui/ValuesCard'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -40,7 +40,7 @@ const VALUES = [
   },
 ]
 
-const animConfig = { type: 'tween' as const, duration: 0.55, ease: 'easeInOut' }
+const animConfig: ValueAnimationTransition<number> = { type: 'tween', duration: 0.55, ease: 'easeInOut' }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 

@@ -24,6 +24,7 @@ const defaultProps = {
   versionId: 'n-connecta',
   versionName: 'N-Connecta',
   colorName: 'Turquoise',
+  colorHex: '#4ABFBF',
   colorImageSrc: '/images/exterior-colors/TURQUOISE.png',
   price: 34490,
 }
