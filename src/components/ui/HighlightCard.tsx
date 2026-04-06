@@ -26,26 +26,34 @@ export default function HighlightCard({
   textPosition,
 }: HighlightCardProps) {
   return (
-    <div className="w-full aspect-[8/5] rounded-2xl overflow-hidden relative select-none">
-      {/* Full-bleed image */}
-      <Image
-        src={imageSrc}
-        alt={imageAlt}
-        fill
-        className="object-cover pointer-events-none"
-        draggable={false}
-      />
+    <div className="w-full flex flex-col select-none">
+      {/* Image container */}
+      <div className="w-full aspect-[8/5] rounded-2xl overflow-hidden relative">
+        <Image
+          src={imageSrc}
+          alt={imageAlt}
+          fill
+          className="object-cover pointer-events-none"
+          draggable={false}
+        />
 
-      {/* Gradient overlay based on text position */}
-      <div className={`absolute inset-0 pointer-events-none ${overlayClasses[textPosition]}`} />
+        {/* Gradient overlay */}
+        <div className={`absolute inset-0 pointer-events-none ${overlayClasses[textPosition]}`} />
 
-      {/* Text overlay */}
-      <div className={`${positionClasses[textPosition]} max-w-[60%] lg:max-w-[50%] pointer-events-none`}>
-        <p className="text-base md:text-xl lg:text-2xl font-medium text-white leading-snug tracking-[-0.02em]">
+        {/* Text overlay — desktop only */}
+        <div className={`hidden md:block ${positionClasses[textPosition]} max-w-[60%] lg:max-w-[50%] pointer-events-none`}>
+          <p className="text-base md:text-xl lg:text-2xl font-medium text-white leading-snug tracking-[-0.02em]">
+            {description}
+          </p>
+        </div>
+      </div>
+
+      {/* Text below image — mobile only */}
+      <div className="block md:hidden mt-3 px-1">
+        <p className="text-base font-medium text-[#0A0A0A] leading-snug tracking-[-0.02em]">
           {description}
         </p>
       </div>
-
     </div>
   )
 }
