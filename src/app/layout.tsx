@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import CookieBanner from '@/components/CookieBanner'
@@ -16,6 +16,12 @@ const nissanBrand = localFont({
 export const metadata: Metadata = {
   title: 'Nissan Leaf — Reserve o seu',
   description: 'Reserve o novo Nissan Leaf. 100% elétrico. Design que impressiona.',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

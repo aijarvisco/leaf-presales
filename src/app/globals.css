@@ -19,6 +19,11 @@
 }
 
 @layer base {
+  :root {
+    --text-display: clamp(2rem, 7vw, 5rem);
+    --text-h2: clamp(1.75rem, 5vw, 3.5rem);
+  }
+
   body {
     @apply bg-background text-text-primary antialiased m-0 p-0;
   }
