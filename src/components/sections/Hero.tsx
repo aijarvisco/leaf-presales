@@ -95,7 +95,7 @@ export default function Hero() {
           {/* Headline */}
           <div className="block overflow-hidden mb-6">
             <motion.h1
-              className="font-medium text-5xl md:text-6xl lg:text-7xl text-white leading-none tracking-[-0.07em]"
+              className="font-medium text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white leading-none tracking-[-0.07em]"
               {...clipReveal(0.2)}
             >
               Espaço para todas as suas aventuras

@@ -36,4 +36,10 @@ describe('Hero', () => {
     render(<Hero />)
     expect(screen.getByText('Nissan Leaf')).toBeInTheDocument()
   })
+
+  it('h1 has mobile-first text size class (text-3xl)', () => {
+    render(<Hero />)
+    const heading = screen.getByRole('heading', { level: 1 })
+    expect(heading.className).toContain('text-3xl')
+  })
 })
