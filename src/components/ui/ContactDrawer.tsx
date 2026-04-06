@@ -66,7 +66,7 @@ export default function ContactDrawer({ isOpen, onClose }: ContactDrawerProps) {
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto px-6 py-6">
+        <div className="flex-1 overflow-y-auto px-6 py-6 pb-[env(safe-area-inset-bottom)]">
           <ContactForm />
         </div>
       </div>

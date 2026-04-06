@@ -113,4 +113,14 @@ describe('ReservationDrawer', () => {
     fireEvent.keyDown(window, { key: 'Escape' })
     expect(onClose).not.toHaveBeenCalled()
   })
+
+  it('scroll body has safe-area bottom padding', async () => {
+    await act(async () => {
+      render(<ReservationDrawer {...defaultProps} isOpen />)
+    })
+    // The scrollable body div has pb-[env(safe-area-inset-bottom)]
+    const bodies = document.querySelectorAll('[class*="overflow-y-auto"]')
+    const body = Array.from(bodies).find(el => el.className.includes('safe-area-inset-bottom'))
+    expect(body).toBeInTheDocument()
+  })
 })
