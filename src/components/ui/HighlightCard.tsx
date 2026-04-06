@@ -38,7 +38,7 @@ export default function HighlightCard({
         />
 
         {/* Gradient overlay */}
-        <div className={`absolute inset-0 pointer-events-none ${overlayClasses[textPosition]}`} />
+        <div className={`absolute inset-0 pointer-events-none hidden md:block ${overlayClasses[textPosition]}`} />
 
         {/* Text overlay — desktop only */}
         <div className={`hidden md:block ${positionClasses[textPosition]} max-w-[60%] lg:max-w-[50%] pointer-events-none`}>

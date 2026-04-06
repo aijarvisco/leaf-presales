@@ -33,14 +33,19 @@ describe('HighlightCard', () => {
 
   it('renders a desktop overlay that is hidden on mobile', () => {
     const { container } = render(<HighlightCard {...defaultProps} />)
-    // Desktop overlay has both 'hidden' and 'md:block' classes
-    const desktopOverlay = container.querySelector('.hidden.md\\:block')
-    expect(desktopOverlay).toBeInTheDocument()
+    // There are two hidden md:block elements: gradient div + text overlay div.
+    // We find them all and verify at least one exists.
+    const desktopElements = container.querySelectorAll('.hidden.md\\:block')
+    expect(desktopElements.length).toBeGreaterThanOrEqual(1)
   })
 
   it('desktop overlay contains the description', () => {
     const { container } = render(<HighlightCard {...defaultProps} />)
-    const desktopOverlay = container.querySelector('.hidden.md\\:block')
-    expect(desktopOverlay).toHaveTextContent('Test description text')
+    // The text overlay is a div with both hidden md:block AND the absolute position class.
+    // It's the second hidden md:block element (after the gradient).
+    const desktopOverlays = container.querySelectorAll('.hidden.md\\:block')
+    const textOverlay = Array.from(desktopOverlays).find(el => el.textContent?.trim() !== '')
+    expect(textOverlay).toBeInTheDocument()
+    expect(textOverlay).toHaveTextContent('Test description text')
   })
 })
