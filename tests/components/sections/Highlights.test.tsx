@@ -44,4 +44,10 @@ describe('Highlights', () => {
     render(<Highlights />)
     expect(screen.getAllByRole('img').length).toBeGreaterThanOrEqual(4)
   })
+
+  it('renders pagination controls', () => {
+    render(<Highlights />)
+    expect(screen.getByRole('button', { name: /Anterior/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Próximo/i })).toBeInTheDocument()
+  })
 })

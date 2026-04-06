@@ -53,7 +53,8 @@ export default function Highlights() {
 
   // Card width: at index 0, first card starts at containerLeft and fills the rest with 50% of next card peeking
   // containerLeft + cardWidth + GAP + 0.5 * cardWidth = viewportWidth  →  cardWidth = (viewportWidth - containerLeft - GAP) / 1.5
-  const cardWidth = viewportWidth > 0 ? Math.round((viewportWidth - containerLeft - GAP) / 1.5) : 0
+  const divisor = viewportWidth >= 768 ? 1.5 : 1.25
+  const cardWidth = viewportWidth > 0 ? Math.round((viewportWidth - containerLeft - GAP) / divisor) : 0
 
   // Index 0: aligned with container. Index > 0: 25% of prev card peeks from viewport left edge.
   const getOffset = (index: number) => {
