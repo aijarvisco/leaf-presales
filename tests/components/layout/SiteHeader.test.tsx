@@ -81,4 +81,19 @@ describe('SiteHeader', () => {
 
     mockGetElementById.mockRestore()
   })
+
+  // ── Responsive padding ─────────────────────────────────────────────────────
+
+  it('header does not use hardcoded inline padding', () => {
+    render(<SiteHeader />)
+    const header = screen.getByRole('banner')
+    expect(header.style.paddingLeft).not.toBe('64px')
+    expect(header.style.paddingRight).not.toBe('64px')
+  })
+
+  it('header has responsive padding classes', () => {
+    render(<SiteHeader />)
+    const header = screen.getByRole('banner')
+    expect(header.className).toContain('px-6')
+  })
 })
