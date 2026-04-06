@@ -7,8 +7,6 @@ import ValuesCard from '@/components/ui/ValuesCard'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const CARD_HEIGHT  = 480
-const CARD_WIDTH   = Math.round(CARD_HEIGHT * 16 / 9)  // 853
 const GAP          = 20
 const CONTAINER_MAX = 1024  // max-w-5xl
 const CONTAINER_PAD = 24    // px-6
@@ -61,8 +59,15 @@ export default function ValuesSection() {
     ? Math.max((viewportWidth - CONTAINER_MAX) / 2, 0) + CONTAINER_PAD
     : 0
 
+  const cardWidth = viewportWidth > 0
+    ? viewportWidth >= 768
+      ? Math.min(Math.round((viewportWidth - containerLeft - GAP) / 1.5), 853)
+      : Math.round((viewportWidth - containerLeft - GAP) / 1.25)
+    : 853
+  const cardHeight = Math.round(cardWidth * 9 / 16)
+
   function getOffset(index: number): number {
-    return containerLeft - index * (CARD_WIDTH + GAP)
+    return containerLeft - index * (cardWidth + GAP)
   }
 
   const targetOffset = getOffset(activeIndex)
@@ -128,7 +133,7 @@ export default function ValuesSection() {
     if (Math.abs(vel) > 300) {
       if (vel < 0) setActiveIndex(i => Math.min(i + 1, VALUES.length - 1))
       else setActiveIndex(i => Math.max(i - 1, 0))
-    } else if (Math.abs(delta) > CARD_WIDTH / 4) {
+    } else if (Math.abs(delta) > cardWidth / 4) {
       if (delta < 0) setActiveIndex(i => Math.min(i + 1, VALUES.length - 1))
       else setActiveIndex(i => Math.max(i - 1, 0))
     } else {
@@ -171,8 +176,8 @@ export default function ValuesSection() {
                 imageAlt={v.imageAlt}
                 boldText={v.boldText}
                 bodyText={v.bodyText}
-                width={CARD_WIDTH}
-                height={CARD_HEIGHT}
+                width={cardWidth}
+                height={cardHeight}
               />
             </div>
           ))}

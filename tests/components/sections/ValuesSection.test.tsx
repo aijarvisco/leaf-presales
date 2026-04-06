@@ -47,4 +47,12 @@ describe('ValuesSection', () => {
     expect(screen.getByText('Carrega sem complicações.')).toBeInTheDocument()
     expect(screen.getByText('Sempre ligado, onde estiveres.')).toBeInTheDocument()
   })
+
+  it('renders pagination controls', () => {
+    const { container } = render(<ValuesSection />)
+    const prevButton = container.querySelector('button[aria-label="Anterior"]')
+    const nextButton = container.querySelector('button[aria-label="Próximo"]')
+    expect(prevButton).toBeInTheDocument()
+    expect(nextButton).toBeInTheDocument()
+  })
 })
