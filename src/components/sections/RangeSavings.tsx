@@ -66,7 +66,7 @@ export default function RangeSavings() {
   return (
     <section
       id="autonomia"
-      className="bg-background py-32 md:py-40"
+      className="bg-background pt-16 pb-16 md:pt-24 md:pb-24 xl:pt-48 xl:pb-48"
       ref={sectionRef}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12">

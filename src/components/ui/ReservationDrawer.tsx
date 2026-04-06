@@ -83,7 +83,7 @@ export default function ReservationDrawer({
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 pb-[env(safe-area-inset-bottom)]">
+        <div className="flex-1 overflow-y-auto px-6 pt-6 space-y-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
 
           {/* Config card */}
           <div className="flex items-start gap-4 border border-gray-100 rounded-xl p-4">
