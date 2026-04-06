@@ -12,7 +12,6 @@ export default function DesignIntroSection() {
     offset: ['start 120%', 'end end'],
   })
 
-  // Car slides in as user scrolls through the section
   const carX = useTransform(scrollYProgress, [0, 1], ['110vw', '0vw'])
 
   return (
@@ -22,13 +21,11 @@ export default function DesignIntroSection() {
       className="relative bg-[#D5D9DF]"
       style={{ height: '300vh' }}
     >
-      {/* Sticky viewport — stays pinned while the tall section scrolls */}
       <div className="sticky top-0 h-screen overflow-hidden">
 
-        {/* Text block — renders first (below car in DOM stacking) */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
           <motion.p
-            className="leading-none text-3xl font-medium tracking-[-0.07em] max-w-5xl mx-auto text-[#0A0A0A]/60"
+            className="leading-none text-base md:text-xl font-medium tracking-[-0.07em] max-w-5xl mx-auto text-[#0A0A0A]/60"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
@@ -38,7 +35,7 @@ export default function DesignIntroSection() {
           </motion.p>
           <motion.h2
             className="font-medium tracking-[-0.07em] leading-none text-[#0A0A0A] max-w-3xl"
-            style={{ fontSize: '80px' }}
+            style={{ fontSize: 'var(--text-display)' }}
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
@@ -48,9 +45,8 @@ export default function DesignIntroSection() {
           </motion.h2>
         </div>
 
-        {/* Car image — scroll-driven, slides in from the right */}
         <motion.div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#D5D9DF] w-screen min-w-[900px]"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#D5D9DF] w-screen"
           style={{ aspectRatio: '2680 / 1200', x: carX }}
         >
           <Image

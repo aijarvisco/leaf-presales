@@ -59,12 +59,12 @@ export default function AutonomiaSectionV2() {
           className="absolute inset-x-0 z-10 flex flex-col items-center text-center px-6"
           style={{ top: copyY }}
         >
-          <p className="font-medium text-3xl max-w-5xl mx-auto tracking-[-0.07em] leading-none">
+          <p className="font-medium text-base md:text-xl max-w-5xl mx-auto tracking-[-0.07em] leading-none">
             Autonomia
           </p>
           <h2
             className="leading-none text-white font-medium tracking-[-0.07em] max-w-3xl"
-            style={{ fontSize: '80px' }}
+            style={{ fontSize: 'var(--text-display)' }}
           >
             Uma bateria que vai onde tu vais.
           </h2>

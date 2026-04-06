@@ -54,4 +54,17 @@ describe('DesignIntroSection', () => {
     const img = screen.getByAltText('Nissan Leaf — vista de cima')
     expect(img).toBeInTheDocument()
   })
+
+  it('applies --text-display CSS variable to the heading', () => {
+    render(<DesignIntroSection />)
+    const heading = screen.getByText('Espaço para todas as suas aventuras.')
+    expect(heading.style.fontSize).toBe('var(--text-display)')
+  })
+
+  it('eyebrow label has text-base class (not text-3xl)', () => {
+    render(<DesignIntroSection />)
+    const eyebrow = screen.getByText('Interior')
+    expect(eyebrow.className).toContain('text-base')
+    expect(eyebrow.className).not.toContain('text-3xl')
+  })
 })
