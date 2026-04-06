@@ -174,6 +174,22 @@ describe('BottomCTABar', () => {
     expect(btn).toHaveAttribute('tabindex', '-1')
   })
 
+  // ── Responsive layout ────────────────────────────────────────────────────
+
+  it('inner pill has gap-4 class for mobile', () => {
+    setupAnchors()
+    const { container } = render(<BottomCTABar />)
+    const pill = container.querySelector('.gap-4')
+    expect(pill).toBeInTheDocument()
+  })
+
+  it('outer wrapper uses safe-area-inset-bottom for bottom positioning', () => {
+    setupAnchors()
+    const { container } = render(<BottomCTABar />)
+    const bar = container.firstChild as HTMLElement
+    expect(bar.style.bottom).toContain('safe-area-inset-bottom')
+  })
+
   // ── CTA interaction ───────────────────────────────────────────────────────
 
   it('scrolls to #configurador when button is clicked', () => {
