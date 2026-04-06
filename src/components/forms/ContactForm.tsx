@@ -38,7 +38,7 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Field label="Primeiro nome" value={form.firstName ?? ''} onChange={set('firstName')} required />
         <Field label="Apelido" value={form.lastName ?? ''} onChange={set('lastName')} required />
       </div>
