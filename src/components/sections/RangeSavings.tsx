@@ -81,7 +81,7 @@ export default function RangeSavings() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <h2 className="text-4xl md:text-5xl mb-5 font-medium tracking-[-0.07em] leading-none">
+          <h2 className="mb-5 font-medium tracking-[-0.07em] leading-none" style={{ fontSize: 'var(--text-h2)' }}>
             Uma bateria que vai onde tu vais.
           </h2>
           <p className="text-lg text-text-secondary leading-relaxed mb-8">

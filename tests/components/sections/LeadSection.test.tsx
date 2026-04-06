@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 jest.mock('framer-motion', () => {
@@ -15,9 +15,6 @@ jest.mock('framer-motion', () => {
           ),
       }
     ),
-    useScroll: () => ({ scrollYProgress: { on: () => () => {}, get: () => 0 } }),
-    useTransform: (_: unknown, __: unknown, output: unknown[]) => output[0],
-    useMotionValueEvent: () => {},
   }
 })
 
@@ -27,23 +24,22 @@ jest.mock('next/image', () => ({
     React.createElement('img', { alt, ...props }),
 }))
 
-jest.mock('next/link', () => ({
+jest.mock('@/components/ui/ContactDrawer', () => ({
   __esModule: true,
-  default: ({ children, href }: { children: React.ReactNode; href: string }) =>
-    React.createElement('a', { href }, children),
+  default: () => null,
 }))
 
-import ClosingSection from '@/components/sections/ClosingSection'
+import LeadSection from '@/components/sections/LeadSection'
 
-describe('ClosingSection', () => {
-  it('has id="closing" on the root 300vh section', () => {
-    const { container } = render(<ClosingSection />)
-    expect(container.querySelector('#closing')).toBeInTheDocument()
+describe('LeadSection', () => {
+  it('renders the section heading', () => {
+    render(<LeadSection />)
+    expect(screen.getByText('Ainda com dúvidas?')).toBeInTheDocument()
   })
 
   it('applies --text-h2 CSS variable to the heading', () => {
-    const { container } = render(<ClosingSection />)
-    const heading = container.querySelector('h2')!
+    render(<LeadSection />)
+    const heading = screen.getByText('Ainda com dúvidas?')
     expect(heading.style.fontSize).toBe('var(--text-h2)')
   })
 })

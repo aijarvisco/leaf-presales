@@ -52,4 +52,10 @@ describe('RangeSavings', () => {
       screen.getByRole('button', { name: /Calcular a minha poupança/i })
     ).toBeInTheDocument()
   })
+
+  it('applies --text-h2 CSS variable to the heading', () => {
+    render(<RangeSavings />)
+    const heading = screen.getByText('Uma bateria que vai onde tu vais.')
+    expect(heading.style.fontSize).toBe('var(--text-h2)')
+  })
 })

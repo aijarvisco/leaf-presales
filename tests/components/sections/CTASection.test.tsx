@@ -42,4 +42,10 @@ describe('CTASection', () => {
     render(<CTASection />)
     expect(screen.getByText(/Pagamento seguro via Stripe/i)).toBeInTheDocument()
   })
+
+  it('applies --text-h2 CSS variable to the section heading', () => {
+    render(<CTASection selectedVersion="engage" />)
+    const heading = screen.getByText(/Reserva o teu Leaf hoje/i)
+    expect(heading.style.fontSize).toBe('var(--text-h2)')
+  })
 })

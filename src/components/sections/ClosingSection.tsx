@@ -46,7 +46,7 @@ export default function ClosingSection() {
           className="absolute inset-x-0 z-10 text-center px-6"
           style={{ top: copyY }}
         >
-          <h2 className="text-[56px] leading-none font-medium text-white tracking-[-0.07em]">
+          <h2 className="leading-none font-medium text-white tracking-[-0.07em]" style={{ fontSize: 'var(--text-h2)' }}>
             Não imagine mais.
             <br />
             Conduza-o.

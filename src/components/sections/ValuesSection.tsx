@@ -144,7 +144,7 @@ export default function ValuesSection() {
         <p className="font-medium text-xl text-[#86868b] mb-2 tracking-[-0.07em] leading-none">Values</p>
         <h2
           className="font-medium tracking-[-0.07em] text-[#0A0A0A] leading-none max-w-5xl"
-          style={{ fontSize: '56px' }}
+          style={{ fontSize: 'var(--text-h2)' }}
         >
           Designed to make a difference.
         </h2>
