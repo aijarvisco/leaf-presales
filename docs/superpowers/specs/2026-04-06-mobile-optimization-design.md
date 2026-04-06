@@ -17,7 +17,7 @@ Standard Tailwind tiers used consistently throughout:
 | Small desktop | `lg:` | 1024–1280px |
 | Large desktop | `xl:` | 1280px+ |
 
-No custom breakpoints. All desktop-specific rules move to `xl:` so current visual behaviour is preserved on large screens.
+No custom breakpoints. Changes are mobile-first — existing desktop classes are not moved or removed. New base (mobile) styles are added; `xl:` overrides restore large-screen behaviour where needed.
 
 ---
 
@@ -178,7 +178,7 @@ const cardHeight = Math.round(cardWidth * 9 / 16)
 
 `ValuesCard` receives `width={cardWidth} height={cardHeight}` (same props, just dynamic values).
 
-`getOffset` and all animation/drag logic remain identical — they already use the variable name `CARD_WIDTH`; replace with `cardWidth`.
+`getOffset` and all animation/drag logic remain identical — they already use the variable name `CARD_WIDTH`; replace all references with `cardWidth`. This includes the swipe threshold in `handlePointerUp`: `CARD_WIDTH / 4` → `cardWidth / 4`.
 
 ---
 
