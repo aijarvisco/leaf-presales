@@ -9,7 +9,7 @@ export default function LeadSection() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <section id="contacto" className="bg-white pt-48 pb-48">
+    <section id="contacto" className="bg-white pt-16 pb-16 md:pt-24 md:pb-24 xl:pt-48 xl:pb-48">
       <div className="max-w-5xl mx-auto px-6">
 
         {/* Title */}

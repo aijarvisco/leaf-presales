@@ -129,9 +129,9 @@ export default function Highlights() {
   }
 
   return (
-    <section id="highlights" className="pt-48 pb-48 bg-white overflow-hidden">
+    <section id="highlights" className="pt-16 pb-16 md:pt-24 md:pb-24 xl:pt-48 xl:pb-48 bg-white overflow-hidden">
       {/* Title */}
-      <div className="max-w-5xl mx-auto px-6 mb-20">
+      <div className="max-w-5xl mx-auto px-6 mb-10 md:mb-14 xl:mb-20">
         <motion.h2
           className="leading-none font-medium text-[#0A0A0A] tracking-[-0.07em]"
           style={{ fontSize: 'var(--text-h2)' }}

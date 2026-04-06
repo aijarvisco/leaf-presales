@@ -137,10 +137,10 @@ export default function ValuesSection() {
   }
 
   return (
-    <section id="values" className="pt-48 pb-48 bg-white overflow-hidden">
+    <section id="values" className="pt-16 pb-16 md:pt-24 md:pb-24 xl:pt-48 xl:pb-48 bg-white overflow-hidden">
 
       {/* Title block */}
-      <div className="max-w-5xl mx-auto px-6 mb-20 text-center">
+      <div className="max-w-5xl mx-auto px-6 mb-10 md:mb-14 xl:mb-20 text-center">
         <p className="font-medium text-xl text-[#86868b] mb-2 tracking-[-0.07em] leading-none">Values</p>
         <h2
           className="font-medium tracking-[-0.07em] text-[#0A0A0A] leading-none max-w-5xl"
