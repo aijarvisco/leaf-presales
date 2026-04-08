@@ -39,3 +39,14 @@ export interface StatCardData {
   descriptor: string
   modalContent: ReactNode
 }
+
+export interface ContactFormData {
+  nome: string
+  telemovel: string
+  email: string
+  distrito: string
+  concessionarioId: string  // objectId from concessionarios.json
+  mensagem?: string
+  privacyConsent: boolean
+  marketingConsent: boolean
+}
