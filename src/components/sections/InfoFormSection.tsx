@@ -70,7 +70,7 @@ export default function InfoFormSection() {
 
   if (status === 'success') {
     return (
-      <section id="info-form" className="bg-white pt-16 pb-16 md:pt-24 md:pb-24 xl:pt-48 xl:pb-48">
+      <section id="info-form" className="bg-white pt-16 pb-16 md:pt-24 md:pb-24 xl:pt-48 xl:pb-48 overflow-hidden">
         <div className="max-w-5xl mx-auto px-6 text-center py-16">
           <p className="text-2xl font-semibold mb-2 text-[#0A0A0A]">Obrigado!</p>
           <p className="text-[#6B6B6B]">A nossa equipa entrará em contacto em breve.</p>
@@ -85,7 +85,12 @@ export default function InfoFormSection() {
         <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
 
           {/* ── Left column ── */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+          >
             {/* Content block */}
             <p className="font-medium text-xl text-[#86868b] mb-2 tracking-[-0.07em] leading-none">
               Contacto
@@ -160,6 +165,7 @@ export default function InfoFormSection() {
                   checked={form.marketingConsent ?? false}
                   onChange={handleCheckbox('marketingConsent')}
                   className="mt-0.5"
+                  aria-label="Aceito receber comunicações de marketing da Nissan"
                 />
                 <span>Aceito receber comunicações de marketing da Nissan.</span>
               </label>
@@ -172,7 +178,7 @@ export default function InfoFormSection() {
                 {status === 'loading' ? 'A enviar...' : 'Enviar'}
               </Button>
             </form>
-          </div>
+          </motion.div>
 
           {/* ── Right column — bleeds to viewport right edge ── */}
           <motion.div

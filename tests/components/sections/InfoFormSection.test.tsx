@@ -1,18 +1,35 @@
 import React from 'react'
+import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 jest.mock('framer-motion', () => {
   const actual = jest.requireActual('framer-motion')
+  const MOTION_PROPS = new Set([
+    'initial', 'animate', 'exit', 'whileInView', 'whileHover', 'whileTap',
+    'whileFocus', 'whileDrag', 'viewport', 'transition', 'variants',
+    'layout', 'layoutId', 'onAnimationStart', 'onAnimationComplete',
+    'onUpdate', 'drag', 'dragConstraints', 'dragElastic', 'dragMomentum',
+  ])
+  const cache: Record<string, ReturnType<typeof React.forwardRef>> = {}
   return {
     ...actual,
     motion: new Proxy(
       {},
       {
-        get: (_: unknown, tag: string) =>
-          React.forwardRef(({ children, ...props }: React.HTMLAttributes<HTMLElement>, ref) =>
-            React.createElement(tag, { ...props, ref }, children)
-          ),
+        get: (_: unknown, tag: string) => {
+          if (!cache[tag]) {
+            cache[tag] = React.forwardRef(
+              ({ children, ...props }: React.HTMLAttributes<HTMLElement> & Record<string, unknown>, ref) => {
+                const domProps = Object.fromEntries(
+                  Object.entries(props).filter(([k]) => !MOTION_PROPS.has(k))
+                )
+                return React.createElement(tag, { ...domProps, ref }, children)
+              }
+            )
+          }
+          return cache[tag]
+        },
       }
     ),
   }
