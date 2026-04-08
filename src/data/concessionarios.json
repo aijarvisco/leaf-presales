@@ -42,5 +42,851 @@
         "gpsY": "-25.65582"
       }
     ]
+  },
+  {
+    "district": "",
+    "dealers": [
+      {
+        "designation": "Auto Julio, S.A.",
+        "objectId": "NI00020001",
+        "oidParent": "NI00020001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "39.392003",
+        "gpsY": "-9.131031"
+      },
+      {
+        "designation": "Autogirar - Soc.Cial. de Aut.,LDA",
+        "objectId": "NI00170001",
+        "oidParent": "NI00170001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "39.2403968",
+        "gpsY": "-8.7023305"
+      },
+      {
+        "designation": "Caetano Lisboa",
+        "objectId": "NI00130001",
+        "oidParent": "NI00130001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "38.74482",
+        "gpsY": "-9.19112"
+      },
+      {
+        "designation": "Caetano Porto",
+        "objectId": "NI00150001",
+        "oidParent": "NI00150001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "41.177917",
+        "gpsY": "-8.652917"
+      },
+      {
+        "designation": "Caetano Setúbal",
+        "objectId": "NI00140001",
+        "oidParent": "NI00140001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "38.539075",
+        "gpsY": "-8.871298"
+      },
+      {
+        "designation": "Carby A. Fontes, S.A.",
+        "objectId": "NI00200001",
+        "oidParent": "NI00200001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "40.639953",
+        "gpsY": "-8.655428"
+      },
+      {
+        "designation": "Carby Algarve Viat.e Maq.,LDA.",
+        "objectId": "NI00180001",
+        "oidParent": "NI00180001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "37.025806",
+        "gpsY": "-7.895742"
+      },
+      {
+        "designation": "Carby Guimarães",
+        "objectId": "NI00220001",
+        "oidParent": "NI00220001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "41.2765449",
+        "gpsY": "-7.7163141"
+      },
+      {
+        "designation": "Chamauto LDA",
+        "objectId": "NI00040001",
+        "oidParent": "NI00040001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "41.786449",
+        "gpsY": "-6.774048"
+      },
+      {
+        "designation": "Confiauto Ind.e Com. de Autom., S.A.",
+        "objectId": "NI00070001",
+        "oidParent": "NI00070001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "41.536305",
+        "gpsY": "-8.4360677"
+      },
+      {
+        "designation": "Ferreira Morais & Morais, LDA.",
+        "objectId": "NI00030001",
+        "oidParent": "NI00030001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "40.236944",
+        "gpsY": "-8.435556"
+      },
+      {
+        "designation": "JOP",
+        "objectId": "NI00210001",
+        "oidParent": "NI00210001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "40.628277",
+        "gpsY": "-7.868863"
+      },
+      {
+        "designation": "Litocar N, S.A.",
+        "objectId": "NI00270001",
+        "oidParent": "NI00270001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "39.808047",
+        "gpsY": "-7.5195685"
+      },
+      {
+        "designation": "Lubripor -Lubr.Comb.Portalegre,LDA.",
+        "objectId": "NI00060001",
+        "oidParent": "NI00060001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "39.287694",
+        "gpsY": "-7.431845"
+      },
+      {
+        "designation": "Santogal R – Comércio e Reparação de Automóveis. S",
+        "objectId": "NI00510002",
+        "oidParent": "NI00510002",
+        "commercialName": "",
+        "postalCodeDesig": "GRUPO",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "",
+        "gpsX": "",
+        "gpsY": ""
+      }
+    ]
+  },
+  {
+    "district": "LEIRIA",
+    "dealers": [
+      {
+        "designation": "Auto Julio, S.A.",
+        "objectId": "NI00020003",
+        "oidParent": "NI00020001",
+        "commercialName": "",
+        "postalCodeDesig": "CALDAS DA RAINHA",
+        "municipality": "",
+        "postalCode4": 2500,
+        "postalCode3": 138,
+        "address": "RUA BERNARDINO SIMOES, 3",
+        "gpsX": "39.39055",
+        "gpsY": "-9.13077"
+      },
+      {
+        "designation": "Auto Julio, S.A.",
+        "objectId": "NI00020004",
+        "oidParent": "NI00020001",
+        "commercialName": "",
+        "postalCodeDesig": "LEIRIA",
+        "municipality": "",
+        "postalCode4": 2400,
+        "postalCode3": 827,
+        "address": "VALE GRACIOSO AZOIA",
+        "gpsX": "39.704331",
+        "gpsY": "-8.827718"
+      }
+    ]
+  },
+  {
+    "district": "AVEIRO",
+    "dealers": [
+      {
+        "designation": "Auto Julio, S.A.",
+        "objectId": "NI00020002",
+        "oidParent": "NI00020001",
+        "commercialName": "",
+        "postalCodeDesig": "CALDAS DA RAINHA",
+        "municipality": "ÁGUEDA",
+        "postalCode4": 2500,
+        "postalCode3": 209,
+        "address": "RUA GENERAL AMILCAR MOTA,45",
+        "gpsX": "39.39200",
+        "gpsY": "-9.131029"
+      },
+      {
+        "designation": "Carby A. Fontes, S.A.",
+        "objectId": "NI00200003",
+        "oidParent": "NI00200001",
+        "commercialName": "",
+        "postalCodeDesig": "SANTA MARIA DA FEIRA",
+        "municipality": "",
+        "postalCode4": 4520,
+        "postalCode3": 115,
+        "address": "RUA 1º DE MAIO",
+        "gpsX": "40.92015",
+        "gpsY": "-8.57101"
+      },
+      {
+        "designation": "Carby A. Fontes, S.A.",
+        "objectId": "NI00200002",
+        "oidParent": "NI00200001",
+        "commercialName": "",
+        "postalCodeDesig": "AVEIRO",
+        "municipality": "",
+        "postalCode4": 3810,
+        "postalCode3": 196,
+        "address": "RUA NOVA DE VILAR  112-114",
+        "gpsX": "40.63087",
+        "gpsY": "-8.64108"
+      }
+    ]
+  },
+  {
+    "district": "SANTARÉM",
+    "dealers": [
+      {
+        "designation": "Autogirar - Soc.Cial. de Aut.,LDA",
+        "objectId": "NI00170002",
+        "oidParent": "NI00170001",
+        "commercialName": "",
+        "postalCodeDesig": "SANTAREM",
+        "municipality": "",
+        "postalCode4": 2005,
+        "postalCode3": 321,
+        "address": "RUA ZEFERINO SILVA, 11-13 SÃO DOMINGOS",
+        "gpsX": "39.2403968",
+        "gpsY": "-8.7023305"
+      }
+    ]
+  },
+  {
+    "district": "LISBOA",
+    "dealers": [
+      {
+        "designation": "Caetano Lisboa",
+        "objectId": "NI00130004",
+        "oidParent": "NI00130001",
+        "commercialName": "",
+        "postalCodeDesig": "SINTRA",
+        "municipality": "",
+        "postalCode4": 2635,
+        "postalCode3": 47,
+        "address": "EST. TERRAS DA LAGOA, 66 ALBARRAQUE RIO DE MOURO",
+        "gpsX": "38.7736373",
+        "gpsY": "-9.3432261"
+      },
+      {
+        "designation": "Caetano Lisboa",
+        "objectId": "NI00130002",
+        "oidParent": "NI00130001",
+        "commercialName": "",
+        "postalCodeDesig": "LISBOA - BENFICA",
+        "municipality": "",
+        "postalCode4": 1500,
+        "postalCode3": 144,
+        "address": "R.CAROLINA MICHAELIS DE VASCONCELOS,6",
+        "gpsX": "38.74482",
+        "gpsY": "-9.19112"
+      },
+      {
+        "designation": "Caetano Lisboa",
+        "objectId": "NI06490010",
+        "oidParent": "NI00130001",
+        "commercialName": "",
+        "postalCodeDesig": "Loures",
+        "municipality": "LOURES",
+        "postalCode4": 2670,
+        "postalCode3": 468,
+        "address": "RUA DA REPUBLICA",
+        "gpsX": "38.82712",
+        "gpsY": "-9.16254"
+      },
+      {
+        "designation": "Caetano Lisboa",
+        "objectId": "NI00130005",
+        "oidParent": "NI00130001",
+        "commercialName": "",
+        "postalCodeDesig": "ADROANA -ALCABIDECHE",
+        "municipality": "",
+        "postalCode4": 2649,
+        "postalCode3": 503,
+        "address": "RUA DE SÃO FRANCISCO,539",
+        "gpsX": "38.74053",
+        "gpsY": "-9.38725"
+      },
+      {
+        "designation": "Santogal R – Comércio e Reparação de Automóveis. S",
+        "objectId": "NI00510003",
+        "oidParent": "NI00510002",
+        "commercialName": "",
+        "postalCodeDesig": "Lisboa",
+        "municipality": "LISBOA",
+        "postalCode4": 1950,
+        "postalCode3": 96,
+        "address": "Rua Doutor José Espírito Santo, Lt 11-E",
+        "gpsX": "38.75413931265342",
+        "gpsY": "-9.108130732972983"
+      }
+    ]
+  },
+  {
+    "district": "PORTO",
+    "dealers": [
+      {
+        "designation": "Caetano Porto",
+        "objectId": "NI00150002",
+        "oidParent": "NI00150001",
+        "commercialName": "",
+        "postalCodeDesig": "PORTO",
+        "municipality": "PORTO",
+        "postalCode4": 4100,
+        "postalCode3": 262,
+        "address": "AV.FONTES PEREIRA DE MELO, 173",
+        "gpsX": "41.177917",
+        "gpsY": "-8.652917"
+      },
+      {
+        "designation": "Caetano Porto",
+        "objectId": "NI01040030",
+        "oidParent": "NI00150001",
+        "commercialName": "",
+        "postalCodeDesig": "GEMUNDE",
+        "municipality": "MAIA",
+        "postalCode4": 4475,
+        "postalCode3": 150,
+        "address": "R. DO OUTEIRO LOTE 1",
+        "gpsX": "41.26167",
+        "gpsY": "-8.64821"
+      },
+      {
+        "designation": "Caetano Porto",
+        "objectId": "NI00150004",
+        "oidParent": "NI00150001",
+        "commercialName": "",
+        "postalCodeDesig": "VILA NOVA DE GAIA",
+        "municipality": "VILA NOVA DE GAIA",
+        "postalCode4": 4405,
+        "postalCode3": 730,
+        "address": "RUA BARREIRO, 547",
+        "gpsX": "41.115103",
+        "gpsY": "-8.6306931"
+      },
+      {
+        "designation": "Caetano Porto",
+        "objectId": "NI00150003",
+        "oidParent": "NI00150001",
+        "commercialName": "",
+        "postalCodeDesig": "VILA NOVA DE GAIA",
+        "municipality": "VILA NOVA DE GAIA",
+        "postalCode4": 4405,
+        "postalCode3": 730,
+        "address": "RUA BARREIRO., 547",
+        "gpsX": "41.115103",
+        "gpsY": "-8.6306931"
+      },
+      {
+        "designation": "Carby Guimarães",
+        "objectId": "NI00220003",
+        "oidParent": "NI00220001",
+        "commercialName": "",
+        "postalCodeDesig": "MARCO DE CANAVESES",
+        "municipality": "",
+        "postalCode4": 4630,
+        "postalCode3": 206,
+        "address": "AV. GAGO COUTINHO, 248",
+        "gpsX": "41.187673",
+        "gpsY": "-8.145375"
+      },
+      {
+        "designation": "Confiauto Ind.e Com. de Autom., S.A.",
+        "objectId": "NI00070004",
+        "oidParent": "NI00070001",
+        "commercialName": "",
+        "postalCodeDesig": "VILA DO CONDE",
+        "municipality": "",
+        "postalCode4": 4480,
+        "postalCode3": 905,
+        "address": "AV. GENERAL HUMBERTO DELGADO, 115",
+        "gpsX": "41.365226",
+        "gpsY": "-8.7427675"
+      }
+    ]
+  },
+  {
+    "district": "SETÚBAL",
+    "dealers": [
+      {
+        "designation": "Caetano Setúbal",
+        "objectId": "NI00140002",
+        "oidParent": "NI00140001",
+        "commercialName": "",
+        "postalCodeDesig": "SETUBAL",
+        "municipality": "",
+        "postalCode4": 2910,
+        "postalCode3": 741,
+        "address": "CENTRO SETUCAR AZINHAGA CRUZ DE PEIXE",
+        "gpsX": "38.53970",
+        "gpsY": "-8.87135"
+      },
+      {
+        "designation": "Caetano Setúbal",
+        "objectId": "NI00140003",
+        "oidParent": "NI00140001",
+        "commercialName": "",
+        "postalCodeDesig": "ALMADA-FEIJO",
+        "municipality": "",
+        "postalCode4": 2814,
+        "postalCode3": 510,
+        "address": "RUA JOAQUIM PIRES JORGE,10",
+        "gpsX": "38.65514",
+        "gpsY": "-9.168088"
+      }
+    ]
+  },
+  {
+    "district": "FARO",
+    "dealers": [
+      {
+        "designation": "Carby Algarve Viat.e Maq.,LDA.",
+        "objectId": "NI00180002",
+        "oidParent": "NI00180001",
+        "commercialName": "",
+        "postalCodeDesig": "FARO",
+        "municipality": "",
+        "postalCode4": 8001,
+        "postalCode3": 905,
+        "address": "SITIO DOS SALGADOS",
+        "gpsX": "37.025806",
+        "gpsY": "-7.895742"
+      },
+      {
+        "designation": "Carby Algarve Viat.e Maq.,LDA.",
+        "objectId": "NI00180003",
+        "oidParent": "NI00180001",
+        "commercialName": "",
+        "postalCodeDesig": "PORTIMAO",
+        "municipality": "",
+        "postalCode4": 8500,
+        "postalCode3": 819,
+        "address": "Z. INDUSTRIAL DE PEDRA MOURINHA, LT.12 PED",
+        "gpsX": "37.14495",
+        "gpsY": "-8.55269"
+      }
+    ]
+  },
+  {
+    "district": "BRAGA",
+    "dealers": [
+      {
+        "designation": "Carby Guimarães",
+        "objectId": "NI00220004",
+        "oidParent": "NI00220001",
+        "commercialName": "",
+        "postalCodeDesig": "GUIMARAES",
+        "municipality": "",
+        "postalCode4": 4835,
+        "postalCode3": 15,
+        "address": "RUA JOAQUIM RIBEIRO MOURA, 1120 CREIXOMIL",
+        "gpsX": "41.439642",
+        "gpsY": "-8.325231"
+      },
+      {
+        "designation": "Confiauto Ind.e Com. de Autom., S.A.",
+        "objectId": "NI00070002",
+        "oidParent": "NI00070001",
+        "commercialName": "",
+        "postalCodeDesig": "BRAGA",
+        "municipality": "",
+        "postalCode4": 4705,
+        "postalCode3": 84,
+        "address": "RUA CIDADE DO PORTO, 182",
+        "gpsX": "41.536305",
+        "gpsY": "-8.4360677"
+      }
+    ]
+  },
+  {
+    "district": "VILA REAL",
+    "dealers": [
+      {
+        "designation": "Carby Guimarães",
+        "objectId": "NI00220002",
+        "oidParent": "NI00220001",
+        "commercialName": "",
+        "postalCodeDesig": "VILA REAL",
+        "municipality": "",
+        "postalCode4": 5000,
+        "postalCode3": 82,
+        "address": "ZONA INDUSTRIAL,LOTE 152 CONSTANTIM",
+        "gpsX": "41.2765449",
+        "gpsY": "-7.7163141"
+      },
+      {
+        "designation": "Lage & Lage , LDA",
+        "objectId": "NI00050002",
+        "oidParent": "NI00050001",
+        "commercialName": "",
+        "postalCodeDesig": "CHAVES",
+        "municipality": "",
+        "postalCode4": 5400,
+        "postalCode3": 293,
+        "address": "AV. DA GALIZA",
+        "gpsX": "41.737211",
+        "gpsY": "-7.452917"
+      },
+      {
+        "designation": "Lage & Lage , LDA",
+        "objectId": "NI00050001",
+        "oidParent": "NI00050001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "41.737211",
+        "gpsY": "-7.452917"
+      }
+    ]
+  },
+  {
+    "district": "BRAGANÇA",
+    "dealers": [
+      {
+        "designation": "Chamauto LDA",
+        "objectId": "NI00040002",
+        "oidParent": "NI00040001",
+        "commercialName": "",
+        "postalCodeDesig": "BRAGANÇA",
+        "municipality": "",
+        "postalCode4": 5300,
+        "postalCode3": 107,
+        "address": "AV.DAS CANTARIAS 95",
+        "gpsX": "41.786449",
+        "gpsY": "-6.774048"
+      }
+    ]
+  },
+  {
+    "district": "VIANA DO CASTELO",
+    "dealers": [
+      {
+        "designation": "Confiauto Ind.e Com. de Autom., S.A.",
+        "objectId": "NI00070003",
+        "oidParent": "NI00070001",
+        "commercialName": "",
+        "postalCodeDesig": "VIANA DO CASTELO",
+        "municipality": "",
+        "postalCode4": 4900,
+        "postalCode3": 834,
+        "address": "AV. DO MEIO , 206 AREOSA",
+        "gpsX": "41.709947",
+        "gpsY": "-8.852053"
+      }
+    ]
+  },
+  {
+    "district": "ILHA DA MADEIRA",
+    "dealers": [
+      {
+        "designation": "Diversauto Comercio de Autom., S.A.",
+        "objectId": "NI00090002",
+        "oidParent": "NI00090001",
+        "commercialName": "",
+        "postalCodeDesig": "FUNCHAL - MADEIRA",
+        "municipality": "FUNCHAL",
+        "postalCode4": 9000,
+        "postalCode3": 123,
+        "address": "ESTRADA DE SÃO JOÃO, 13,EDIF. UPTOWN,FRACAO A",
+        "gpsX": "32.648611",
+        "gpsY": "-16.923333"
+      },
+      {
+        "designation": "Diversauto Comercio de Autom., S.A.",
+        "objectId": "NI00090001",
+        "oidParent": "NI00090001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "FUNCHAL",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "32.648611",
+        "gpsY": "-16.923333"
+      },
+      {
+        "designation": "Diversauto Comercio de Autom., S.A.",
+        "objectId": "NI00090003",
+        "oidParent": "NI00090001",
+        "commercialName": "",
+        "postalCodeDesig": "CANIÇO",
+        "municipality": "FUNCHAL",
+        "postalCode4": 9125,
+        "postalCode3": 42,
+        "address": "PARQUE INDUSTRIAL DA CANCELA P.I.4.3/4.4/4.5",
+        "gpsX": "32.6504701",
+        "gpsY": "-16.8583403"
+      }
+    ]
+  },
+  {
+    "district": "COIMBRA",
+    "dealers": [
+      {
+        "designation": "Ferreira Morais & Morais, LDA.",
+        "objectId": "NI00030002",
+        "oidParent": "NI00030001",
+        "commercialName": "",
+        "postalCodeDesig": "COIMBRA",
+        "municipality": "",
+        "postalCode4": 3020,
+        "postalCode3": 430,
+        "address": "RUA ADRIANO LUCAS, MONTE DE SAO MIGUEL",
+        "gpsX": "40.236944",
+        "gpsY": "-8.435556"
+      },
+      {
+        "designation": "Ferreira Morais & Morais, LDA.",
+        "objectId": "NI00030003",
+        "oidParent": "NI00030001",
+        "commercialName": "",
+        "postalCodeDesig": "FIGUEIRA DA FOZ",
+        "municipality": "",
+        "postalCode4": 3090,
+        "postalCode3": 650,
+        "address": "RUA DA VIDREIRA SALMANHA",
+        "gpsX": "40.1475",
+        "gpsY": "-8.834167"
+      }
+    ]
+  },
+  {
+    "district": "VISEU",
+    "dealers": [
+      {
+        "designation": "JOP",
+        "objectId": "NI00210002",
+        "oidParent": "NI00210001",
+        "commercialName": "",
+        "postalCodeDesig": "VISEU",
+        "municipality": "",
+        "postalCode4": 3500,
+        "postalCode3": 618,
+        "address": "PARQUE INDUSTRIAL DE COIMBROES LT 82",
+        "gpsX": "40.628277",
+        "gpsY": "-7.868863"
+      }
+    ]
+  },
+  {
+    "district": "GUARDA",
+    "dealers": [
+      {
+        "designation": "Litocar N, S.A.",
+        "objectId": "NI00270003",
+        "oidParent": "NI00270001",
+        "commercialName": "",
+        "postalCodeDesig": "GUARDA",
+        "municipality": "GUARDA",
+        "postalCode4": 6300,
+        "postalCode3": 625,
+        "address": "PARQUE INDUSTRIAL,LOTE 30",
+        "gpsX": "40.534848",
+        "gpsY": "-7.243783"
+      }
+    ]
+  },
+  {
+    "district": "CASTELO BRANCO",
+    "dealers": [
+      {
+        "designation": "Litocar N, S.A.",
+        "objectId": "NI00270004",
+        "oidParent": "NI00270001",
+        "commercialName": "",
+        "postalCodeDesig": "CASTELO BRANCO",
+        "municipality": "CASTELO BRANCO",
+        "postalCode4": 6000,
+        "postalCode3": 459,
+        "address": "ZONA INDUSTRIAL DE CASTELO BRANCO - LOTES E6",
+        "gpsX": "39.808047",
+        "gpsY": "-7.5195685"
+      }
+    ]
+  },
+  {
+    "district": "PORTALEGRE",
+    "dealers": [
+      {
+        "designation": "Lubripor -Lubr.Comb.Portalegre,LDA.",
+        "objectId": "NI00060002",
+        "oidParent": "NI00060001",
+        "commercialName": "",
+        "postalCodeDesig": "PORTALEGRE",
+        "municipality": "",
+        "postalCode4": 7300,
+        "postalCode3": 51,
+        "address": "AV.DA ESTREMADURA ESPANHOLA,12",
+        "gpsX": "39.287694",
+        "gpsY": "-7.431845"
+      },
+      {
+        "designation": "Lubripor -Lubr.Comb.Portalegre,LDA.",
+        "objectId": "NI00060003",
+        "oidParent": "NI00060001",
+        "commercialName": "",
+        "postalCodeDesig": "PORTALEGRE",
+        "municipality": "",
+        "postalCode4": 7300,
+        "postalCode3": 53,
+        "address": "AV.FRANCISCO FINO,35 ZONA INDUSTRIAL",
+        "gpsX": "39.268204",
+        "gpsY": "-7.438104"
+      }
+    ]
+  },
+  {
+    "district": "ÉVORA",
+    "dealers": [
+      {
+        "designation": "Lubripor -Lubr.Comb.Portalegre,LDA.",
+        "objectId": "NI05770018",
+        "oidParent": "NI00060001",
+        "commercialName": "",
+        "postalCodeDesig": "ÉVORA",
+        "municipality": "ÉVORA",
+        "postalCode4": 7005,
+        "postalCode3": 872,
+        "address": "R/ ANÍBAL TAVARES , 4",
+        "gpsX": "38.554998",
+        "gpsY": "-7.908558"
+      }
+    ]
+  },
+  {
+    "district": "BEJA",
+    "dealers": [
+      {
+        "designation": "Lubripor -Lubr.Comb.Portalegre,LDA.",
+        "objectId": "NI05770017",
+        "oidParent": "NI00060001",
+        "commercialName": "",
+        "postalCodeDesig": "BEJA",
+        "municipality": "BEJA",
+        "postalCode4": 7800,
+        "postalCode3": 10,
+        "address": "R/ DA CIÊNCIA, 6 ZONA INDUSTRIAL",
+        "gpsX": "38.02266",
+        "gpsY": "-7.85849"
+      }
+    ]
+  },
+  {
+    "district": "ILHA TERCEIRA",
+    "dealers": [
+      {
+        "designation": "Terauto Soc. Terceirense de Automóveis LDA",
+        "objectId": "NI00190001",
+        "oidParent": "NI00190001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "ANGRA DO HEROÍSMO",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "38.675123",
+        "gpsY": "-27.208924"
+      },
+      {
+        "designation": "Terauto Soc. Terceirense de Automóveis LDA",
+        "objectId": "NI00190002",
+        "oidParent": "NI00190001",
+        "commercialName": "",
+        "postalCodeDesig": "ANGRA DO HEROÍSMO",
+        "municipality": "ANGRA DO HEROÍSMO",
+        "postalCode4": 9700,
+        "postalCode3": 110,
+        "address": "REGUINHO, SAO BENTO",
+        "gpsX": "38.675123",
+        "gpsY": "-27.208924"
+      }
+    ]
   }
 ]

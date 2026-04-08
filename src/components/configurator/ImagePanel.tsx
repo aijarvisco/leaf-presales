@@ -157,35 +157,18 @@ export default function ImagePanel({
 
       {/* Bottom controls — hidden in 360 view */}
       {view !== '360' && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 z-10">
-          {/* Vista 360 — standalone pill */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
           <button
             onClick={() => onViewChange('360')}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-black/40 backdrop-blur-sm text-white text-sm font-medium hover:bg-black/60 transition-colors"
+            className="flex items-center gap-2.5 px-6 py-3 rounded-full bg-black/40 backdrop-blur-sm text-white text-base font-medium hover:bg-black/60 transition-colors"
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <circle cx="8" cy="8" r="6.5" stroke="white" strokeWidth="1.25"/>
               <ellipse cx="8" cy="8" rx="3" ry="6.5" stroke="white" strokeWidth="1.25"/>
               <line x1="1.5" y1="8" x2="14.5" y2="8" stroke="white" strokeWidth="1.25"/>
             </svg>
             Vista 360
           </button>
-
-          {/* Exterior / Interior toggle pill */}
-          <div className="flex gap-1 bg-black/40 backdrop-blur-sm rounded-full p-1">
-            {(['exterior', 'interior'] as ImageView[]).map((v) => (
-              <button
-                key={v}
-                onClick={() => onViewChange(v)}
-                aria-pressed={view === v}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 capitalize ${
-                  view === v ? 'bg-white text-black' : 'text-white/70 hover:text-white'
-                }`}
-              >
-                {v === 'exterior' ? 'Exterior' : 'Interior'}
-              </button>
-            ))}
-          </div>
         </div>
       )}
 
@@ -216,7 +199,7 @@ export default function ImagePanel({
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
               <button
                 onClick={() => onViewChange('exterior')}
-                className="px-8 py-3 rounded-full bg-[#0A0A0A] text-white text-sm font-semibold hover:bg-[#0A0A0A]/80 transition-colors"
+                className="px-6 py-3 rounded-full bg-[#0A0A0A] text-white text-base font-semibold hover:bg-[#0A0A0A]/80 transition-colors"
               >
                 Close
               </button>

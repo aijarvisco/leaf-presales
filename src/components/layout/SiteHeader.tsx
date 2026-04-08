@@ -23,20 +23,6 @@ export default function SiteHeader() {
           style={{ height: 'auto', filter: 'brightness(0) invert(1)' }}
           priority
         />
-        <div className="flex items-center gap-4">
-          <button
-            className="text-white text-sm font-normal cursor-pointer"
-            onClick={() => scrollTo('contacto')}
-          >
-            Ser Contactado
-          </button>
-          <button
-            className="bg-[#E8372F] text-white hover:bg-[#D42F27] px-5 py-2 rounded-lg text-sm font-normal transition-colors duration-200 cursor-pointer"
-            onClick={() => scrollTo('reservar')}
-          >
-            Reservar
-          </button>
-        </div>
       </header>
     </div>
   )

@@ -122,8 +122,8 @@ export default function Configurador() {
             {/* Desktop */}
             <div className="hidden md:flex items-center justify-between">
               <div className="flex flex-col">
-                <span className="text-xs text-[#86868b]">Nissan Leaf {activeTrim.name}</span>
-                <span className="text-lg font-semibold text-[#0A0A0A]">
+                <span className="text-sm text-[#86868b]">Nissan Leaf {activeTrim.name}</span>
+                <span className="text-xl font-semibold text-[#0A0A0A]">
                   €{effectivePrice.toLocaleString('pt-PT')}
                 </span>
               </div>
@@ -138,8 +138,8 @@ export default function Configurador() {
             {/* Mobile */}
             <div className="flex md:hidden flex-col gap-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-[#0A0A0A]">{activeTrim.name}</span>
-                <span className="text-sm text-[#86868b]">€{effectivePrice.toLocaleString('pt-PT')}</span>
+                <span className="text-base font-semibold text-[#0A0A0A]">{activeTrim.name}</span>
+                <span className="text-base text-[#86868b]">€{effectivePrice.toLocaleString('pt-PT')}</span>
               </div>
               <button
                 onClick={handleReserve}

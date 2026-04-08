@@ -12,7 +12,7 @@ export default function DesignIntroSection() {
     offset: ['start 120%', 'end end'],
   })
 
-  const carX = useTransform(scrollYProgress, [0, 1], ['110vw', '0vw'])
+  const carX = useTransform(scrollYProgress, [0, 0.75], ['110vw', '0vw'])
 
   return (
     <section
@@ -46,11 +46,11 @@ export default function DesignIntroSection() {
         </div>
 
         <motion.div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#D5D9DF] w-screen"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-screen"
           style={{ aspectRatio: '2680 / 1200', x: carX }}
         >
           <Image
-            src="/images/leaf-top-view.png"
+            src="/images/interior/leaf-top-view.png"
             alt="Nissan Leaf — vista de cima"
             fill
             className="object-contain"

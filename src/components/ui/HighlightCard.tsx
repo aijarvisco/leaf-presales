@@ -1,9 +1,10 @@
 import Image from 'next/image'
+import { ReactNode } from 'react'
 
 interface HighlightCardProps {
   imageSrc: string
   imageAlt: string
-  description: string
+  description: ReactNode
   textPosition: 'top' | 'middle' | 'bottom'
 }
 
@@ -41,7 +42,7 @@ export default function HighlightCard({
         <div className={`absolute inset-0 pointer-events-none hidden md:block ${overlayClasses[textPosition]}`} />
 
         {/* Text overlay — desktop only */}
-        <div className={`hidden md:block ${positionClasses[textPosition]} max-w-[60%] lg:max-w-[50%] pointer-events-none`}>
+        <div className={`hidden md:block ${positionClasses[textPosition]} max-w-full md:max-w-[70%] lg:max-w-[55%] pointer-events-none`}>
           <p className="text-base md:text-xl lg:text-2xl font-medium text-white leading-snug tracking-[-0.02em]">
             {description}
           </p>

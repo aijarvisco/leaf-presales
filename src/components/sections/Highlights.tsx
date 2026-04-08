@@ -6,27 +6,21 @@ import HighlightCard from '@/components/ui/HighlightCard'
 
 const HIGHLIGHTS = [
   {
-    imageSrc: '/images/nissan-leaf-lights.jpg',
-    imageAlt: 'Nissan Leaf glass display',
-    description: "A glass display that's 2x more scratch resistant than Series 10.",
+    imageSrc: '/images/highlights/nissan_leaf_aerodynamic.jpeg',
+    imageAlt: 'Silhueta aerodinâmica do Nissan Leaf',
+    description: <><strong>Linhas Aerodinâmicas.</strong> Com a forma de uma lágrima, a silhueta aerodinâmica reduz a resistência do ar para melhorar a eficiência.</>,
     textPosition: 'bottom' as const,
   },
   {
-    imageSrc: '/images/889249-F308-25TDIEU_PZ1D_L5_PS_YBR_006_HERO.png',
-    imageAlt: 'Interior tecnológico do Nissan Leaf',
-    description: 'Cockpit digital, conectividade total e sistemas de assistência à condução.',
+    imageSrc: '/images/highlights/nissan_leaf_dimensions.jpg',
+    imageAlt: 'Dimensões do Nissan Leaf',
+    description: <><strong>Espaço para Explorar.</strong> Compacto o suficiente para ser manobrado facilmente, sem comprometer o espaço do habitáculo.</>,
     textPosition: 'bottom' as const,
   },
   {
-    imageSrc: '/images/889857a-F275-25TDIEULHD_PZ1D_01_LO.jpg',
-    imageAlt: 'Autonomia do Nissan Leaf',
-    description: 'Autonomia real para o teu dia a dia, com carregamento rápido onde precisas.',
-    textPosition: 'bottom' as const,
-  },
-  {
-    imageSrc: '/images/889861-F275-25TDIEU_PZ1D_03_LO.jpg',
-    imageAlt: 'Nissan Leaf 100% elétrico',
-    description: '100% elétrico. Contribui para um futuro mais limpo a cada quilómetro.',
+    imageSrc: '/images/highlights/nissan_leaf_lights.jpeg',
+    imageAlt: 'Faróis traseiros 3D do Nissan Leaf',
+    description: <><strong>Iluminação Marcante.</strong> Os faróis traseiros 3D curvam-se à volta do Nissan LEAF para um aspeto futurista.</>,
     textPosition: 'bottom' as const,
   },
 ]

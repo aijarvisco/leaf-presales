@@ -83,34 +83,28 @@ export default function Hero() {
         style={{ opacity: textOpacity, y: textY }}
       >
         {/* Left — copy block */}
-        <div className="max-w-3xl">
+        <div className="max-w-4xl">
           {/* Label */}
           <motion.p
-            className="text-lg text-white font-medium uppercase mb-2 tracking-[-0.07em] leading-none"
+            className="text-2xl sm:text-3xl text-white font-medium uppercase mb-3 tracking-[-0.07em] leading-none"
             {...entryFade(0)}
           >
-            Nissan Leaf
+            Novo Nissan Leaf
           </motion.p>
 
           {/* Headline */}
           <div className="block overflow-hidden mb-6">
             <motion.h1
-              className="font-medium text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white leading-none tracking-[-0.07em]"
+              className="font-medium text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl text-white leading-none tracking-[-0.05em]"
               {...clipReveal(0.2)}
             >
-              Espaço para todas as suas aventuras
+              O futuro da inteligência elétrica
             </motion.h1>
           </div>
 
-          {/* Sub-label + reassurance */}
+          {/* Reassurance */}
           <motion.p
-            className="text-lg font-medium text-white tracking-[-0.07em] leading-none"
-            {...fadeUp(0.5)}
-          >
-            Reserva já.
-          </motion.p>
-          <motion.p
-            className="text-lg font-light text-white"
+            className="text-lg xl:text-xl font-light text-white"
             {...fadeUp(0.6)}
           >
             Disponível para entrega em Outubro.

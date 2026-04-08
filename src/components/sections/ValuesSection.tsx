@@ -13,25 +13,25 @@ const CONTAINER_PAD = 24    // px-6
 
 const VALUES = [
   {
-    imageSrc: '/images/889248-F308-25TDIEU_PZ1D_L5_PS_YBR_005_HERO.png',
+    imageSrc: '/images/autonomy/nissan_leaf_warranty.jpeg',
     imageAlt: 'Nissan Leaf — garantia de bateria',
     boldText: '8 anos de garantia na bateria.',
     bodyText: 'A tua tranquilidade começa aqui — cobertura total para que te focuses no essencial: conduzir.',
   },
   {
-    imageSrc: '/images/889857a-F275-25TDIEULHD_PZ1D_01_LO.jpg',
+    imageSrc: '/images/autonomy/nissan_leaf_driving.jpg',
     imageAlt: 'Nissan Leaf — do quotidiano à escapadela',
     boldText: 'Do quotidiano à escapadela.',
     bodyText: 'Confortável na cidade e capaz na estrada — o Leaf adapta-se à tua vida.',
   },
   {
-    imageSrc: '/images/889866a-F275-25TDIEULHD_PZ1D_08_LO.jpg',
+    imageSrc: '/images/autonomy/nissan_leaf_charging.webp',
     imageAlt: 'Nissan Leaf — carregamento fácil',
     boldText: 'Carrega sem complicações.',
     bodyText: 'Em casa, no trabalho ou na rede pública — a carga encaixa no teu ritmo.',
   },
   {
-    imageSrc: '/images/889249-F308-25TDIEU_PZ1D_L5_PS_YBR_006_HERO.png',
+    imageSrc: '/images/autonomy/nissan_leaf_connected.jpg',
     imageAlt: 'Nissan Leaf — sempre ligado via app',
     boldText: 'Sempre ligado, onde estiveres.',
     bodyText: 'Com a app Nissan Connect tens o teu Leaf na palma da mão a qualquer momento.',
@@ -42,7 +42,28 @@ const animConfig: ValueAnimationTransition<number> = { type: 'tween', duration: 
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function ValuesSection() {
+interface CardData {
+  imageSrc: string
+  imageAlt: string
+  boldText: string
+  bodyText: string
+}
+
+interface ValuesSectionProps {
+  id?: string
+  cards?: CardData[]
+  tagline?: string
+  title?: string
+  paragraphHtml?: string
+}
+
+export default function ValuesSection({
+  id = 'values',
+  cards = VALUES,
+  tagline = 'Values',
+  title = 'Designed to make a difference.',
+  paragraphHtml,
+}: ValuesSectionProps) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [viewportWidth, setViewportWidth] = useState(0)
   const carouselRef = useRef<HTMLDivElement>(null)
@@ -99,7 +120,7 @@ export default function ValuesSection() {
     isWheeling.current = true
 
     const delta = Math.abs(e.deltaX) >= Math.abs(e.deltaY) ? e.deltaX : e.deltaY
-    if (delta > 20) setActiveIndex(i => Math.min(i + 1, VALUES.length - 1))
+    if (delta > 20) setActiveIndex(i => Math.min(i + 1, cards.length - 1))
     else if (delta < -20) setActiveIndex(i => Math.max(i - 1, 0))
 
     setTimeout(() => { isWheeling.current = false }, 550)
@@ -131,10 +152,10 @@ export default function ValuesSection() {
     const vel = x.getVelocity()
 
     if (Math.abs(vel) > 300) {
-      if (vel < 0) setActiveIndex(i => Math.min(i + 1, VALUES.length - 1))
+      if (vel < 0) setActiveIndex(i => Math.min(i + 1, cards.length - 1))
       else setActiveIndex(i => Math.max(i - 1, 0))
     } else if (Math.abs(delta) > cardWidth / 4) {
-      if (delta < 0) setActiveIndex(i => Math.min(i + 1, VALUES.length - 1))
+      if (delta < 0) setActiveIndex(i => Math.min(i + 1, cards.length - 1))
       else setActiveIndex(i => Math.max(i - 1, 0))
     } else {
       animate(x, targetOffset, animConfig)
@@ -142,21 +163,28 @@ export default function ValuesSection() {
   }
 
   return (
-    <section id="values" className="pt-16 pb-16 md:pt-24 md:pb-24 xl:pt-48 xl:pb-48 bg-white overflow-hidden">
+    <section id={id} className="pt-16 pb-16 md:pt-24 md:pb-24 xl:pt-48 xl:pb-48 bg-white overflow-hidden">
 
       {/* Title block */}
       <div className="max-w-5xl mx-auto px-6 mb-10 md:mb-14 xl:mb-20 text-center">
-        <p className="font-medium text-xl text-[#86868b] mb-2 tracking-[-0.07em] leading-none">Values</p>
+        <p className="font-medium text-xl text-[#86868b] mb-2 tracking-[-0.07em] leading-none">{tagline}</p>
         <h2
           className="font-medium tracking-[-0.07em] text-[#0A0A0A] leading-none max-w-5xl"
           style={{ fontSize: 'var(--text-h2)' }}
         >
-          Designed to make a difference.
+          {title}
         </h2>
-        <p className="mt-6 text-xl text-[#0A0A0A] max-w-2xl mx-auto leading-relaxed">
-          <strong className="font-semibold">Our values lead the way.</strong>{' '}
-          Apple Vision Pro was designed to help protect your privacy and keep you in control of your data. Its built‑in accessibility features are designed to work the way you do.
-        </p>
+        {paragraphHtml ? (
+          <p
+            className="mt-6 text-xl text-[#0A0A0A] max-w-2xl mx-auto leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: paragraphHtml }}
+          />
+        ) : (
+          <p className="mt-6 text-xl text-[#0A0A0A] max-w-2xl mx-auto leading-relaxed">
+            <strong className="font-semibold">Our values lead the way.</strong>{' '}
+            Apple Vision Pro was designed to help protect your privacy and keep you in control of your data. Its built‑in accessibility features are designed to work the way you do.
+          </p>
+        )}
       </div>
 
       {/* Carousel track */}
@@ -169,7 +197,7 @@ export default function ValuesSection() {
         onPointerCancel={handlePointerUp}
       >
         <motion.div className="flex flex-row items-start" style={{ gap: GAP, x }}>
-          {VALUES.map((v) => (
+          {cards.map((v) => (
             <div key={v.imageSrc} className="shrink-0">
               <ValuesCard
                 imageSrc={v.imageSrc}
@@ -199,7 +227,7 @@ export default function ValuesSection() {
         </button>
 
         <div className="flex items-center gap-[6px]">
-          {VALUES.map((_, i) => (
+          {cards.map((_, i) => (
             <motion.button
               key={i}
               layout
@@ -214,8 +242,8 @@ export default function ValuesSection() {
         </div>
 
         <button
-          onClick={() => setActiveIndex(i => Math.min(i + 1, VALUES.length - 1))}
-          disabled={activeIndex === VALUES.length - 1}
+          onClick={() => setActiveIndex(i => Math.min(i + 1, cards.length - 1))}
+          disabled={activeIndex === cards.length - 1}
           suppressHydrationWarning
           aria-label="Próximo"
           className="w-9 h-9 rounded-lg bg-gray-100 hover:bg-gray-200 disabled:opacity-30 flex items-center justify-center transition-colors duration-200 cursor-pointer disabled:cursor-default"

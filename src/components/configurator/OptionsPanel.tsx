@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 import { TRIM_LEVELS, COLOR_OPTIONS, getEffectivePrice } from './configuradorData'
 
 interface OptionsPanelProps {
@@ -55,13 +56,6 @@ export default function OptionsPanel({
               }`}
             >
               <span className="font-semibold text-sm">{t.name}</span>
-              {t.isPopular && (
-                <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
-                  t.id === selectedTrimId ? 'bg-white/20 text-white' : 'bg-[#0A0A0A] text-white'
-                }`}>
-                  Popular
-                </span>
-              )}
               <span className={`text-xs ${t.id === selectedTrimId ? 'text-white/60' : 'text-[#86868b]'}`}>
                 €{getEffectivePrice(t, t.id === 'engage' ? selectedBatteryKwh : undefined).toLocaleString('pt-PT')}
               </span>
@@ -117,11 +111,21 @@ export default function OptionsPanel({
                   : 'bg-gray-50 text-[#0A0A0A] hover:bg-gray-100'
               }`}
             >
-              <span
-                className="w-4 h-4 rounded-full flex-shrink-0 border border-black/10"
-                style={{ backgroundColor: color.hex }}
-              />
-              <span className="text-sm font-medium">{color.name}</span>
+              {color.chipSrc ? (
+                <Image
+                  src={color.chipSrc}
+                  alt={color.name}
+                  width={28}
+                  height={28}
+                  className="w-7 h-7 rounded-full flex-shrink-0 object-cover border border-black/10"
+                />
+              ) : (
+                <span
+                  className="w-7 h-7 rounded-full flex-shrink-0 border border-black/10"
+                  style={{ backgroundColor: color.hex }}
+                />
+              )}
+              <span className="text-sm md:text-base font-medium">{color.name}</span>
             </button>
           ))}
         </div>
@@ -134,7 +138,7 @@ export default function OptionsPanel({
         </p>
         <div className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-[#0A0A0A] text-white cursor-default">
           <span className="w-4 h-4 rounded-full flex-shrink-0 bg-[#1a1a1a] border border-white/20" />
-          <span className="text-sm font-medium">Black</span>
+          <span className="text-sm md:text-base font-medium">Black</span>
         </div>
       </div>
 
@@ -150,7 +154,7 @@ export default function OptionsPanel({
         )}
         <ul className="space-y-2">
           {activeTrim.highlights.map((item) => (
-            <li key={item} className="flex items-center gap-2 text-sm text-[#0A0A0A]">
+            <li key={item} className="flex items-center gap-2 text-sm md:text-base text-[#0A0A0A]">
               <span className="text-green-600 font-semibold">✓</span>
               {item}
             </li>

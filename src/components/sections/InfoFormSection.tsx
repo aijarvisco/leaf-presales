@@ -19,7 +19,10 @@ interface Dealer {
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const districts = dealersData.map((d) => d.district)
+const districts = dealersData
+  .map((d) => d.district)
+  .filter(Boolean)
+  .sort((a, b) => a.localeCompare(b, 'pt'))
 
 function getDealers(district: string): Dealer[] {
   const found = dealersData.find((d) => d.district === district)
@@ -70,7 +73,7 @@ export default function InfoFormSection() {
 
   if (status === 'success') {
     return (
-      <section id="info-form" className="bg-white pt-16 pb-16 md:pt-24 md:pb-24 xl:pt-48 xl:pb-48 overflow-hidden">
+      <section id="info-form" className="bg-white overflow-hidden">
         <div className="max-w-5xl mx-auto px-6 text-center py-16">
           <p className="text-2xl font-semibold mb-2 text-[#0A0A0A]">Obrigado!</p>
           <p className="text-[#6B6B6B]">A nossa equipa entrará em contacto em breve.</p>
@@ -80,7 +83,7 @@ export default function InfoFormSection() {
   }
 
   return (
-    <section id="info-form" className="bg-white pt-16 pb-16 md:pt-24 md:pb-24 xl:pt-48 xl:pb-48 overflow-hidden">
+    <section id="info-form" className="bg-white overflow-hidden">
       <div className="max-w-5xl mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
 
@@ -128,7 +131,7 @@ export default function InfoFormSection() {
               >
                 <option value="">Selecione um concessionário</option>
                 {dealers.map((d) => (
-                  <option key={d.objectId} value={d.objectId}>{d.designation}</option>
+                  <option key={d.objectId} value={d.objectId}>{d.designation} - {d.address}</option>
                 ))}
               </SelectField>
 
