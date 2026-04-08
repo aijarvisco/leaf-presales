@@ -1,0 +1,46 @@
+[
+  {
+    "district": "ILHA DE SÃO MIGUEL",
+    "dealers": [
+      {
+        "designation": "Auto Elge - Com. e Rep. de Aut.,LDA",
+        "objectId": "NI00100001",
+        "oidParent": "NI00100001",
+        "commercialName": "",
+        "postalCodeDesig": "",
+        "municipality": "",
+        "postalCode4": 0,
+        "postalCode3": 0,
+        "address": "GRUPO",
+        "gpsX": "37.75174",
+        "gpsY": "-25.655955"
+      },
+      {
+        "designation": "Auto Elge - Com. e Rep. de Aut.,LDA",
+        "objectId": "NI00100003",
+        "oidParent": "NI00100001",
+        "commercialName": "",
+        "postalCodeDesig": "PONTA DELGADA",
+        "municipality": "PONTA DELGADA",
+        "postalCode4": 9500,
+        "postalCode3": 652,
+        "address": "R.EDUARDO SOARES DE ALBERGERIA,12 CANADA DOS VALADOS",
+        "gpsX": "37.754513",
+        "gpsY": "-25.704696"
+      },
+      {
+        "designation": "Auto Elge - Com. e Rep. de Aut.,LDA",
+        "objectId": "NI00100002",
+        "oidParent": "NI00100001",
+        "commercialName": "",
+        "postalCodeDesig": "PONTA DELGADA-AÇORES",
+        "municipality": "PONTA DELGADA",
+        "postalCode4": 9500,
+        "postalCode3": 343,
+        "address": "R.SÃO GONÇALO ILHA DE SÃO MIGUEL",
+        "gpsX": "37.75173",
+        "gpsY": "-25.65582"
+      }
+    ]
+  }
+]
