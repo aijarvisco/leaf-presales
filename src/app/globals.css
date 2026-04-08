@@ -20,8 +20,8 @@
 
 @layer base {
   :root {
-    --text-display: clamp(2rem, 7vw, 5rem);
-    --text-h2: clamp(1.75rem, 5vw, 3.5rem);
+    --text-display: clamp(2rem, 4.5vw, 5rem);
+    --text-h2: clamp(1.75rem, 3.5vw, 3.5rem);
   }
 
   body {
