@@ -60,12 +60,6 @@ describe('BottomCTABar', () => {
     expect(screen.getByText('Desde 29.900€')).toBeInTheDocument()
   })
 
-  it('renders the Configurar button', () => {
-    setupAnchors()
-    render(<BottomCTABar />)
-    expect(screen.getByRole('button', { hidden: true })).toHaveAttribute('aria-label', 'Ir para o configurador')
-  })
-
   // ── Initial visibility ────────────────────────────────────────────────────
 
   it('is hidden on initial render (before scroll)', () => {
@@ -190,9 +184,97 @@ describe('BottomCTABar', () => {
     expect(bar.style.bottom).toContain('safe-area-inset-bottom')
   })
 
-  // ── CTA interaction ───────────────────────────────────────────────────────
+  // ── CTA bar – collapsed state ─────────────────────────────────────────────
 
-  it('scrolls to #configurador when button is clicked', () => {
+  it('renders the "Reservar agora" main CTA button when collapsed', () => {
+    setupAnchors()
+    render(<BottomCTABar />)
+    const btn = screen.getByRole('button', { name: /reservar agora/i, hidden: true })
+    expect(btn).toBeInTheDocument()
+  })
+
+  it('renders the expand chevron button with aria-label "Ver mais opções"', () => {
+    setupAnchors()
+    render(<BottomCTABar />)
+    expect(screen.getByRole('button', { name: /ver mais opções/i, hidden: true })).toBeInTheDocument()
+  })
+
+  it('shows the label when collapsed', () => {
+    setupAnchors()
+    const { container } = render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    const collapsedRow = container.querySelector('[data-testid="collapsed-row"]')
+    expect(collapsedRow).not.toHaveClass('opacity-0')
+  })
+
+  // ── Expand / collapse ─────────────────────────────────────────────────────
+
+  it('expands when chevron is clicked', () => {
+    setupAnchors()
+    const { container } = render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    const chevron = screen.getByRole('button', { name: /ver mais opções/i })
+    fireEvent.click(chevron)
+    const expandedPanel = container.querySelector('[data-testid="expanded-panel"]')
+    expect(expandedPanel).not.toHaveClass('opacity-0')
+  })
+
+  it('collapses when close chevron is clicked', () => {
+    setupAnchors()
+    const { container } = render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
+    fireEvent.click(screen.getByRole('button', { name: /fechar opções/i }))
+    const expandedPanel = container.querySelector('[data-testid="expanded-panel"]')
+    expect(expandedPanel).toHaveClass('opacity-0')
+  })
+
+  it('collapses when Escape is pressed', () => {
+    setupAnchors()
+    const { container } = render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
+    fireEvent.keyDown(document, { key: 'Escape' })
+    const expandedPanel = container.querySelector('[data-testid="expanded-panel"]')
+    expect(expandedPanel).toHaveClass('opacity-0')
+  })
+
+  it('collapses when clicking outside the bar', () => {
+    setupAnchors()
+    const { container } = render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
+    fireEvent.mouseDown(document.body)
+    const expandedPanel = container.querySelector('[data-testid="expanded-panel"]')
+    expect(expandedPanel).toHaveClass('opacity-0')
+  })
+
+  // ── Expanded state – options and actions ──────────────────────────────────
+
+  it('shows all three options when expanded', () => {
+    setupAnchors()
+    render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
+    expect(screen.getByRole('button', { name: /reservar agora/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /configurar leaf/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /ser contactado/i })).toBeInTheDocument()
+  })
+
+  it('"Reservar agora" in expanded panel dispatches ctabar:reserve and collapses', () => {
+    setupAnchors()
+    render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
+
+    const dispatched: Event[] = []
+    window.addEventListener('ctabar:reserve', (e) => dispatched.push(e))
+
+    fireEvent.click(screen.getByRole('button', { name: /reservar agora/i }))
+    expect(dispatched).toHaveLength(1)
+  })
+
+  it('"Configurar Leaf" scrolls to #configurador and collapses', () => {
     setupAnchors()
     const mockScrollIntoView = jest.fn()
     const mockGetElementById = jest.spyOn(document, 'getElementById').mockReturnValue({
@@ -201,11 +283,50 @@ describe('BottomCTABar', () => {
 
     render(<BottomCTABar />)
     act(() => scrollPastHeader())
-    fireEvent.click(screen.getByRole('button', { name: /ir para o configurador/i }))
+    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
+    fireEvent.click(screen.getByRole('button', { name: /configurar leaf/i }))
 
     expect(mockGetElementById).toHaveBeenCalledWith('configurador')
     expect(mockScrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
-
     mockGetElementById.mockRestore()
+  })
+
+  it('"Ser Contactado" scrolls to #contacto and collapses', () => {
+    setupAnchors()
+    const mockScrollIntoView = jest.fn()
+    const mockGetElementById = jest.spyOn(document, 'getElementById').mockReturnValue({
+      scrollIntoView: mockScrollIntoView,
+    } as unknown as HTMLElement)
+
+    render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
+    fireEvent.click(screen.getByRole('button', { name: /ser contactado/i }))
+
+    expect(mockGetElementById).toHaveBeenCalledWith('contacto')
+    expect(mockScrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
+    mockGetElementById.mockRestore()
+  })
+
+  it('expanded options have tabIndex -1 when panel is collapsed', () => {
+    setupAnchors()
+    render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    const configurarBtn = screen.getByRole('button', { name: /configurar leaf/i, hidden: true })
+    expect(configurarBtn).toHaveAttribute('tabindex', '-1')
+  })
+
+  // ── "Reservar agora" main CTA (collapsed state) ───────────────────────────
+
+  it('"Reservar agora" main CTA dispatches ctabar:reserve', () => {
+    setupAnchors()
+    render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+
+    const dispatched: Event[] = []
+    window.addEventListener('ctabar:reserve', (e) => dispatched.push(e))
+
+    fireEvent.click(screen.getByRole('button', { name: /reservar agora/i }))
+    expect(dispatched).toHaveLength(1)
   })
 })
