@@ -73,8 +73,8 @@ export default function InfoFormSection() {
 
   if (status === 'success') {
     return (
-      <section id="info-form" className="bg-white overflow-hidden">
-        <div className="max-w-5xl mx-auto px-6 text-center py-16">
+      <section id="info-form" className="bg-[#F5F5F7] overflow-hidden py-16">
+        <div className="max-w-6xl mx-auto px-6 text-center py-16">
           <p className="text-2xl font-semibold mb-2 text-[#0A0A0A]">Obrigado!</p>
           <p className="text-[#6B6B6B]">A nossa equipa entrará em contacto em breve.</p>
         </div>
@@ -83,12 +83,13 @@ export default function InfoFormSection() {
   }
 
   return (
-    <section id="info-form" className="bg-white overflow-hidden">
-      <div className="max-w-5xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
+    <section id="info-form" className="bg-[#F5F5F7] overflow-hidden relative">
+      <div className="container mx-auto px-6 py-24">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-24">
 
           {/* ── Left column ── */}
           <motion.div
+            className="max-w-lg"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -183,28 +184,28 @@ export default function InfoFormSection() {
             </form>
           </motion.div>
 
-          {/* ── Right column — bleeds to viewport right edge ── */}
-          <motion.div
-            className="hidden md:block"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55, delay: 0.1 }}
-            style={{ marginRight: 'calc(-1 * max(24px, (100vw - 1024px) / 2 + 24px))' }}
-          >
-            <div className="sticky top-0 h-screen relative">
-              <Image
-                src="/images/nissan_leaf_driving_cta.webp"
-                alt="Nissan Leaf em condução"
-                fill
-                className="object-cover"
-                sizes="50vw"
-              />
-            </div>
-          </motion.div>
+          {/* ── Right column spacer (reserves grid space) ── */}
+          <div className="hidden md:block" />
 
         </div>
       </div>
+
+      {/* ── Full-height image from centre to right viewport edge ── */}
+      <motion.div
+        className="hidden md:block absolute inset-y-0 right-0 left-1/2"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.55, delay: 0.1 }}
+      >
+        <Image
+          src="/images/nissan_leaf_driving_cta.webp"
+          alt="Nissan Leaf em condução"
+          fill
+          className="object-cover"
+          sizes="50vw"
+        />
+      </motion.div>
     </section>
   )
 }

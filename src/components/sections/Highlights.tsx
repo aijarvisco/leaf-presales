@@ -12,7 +12,7 @@ const HIGHLIGHTS = [
     textPosition: 'bottom' as const,
   },
   {
-    imageSrc: '/images/889857a-F275-25TDIEULHD_PZ1D_01_LO.jpg',
+    imageSrc: '/images/highlights/nissan_leaf_curves.jpg',
     imageAlt: 'Vista exterior do Nissan Leaf',
     description: <><strong>Visualmente inteligente</strong> Da forma à função, até aos detalhes de acabamento, o Nissan LEAF é tão elegante quanto inteligente.</>,
     textPosition: 'bottom' as const,
