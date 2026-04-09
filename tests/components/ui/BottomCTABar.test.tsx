@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, fireEvent, act } from '@testing-library/react'
+import { render, screen, fireEvent, act, within } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 // ── IntersectionObserver mock ──────────────────────────────────────────────
@@ -164,7 +164,7 @@ describe('BottomCTABar', () => {
     render(<BottomCTABar />)
     act(() => scrollPastHeader())
     act(() => triggerIntersection(configurador, true))
-    const btn = screen.getByRole('button', { hidden: true })
+    const btn = screen.getByRole('button', { name: /reservar agora/i, hidden: true })
     expect(btn).toHaveAttribute('tabindex', '-1')
   })
 
@@ -253,25 +253,28 @@ describe('BottomCTABar', () => {
 
   it('shows all three options when expanded', () => {
     setupAnchors()
-    render(<BottomCTABar />)
+    const { container } = render(<BottomCTABar />)
     act(() => scrollPastHeader())
     fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
-    expect(screen.getByRole('button', { name: /reservar agora/i })).toBeInTheDocument()
+    const panel = container.querySelector('[data-testid="expanded-panel"]')!
+    expect(within(panel).getByRole('button', { name: /reservar agora/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /configurar leaf/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /ser contactado/i })).toBeInTheDocument()
   })
 
   it('"Reservar agora" in expanded panel dispatches ctabar:reserve and collapses', () => {
     setupAnchors()
-    render(<BottomCTABar />)
+    const { container } = render(<BottomCTABar />)
     act(() => scrollPastHeader())
     fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
 
     const dispatched: Event[] = []
-    window.addEventListener('ctabar:reserve', (e) => dispatched.push(e))
+    window.addEventListener('ctabar:reserve', (e) => dispatched.push(e), { once: true })
 
-    fireEvent.click(screen.getByRole('button', { name: /reservar agora/i }))
+    const panel = container.querySelector('[data-testid="expanded-panel"]')!
+    fireEvent.click(within(panel).getByRole('button', { name: /reservar agora/i }))
     expect(dispatched).toHaveLength(1)
+    expect(container.querySelector('[data-testid="expanded-panel"]')).toHaveClass('opacity-0')
   })
 
   it('"Configurar Leaf" scrolls to #configurador and collapses', () => {
@@ -281,13 +284,14 @@ describe('BottomCTABar', () => {
       scrollIntoView: mockScrollIntoView,
     } as unknown as HTMLElement)
 
-    render(<BottomCTABar />)
+    const { container } = render(<BottomCTABar />)
     act(() => scrollPastHeader())
     fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
     fireEvent.click(screen.getByRole('button', { name: /configurar leaf/i }))
 
     expect(mockGetElementById).toHaveBeenCalledWith('configurador')
     expect(mockScrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
+    expect(container.querySelector('[data-testid="expanded-panel"]')).toHaveClass('opacity-0')
     mockGetElementById.mockRestore()
   })
 
@@ -298,13 +302,14 @@ describe('BottomCTABar', () => {
       scrollIntoView: mockScrollIntoView,
     } as unknown as HTMLElement)
 
-    render(<BottomCTABar />)
+    const { container } = render(<BottomCTABar />)
     act(() => scrollPastHeader())
     fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
     fireEvent.click(screen.getByRole('button', { name: /ser contactado/i }))
 
     expect(mockGetElementById).toHaveBeenCalledWith('contacto')
     expect(mockScrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
+    expect(container.querySelector('[data-testid="expanded-panel"]')).toHaveClass('opacity-0')
     mockGetElementById.mockRestore()
   })
 
@@ -320,13 +325,14 @@ describe('BottomCTABar', () => {
 
   it('"Reservar agora" main CTA dispatches ctabar:reserve', () => {
     setupAnchors()
-    render(<BottomCTABar />)
+    const { container } = render(<BottomCTABar />)
     act(() => scrollPastHeader())
 
     const dispatched: Event[] = []
-    window.addEventListener('ctabar:reserve', (e) => dispatched.push(e))
+    window.addEventListener('ctabar:reserve', (e) => dispatched.push(e), { once: true })
 
-    fireEvent.click(screen.getByRole('button', { name: /reservar agora/i }))
+    const collapsedRow = container.querySelector('[data-testid="collapsed-row"]')!
+    fireEvent.click(within(collapsedRow).getByRole('button', { name: /reservar agora/i }))
     expect(dispatched).toHaveLength(1)
   })
 })
