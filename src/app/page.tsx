@@ -4,26 +4,26 @@ const INTERIOR_CARDS = [
   {
     imageSrc: '/images/interior/nissan_leaf_confortable.webp',
     imageAlt: 'Nissan Leaf — interior confortável',
-    boldText: 'Viaje com conforto.',
-    bodyText: 'Um piso plano cria linhas simples e uma atmosfera de cabina espaçosa para uma viagem o mais relaxante possível.',
+    boldText: 'Conduza com conforto.',
+    bodyText: 'O piso plano cria um habitáculo amplo, proporcionando a viagem mais confortável possível.',
   },
   {
     imageSrc: '/images/interior/nissan_leaf_display.webp',
     imageAlt: 'Nissan Leaf — portal de infoentretenimento',
-    boldText: 'Portal de infoentretenimento.',
-    bodyText: 'Dois ecrãs de 14,3" proporcionam um acesso claro, prático e intuitivo a todas as aplicações de que necessita para se manter informado e empenhado na sua condução.',
-  },
-  {
-    imageSrc: '/images/interior/nissan_leaf_space.webp',
-    imageAlt: 'Nissan Leaf — cinco lugares reais',
-    boldText: 'Todos a bordo.',
-    bodyText: 'Conversem juntos ou relaxem no vosso próprio mundo a partir de um dos cinco bancos reais no interior do Nissan LEAF.',
+    boldText: 'Assuma o controlo.',
+    bodyText: 'Dois ecrãs de 14,3" oferecem acesso claro, conveniente e intuitivo ao NissanConnect com Google integrado.',
   },
   {
     imageSrc: '/images/interior/nissan_leaf_bose_sound.webp',
     imageAlt: 'Nissan Leaf — sistema de áudio Bose',
-    boldText: 'Imersão sonora.',
-    bodyText: 'Desfrute de uma experiência imersiva graças ao sistema de áudio Bose de 9 alto-falantes, incluindo um integrado ao encosto de cabeça do motorista (na versão Evolve).',
+    boldText: 'Mergulhe no som envolvente',
+    bodyText: 'Desfrute do sistema de som Bose, com 9 altifalantes, dois deles integrados no encosto de cabeça do condutor.',
+  },
+  {
+    imageSrc: '/images/interior/nissan_leaf_space.webp',
+    imageAlt: 'Nissan Leaf — cinco lugares reais',
+    boldText: 'Todos a bordo',
+    bodyText: 'Espaço para toda a família num dos 5 lugares do Nissan LEAF',
   },
 ]
 
