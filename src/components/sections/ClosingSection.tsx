@@ -66,7 +66,7 @@ export default function ClosingSection() {
                 Fale connosco
               </p>
               <div className="flex items-end justify-between gap-4">
-                <p className="text-xl font-medium text-white/80 leading-snug tracking-[-0.02em] max-w-[70%]">
+                <p className="text-base sm:text-xl font-medium text-white/80 leading-snug tracking-[-0.02em] max-w-[70%]">
                   Tem dúvidas? A nossa equipa responde em menos de 24 horas.
                 </p>
                 <div className="shrink-0 w-8 h-8 rounded-full bg-white/15 flex items-center justify-center group-hover:bg-white/25 transition-colors duration-200">
@@ -86,7 +86,7 @@ export default function ClosingSection() {
                 Reservar
               </p>
               <div className="flex items-end justify-between gap-4">
-                <p className="text-xl font-medium text-white leading-snug tracking-[-0.02em] max-w-[70%]">
+                <p className="text-base sm:text-xl font-medium text-white leading-snug tracking-[-0.02em] max-w-[70%]">
                   300€ totalmente reembolsáveis · Garanta o seu lugar entre os primeiros. Sem compromisso, sem risco.
                 </p>
                 <div className="shrink-0 w-8 h-8 rounded-full bg-black/20 flex items-center justify-center group-hover:bg-black/35 transition-colors duration-200">

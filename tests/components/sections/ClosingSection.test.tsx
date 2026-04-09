@@ -46,4 +46,18 @@ describe('ClosingSection', () => {
     const heading = container.querySelector('h2')!
     expect(heading.style.fontSize).toBe('var(--text-h2)')
   })
+
+  it('CTA paragraphs have text-base class for mobile', () => {
+    const { container } = render(<ClosingSection />)
+    const paras = container.querySelectorAll('p.text-base')
+    // Both CTA card paragraphs should have text-base
+    expect(paras.length).toBeGreaterThanOrEqual(2)
+  })
+
+  it('CTA paragraphs do not use bare text-xl without breakpoint', () => {
+    const { container } = render(<ClosingSection />)
+    // text-xl without a breakpoint prefix should not appear on these paragraphs
+    const barePara = container.querySelector('button p.text-xl:not([class*="sm:text-xl"])')
+    expect(barePara).toBeNull()
+  })
 })
