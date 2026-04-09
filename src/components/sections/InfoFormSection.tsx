@@ -275,6 +275,27 @@ export default function InfoFormSection() {
           sizes="50vw"
         />
       </motion.div>
+
+      <Modal open={faqOpen} onClose={() => { setFaqOpen(false); setFaqIndex(null) }}>
+        <div>
+          {/* Header */}
+          <div className="px-6 pt-2 pb-6">
+            <h3 className="text-2xl font-medium tracking-[-0.04em] text-[#0A0A0A]">
+              Tudo o que precisas de saber
+            </h3>
+            <p className="text-sm text-[#86868b] mt-2">
+              Reunimos as perguntas mais comuns sobre o Nissan LEAF. Se tiveres mais dúvidas, a nossa equipa está disponível para ajudar.
+            </p>
+          </div>
+
+          {/* Accordion */}
+          <FAQAccordion
+            items={FAQ_ITEMS}
+            openIndex={faqIndex}
+            onToggle={(i) => setFaqIndex(faqIndex === i ? null : i)}
+          />
+        </div>
+      </Modal>
     </section>
   )
 }
