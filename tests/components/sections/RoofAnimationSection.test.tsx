@@ -151,8 +151,9 @@ describe('progressToFrameIndex', () => {
 
 // ─── RoofAnimationSection render ───────────────────────────────────────────────
 
-describe.skip('RoofAnimationSection', () => {
-  let RoofAnimationSection: any
+import RoofAnimationSection from '@/components/sections/RoofAnimationSection'
+
+describe('RoofAnimationSection', () => {
   beforeEach(() => {
     global.ResizeObserver = jest.fn().mockImplementation(() => ({
       observe: jest.fn(),
