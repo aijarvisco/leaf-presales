@@ -1,6 +1,6 @@
 import type { EVSavingsInputs, EVSavingsResult } from '@/types'
 
-const LEAF_KWH_PER_100KM = 15
+export const LEAF_KWH_PER_100KM = 15
 
 export function calculateEVSavings(inputs: EVSavingsInputs): EVSavingsResult {
   const { km_per_year, ev_energy_price_per_kwh, ice_consumption_l_per_100km, fuel_price_per_l } = inputs

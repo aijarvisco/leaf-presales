@@ -1,9 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
-import { calculateEVSavings } from '@/lib/savings'
-
-const LEAF_KWH_PER_100KM = 15
+import { calculateEVSavings, LEAF_KWH_PER_100KM } from '@/lib/savings'
 
 const DEFAULTS = {
   km_per_year: 15000,
@@ -31,7 +29,6 @@ export default function SavingsCalculator() {
 
         <Stepper
           label="Distância percorrida anual"
-          value={inputs.km_per_year}
           unit="Km"
           display={inputs.km_per_year.toLocaleString('pt-PT')}
           onDecrement={() => update('km_per_year', -500, 1000, 100000)}
@@ -42,7 +39,6 @@ export default function SavingsCalculator() {
 
         <Stepper
           label="Custo da Eletricidade"
-          value={inputs.ev_energy_price_per_kwh}
           unit="€ / kWh"
           display={inputs.ev_energy_price_per_kwh.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           onDecrement={() => update('ev_energy_price_per_kwh', -0.01, 0.05, 0.50)}
@@ -58,7 +54,6 @@ export default function SavingsCalculator() {
 
         <Stepper
           label="Custo do Combustível"
-          value={inputs.fuel_price_per_l}
           unit="€ /litro"
           display={inputs.fuel_price_per_l.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           onDecrement={() => update('fuel_price_per_l', -0.05, 0.50, 3.00)}
@@ -67,7 +62,6 @@ export default function SavingsCalculator() {
 
         <Stepper
           label="Consumo de combustível"
-          value={inputs.ice_consumption_l_per_100km}
           unit="l/100km"
           display={inputs.ice_consumption_l_per_100km.toLocaleString('pt-PT', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
           onDecrement={() => update('ice_consumption_l_per_100km', -0.5, 3, 15)}
@@ -127,7 +121,6 @@ function Stepper({
   onIncrement,
 }: {
   label: string
-  value: number
   unit: string
   display: string
   onDecrement: () => void

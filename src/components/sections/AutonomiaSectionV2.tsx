@@ -71,7 +71,7 @@ export default function AutonomiaSectionV2() {
 
           {/* EV Savings Calculator button — appears with stats */}
           <motion.button
-            className="mt-6 flex items-center gap-3 rounded-full pl-5 pr-1.5 py-1.5 cursor-pointer select-none"
+            className="mt-8 flex items-center gap-3 rounded-full pl-5 pr-1.5 py-1.5 cursor-pointer select-none"
             style={{ backgroundColor: '#1c1c1e' }}
             variants={statItemVariants}
             initial="hidden"
@@ -130,10 +130,7 @@ export default function AutonomiaSectionV2() {
       </div>
 
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-        <div>
-          <h3 className="text-2xl font-bold mb-4">A tua poupança</h3>
-          <SavingsCalculator />
-        </div>
+        <SavingsCalculator />
       </Modal>
     </section>
   )
