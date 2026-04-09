@@ -127,7 +127,7 @@ export default function BottomCTABar() {
             type="button"
             onClick={() => setIsExpanded(true)}
             tabIndex={hidden || isExpanded ? -1 : undefined}
-            aria-expanded={false}
+            aria-expanded={isExpanded}
             aria-label="Ver mais opções"
             className="bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 flex items-center justify-center text-white transition-colors cursor-pointer flex-shrink-0"
           >
@@ -144,16 +144,15 @@ export default function BottomCTABar() {
           className={`transition-all duration-200 delay-100 overflow-hidden ${isExpanded ? 'opacity-100 max-h-56' : 'opacity-0 max-h-0 pointer-events-none'}`}
         >
           <div className="px-7 pt-5 pb-3 flex flex-col gap-1 min-w-[220px]">
-            {isExpanded && (
-              <button
-                type="button"
-                onClick={() => { openReservation(); setIsExpanded(false) }}
-                aria-label="Reservar agora"
-                className="text-white font-semibold text-base py-2 text-left hover:text-white/70 transition-colors cursor-pointer whitespace-nowrap"
-              >
-                Reservar agora
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => { openReservation(); setIsExpanded(false) }}
+              tabIndex={isExpanded ? undefined : -1}
+              aria-label="Reservar agora"
+              className="text-white font-semibold text-base py-2 text-left hover:text-white/70 transition-colors cursor-pointer whitespace-nowrap"
+            >
+              Reservar agora
+            </button>
             <button
               type="button"
               onClick={() => { scrollToConfigurador(); setIsExpanded(false) }}
@@ -178,7 +177,7 @@ export default function BottomCTABar() {
               type="button"
               onClick={() => setIsExpanded(false)}
               tabIndex={isExpanded ? undefined : -1}
-              aria-expanded={true}
+              aria-expanded={isExpanded}
               aria-label="Fechar opções"
               className="bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 flex items-center justify-center text-white transition-colors cursor-pointer"
             >

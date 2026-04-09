@@ -161,10 +161,11 @@ describe('BottomCTABar', () => {
 
   it('sets tabIndex -1 on button when hidden', () => {
     const { configurador } = setupAnchors()
-    render(<BottomCTABar />)
+    const { container } = render(<BottomCTABar />)
     act(() => scrollPastHeader())
     act(() => triggerIntersection(configurador, true))
-    const btn = screen.getByRole('button', { name: /reservar agora/i, hidden: true })
+    const collapsedRow = container.querySelector('[data-testid="collapsed-row"]')!
+    const btn = within(collapsedRow).getByRole('button', { name: /reservar agora/i, hidden: true })
     expect(btn).toHaveAttribute('tabindex', '-1')
   })
 
@@ -188,8 +189,9 @@ describe('BottomCTABar', () => {
 
   it('renders the "Reservar agora" main CTA button when collapsed', () => {
     setupAnchors()
-    render(<BottomCTABar />)
-    const btn = screen.getByRole('button', { name: /reservar agora/i, hidden: true })
+    const { container } = render(<BottomCTABar />)
+    const collapsedRow = container.querySelector('[data-testid="collapsed-row"]')!
+    const btn = within(collapsedRow).getByRole('button', { name: /reservar agora/i, hidden: true })
     expect(btn).toBeInTheDocument()
   })
 
