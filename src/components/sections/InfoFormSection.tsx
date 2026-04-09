@@ -162,14 +162,15 @@ export default function InfoFormSection() {
             </p>
 
             <button
+              type="button"
               onClick={() => setFaqOpen(true)}
               className="flex items-center gap-3 mb-10 group cursor-pointer"
               aria-label="Ver perguntas frequentes"
             >
               <span className="flex items-center justify-center w-8 h-8 rounded-full border border-[#0A0A0A] group-hover:bg-[#0A0A0A] transition-colors">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                  <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                    className="text-[#0A0A0A] group-hover:text-white transition-colors" />
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"
+                  className="text-[#0A0A0A] group-hover:text-white transition-colors">
+                  <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
               </span>
               <span className="text-xs font-bold tracking-widest uppercase text-[#0A0A0A]">
