@@ -20,7 +20,8 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json({ ok: true })
-  } catch {
+  } catch (err) {
+    console.error('[payment-intent/update]', err)
     return NextResponse.json({ error: 'Failed to update payment intent' }, { status: 500 })
   }
 }
