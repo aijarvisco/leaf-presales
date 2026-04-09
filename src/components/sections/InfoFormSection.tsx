@@ -292,7 +292,7 @@ export default function InfoFormSection() {
           <FAQAccordion
             items={FAQ_ITEMS}
             openIndex={faqIndex}
-            onToggle={(i) => setFaqIndex(faqIndex === i ? null : i)}
+            onToggle={(i) => setFaqIndex((prev) => (prev === i ? null : i))}
           />
         </div>
       </Modal>
