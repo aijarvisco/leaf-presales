@@ -31,6 +31,7 @@ import SiteHeader from '@/components/layout/SiteHeader'
 import Hero from '@/components/sections/Hero'
 import Highlights from '@/components/sections/Highlights'
 import DesignIntroSection from '@/components/sections/DesignIntroSection'
+import RoofAnimationSection from '@/components/sections/RoofAnimationSection'
 import AutonomiaSectionV2 from '@/components/sections/AutonomiaSectionV2'
 import ValuesSection from '@/components/sections/ValuesSection'
 import Configurador from '@/components/sections/Configurador'
@@ -46,6 +47,7 @@ export default function Home() {
         <Hero />
         <Highlights />
         <DesignIntroSection />
+        <RoofAnimationSection />
         <ValuesSection id="interior-highlights" cards={INTERIOR_CARDS} />
         <Configurador />
         <AutonomiaSectionV2 />
