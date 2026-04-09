@@ -355,3 +355,43 @@ function TextareaField({
     </div>
   )
 }
+
+// ─── FAQ Accordion ─────────────────────────────────────────────────────────────
+
+function FAQAccordion({
+  items,
+  openIndex,
+  onToggle,
+}: {
+  items: { q: string; a: string }[]
+  openIndex: number | null
+  onToggle: (index: number) => void
+}) {
+  return (
+    <div className="px-6 pb-10">
+      <div className="border-t border-[#E5E5E5]">
+        {items.map((item, i) => (
+          <div key={i} className="border-b border-[#E5E5E5]">
+            <button
+              onClick={() => onToggle(i)}
+              className="w-full flex items-center justify-between py-4 text-left gap-4 cursor-pointer"
+              aria-expanded={openIndex === i}
+            >
+              <span className="text-sm font-medium text-[#0A0A0A] tracking-[-0.01em]">
+                {item.q}
+              </span>
+              <span className="flex-shrink-0 text-[#0A0A0A] text-lg leading-none w-5 h-5 flex items-center justify-center">
+                {openIndex === i ? '−' : '+'}
+              </span>
+            </button>
+            {openIndex === i && (
+              <p className="text-sm text-[#6B6B6B] leading-relaxed pb-4">
+                {item.a}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
