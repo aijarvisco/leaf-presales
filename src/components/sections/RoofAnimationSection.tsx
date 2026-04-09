@@ -61,6 +61,8 @@ export default function RoofAnimationSection() {
 
   // ── Chunked preloading ──────────────────────────────────────────────────────
   useEffect(() => {
+    let active = true
+
     const loadBatch = (start: number, onDone: () => void) => {
       let loaded = 0
       const end = Math.min(start + BATCH_SIZE, FRAME_COUNT)
@@ -70,19 +72,18 @@ export default function RoofAnimationSection() {
         const idx = i
         img.onload = () => {
           imagesRef.current[idx] = img
-          if (idx === 0) drawFrame(0)
           loaded++
-          if (loaded === end - start) onDone()
+          if (loaded === end - start && active) onDone()
         }
         img.onerror = () => {
           loaded++
-          if (loaded === end - start) onDone()
+          if (loaded === end - start && active) onDone()
         }
       }
     }
 
     loadBatch(0, () => {
-      setBatchOneReady(true)
+      if (active) setBatchOneReady(true)
       loadBatch(50, () =>
         loadBatch(100, () =>
           loadBatch(150, () =>
@@ -91,6 +92,8 @@ export default function RoofAnimationSection() {
         )
       )
     })
+
+    return () => { active = false }
   }, [])
 
   // ── Keep canvas pixel size in sync with CSS size ────────────────────────────
