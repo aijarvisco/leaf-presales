@@ -130,7 +130,12 @@ export default function AutonomiaSectionV2() {
       </div>
 
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-        <SavingsCalculator />
+        <SavingsCalculator
+          onInterested={() => {
+            setModalOpen(false)
+            document.getElementById('configurador')?.scrollIntoView({ behavior: 'smooth' })
+          }}
+        />
       </Modal>
     </section>
   )

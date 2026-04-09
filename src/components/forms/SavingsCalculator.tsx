@@ -10,7 +10,7 @@ const DEFAULTS = {
   fuel_price_per_l: 1.90,
 }
 
-export default function SavingsCalculator() {
+export default function SavingsCalculator({ onInterested }: { onInterested?: () => void }) {
   const [inputs, setInputs] = useState(DEFAULTS)
   const results = calculateEVSavings(inputs)
 
@@ -22,7 +22,7 @@ export default function SavingsCalculator() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row gap-8 p-6 md:p-10">
+    <div className="container mx-auto flex flex-col md:flex-row gap-8 p-6 md:px-24 md:py-16 min-h-[85vh]">
 
       {/* Left column — inputs */}
       <div className="flex flex-col gap-4 flex-1 min-w-0">
@@ -67,6 +67,19 @@ export default function SavingsCalculator() {
           onDecrement={() => update('ice_consumption_l_per_100km', -0.5, 3, 15)}
           onIncrement={() => update('ice_consumption_l_per_100km',  0.5, 3, 15)}
         />
+
+        <p className="text-xs text-[#86868b] leading-relaxed pt-2">
+          Os valores são meramente indicativos e baseados nos dados introduzidos. O consumo real pode variar consoante o estilo de condução, condições climatéricas e tarifas em vigor.
+        </p>
+
+        {onInterested && (
+          <button
+            onClick={onInterested}
+            className="mt-2 w-full bg-[#0A0A0A] hover:bg-[#1c1c1e] text-white font-medium rounded-xl py-3.5 text-sm tracking-[-0.01em] transition-colors cursor-pointer"
+          >
+            Estou interessado
+          </button>
+        )}
       </div>
 
       {/* Right column — results */}
@@ -74,15 +87,6 @@ export default function SavingsCalculator() {
         <h3 className="text-xl font-medium tracking-[-0.04em] text-[#0A0A0A]">
           Calculador de Poupança
         </h3>
-
-        <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-[#f5f5f7]">
-          <Image
-            src="/images/889248-F308-25TDIEU_PZ1D_L5_PS_YBR_005_HERO.png"
-            alt="Nissan Leaf"
-            fill
-            className="object-contain"
-          />
-        </div>
 
         <p
           className="font-medium tracking-[-0.04em] leading-none text-[#34C759]"
@@ -105,6 +109,15 @@ export default function SavingsCalculator() {
             </p>
             <p className="text-xs text-[#86868b]">Poupança Km</p>
           </div>
+        </div>
+
+        <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-[#f5f5f7]">
+          <Image
+            src="/images/889248-F308-25TDIEU_PZ1D_L5_PS_YBR_005_HERO.png"
+            alt="Nissan Leaf"
+            fill
+            className="object-contain"
+          />
         </div>
       </div>
     </div>

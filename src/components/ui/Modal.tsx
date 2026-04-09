@@ -53,7 +53,7 @@ export default function Modal({ open, onClose, children }: ModalProps) {
           {/* Bottom-sheet panel */}
           <motion.div
             data-testid="modal-panel"
-            className="fixed bottom-0 inset-x-0 z-50 bg-white rounded-t-2xl max-h-[90vh] overflow-y-auto"
+            className="fixed bottom-0 inset-x-0 z-50 bg-white rounded-t-2xl max-h-[90vh] overflow-y-auto pt-6"
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
@@ -63,7 +63,7 @@ export default function Modal({ open, onClose, children }: ModalProps) {
             <button
               onClick={onClose}
               aria-label="Fechar"
-              className="absolute top-4 right-4 text-[#0A0A0A]/40 hover:text-[#0A0A0A] text-2xl leading-none cursor-pointer"
+              className="absolute top-5 right-5 w-9 h-9 rounded-full bg-[#f0f0f0] hover:bg-[#e0e0e0] flex items-center justify-center text-[#0A0A0A]/60 hover:text-[#0A0A0A] text-xl leading-none cursor-pointer transition-colors"
             >
               ×
             </button>
