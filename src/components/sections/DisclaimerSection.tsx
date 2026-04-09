@@ -1,6 +1,6 @@
 export default function DisclaimerSection() {
   return (
-    <section className="bg-white py-10">
+    <section className="bg-white py-16">
       <div className="max-w-6xl mx-auto px-6">
         <ul className="list-disc list-inside space-y-2 text-sm text-[#6B6B6B]">
           <li>
