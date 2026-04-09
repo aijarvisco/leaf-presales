@@ -24,8 +24,47 @@ export default function SavingsCalculator({ onInterested }: { onInterested?: () 
   return (
     <div className="container mx-auto flex flex-col md:flex-row gap-8 p-6 md:px-24 md:py-16 min-h-[85vh]">
 
-      {/* Left column — inputs */}
-      <div className="flex flex-col gap-4 flex-1 min-w-0">
+      {/* Right column — results (order-1 = first on mobile, order-2 = second on desktop) */}
+      <div className="flex flex-col items-start gap-4 flex-1 min-w-0 order-1 md:order-2">
+        <h3 className="text-xl font-medium tracking-[-0.04em] text-[#0A0A0A]">
+          Calculador de Poupança
+        </h3>
+
+        <p
+          className="font-medium tracking-[-0.04em] leading-none text-[#34C759]"
+          style={{ fontSize: '48px' }}
+        >
+          {results.annual_savings.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
+        </p>
+        <p className="text-sm text-[#86868b] -mt-2">Poupança anual</p>
+
+        <div className="flex gap-8">
+          <div>
+            <p className="text-xl font-medium text-[#0A0A0A] tracking-[-0.03em]">
+              {results.monthly_savings.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
+            </p>
+            <p className="text-xs text-[#86868b]">Poupança Mensal</p>
+          </div>
+          <div>
+            <p className="text-xl font-medium text-[#0A0A0A] tracking-[-0.03em]">
+              {results.savings_per_km.toLocaleString('pt-PT', { minimumFractionDigits: 4, maximumFractionDigits: 4 })} €/km
+            </p>
+            <p className="text-xs text-[#86868b]">Poupança Km</p>
+          </div>
+        </div>
+
+        <div className="hidden md:block relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-[#f5f5f7]">
+          <Image
+            src="/images/889248-F308-25TDIEU_PZ1D_L5_PS_YBR_005_HERO.png"
+            alt="Nissan Leaf"
+            fill
+            className="object-contain"
+          />
+        </div>
+      </div>
+
+      {/* Left column — inputs (order-2 = second on mobile, order-1 = first on desktop) */}
+      <div className="flex flex-col gap-4 flex-1 min-w-0 order-2 md:order-1">
 
         <Stepper
           label="Distância percorrida anual"
@@ -82,44 +121,6 @@ export default function SavingsCalculator({ onInterested }: { onInterested?: () 
         )}
       </div>
 
-      {/* Right column — results */}
-      <div className="flex flex-col items-start gap-4 flex-1 min-w-0">
-        <h3 className="text-xl font-medium tracking-[-0.04em] text-[#0A0A0A]">
-          Calculador de Poupança
-        </h3>
-
-        <p
-          className="font-medium tracking-[-0.04em] leading-none text-[#34C759]"
-          style={{ fontSize: '48px' }}
-        >
-          {results.annual_savings.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
-        </p>
-        <p className="text-sm text-[#86868b] -mt-2">Poupança anual</p>
-
-        <div className="flex gap-8">
-          <div>
-            <p className="text-xl font-medium text-[#0A0A0A] tracking-[-0.03em]">
-              {results.monthly_savings.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
-            </p>
-            <p className="text-xs text-[#86868b]">Poupança Mensal</p>
-          </div>
-          <div>
-            <p className="text-xl font-medium text-[#0A0A0A] tracking-[-0.03em]">
-              {results.savings_per_km.toLocaleString('pt-PT', { minimumFractionDigits: 4, maximumFractionDigits: 4 })} €/km
-            </p>
-            <p className="text-xs text-[#86868b]">Poupança Km</p>
-          </div>
-        </div>
-
-        <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-[#f5f5f7]">
-          <Image
-            src="/images/889248-F308-25TDIEU_PZ1D_L5_PS_YBR_005_HERO.png"
-            alt="Nissan Leaf"
-            fill
-            className="object-contain"
-          />
-        </div>
-      </div>
     </div>
   )
 }
