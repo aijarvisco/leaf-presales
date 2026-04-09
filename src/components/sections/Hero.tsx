@@ -89,7 +89,7 @@ export default function Hero() {
             className="text-2xl sm:text-3xl 2xl:text-4xl text-white font-medium uppercase mb-3 tracking-[-0.07em] leading-none"
             {...entryFade(0)}
           >
-            Novo Nissan Leaf
+            Nissan Leaf. Nova Geração.
           </motion.p>
 
           {/* Headline */}
@@ -98,7 +98,7 @@ export default function Hero() {
               className="font-medium text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-7xl 2xl:text-8xl text-white leading-none tracking-[-0.05em]"
               {...clipReveal(0.2)}
             >
-              O futuro da inteligência elétrica
+              A energia que vai mover a sua vida
             </motion.h1>
           </div>
 
@@ -107,7 +107,7 @@ export default function Hero() {
             className="text-lg xl:text-xl font-light text-white"
             {...fadeUp(0.6)}
           >
-            Disponível para entrega em Outubro.
+            Primeiras entregas - limitadas - a partir de Outubro
           </motion.p>
         </div>
       </motion.div>
