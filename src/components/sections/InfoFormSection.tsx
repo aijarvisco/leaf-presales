@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import Button from '@/components/ui/Button'
 import Modal from '@/components/ui/Modal'
 import dealersData from '@/data/concessionarios.json'
 import type { ContactFormData } from '@/types'
@@ -20,50 +19,60 @@ interface Dealer {
 
 // ─── FAQ Data ──────────────────────────────────────────────────────────────────
 
-const FAQ_ITEMS: { q: string; a: string }[] = [
+const FAQ_SECTIONS: { title: string; items: { q: string; a: string }[] }[] = [
   {
-    q: 'Qual é a autonomia real do Nissan LEAF?',
-    a: 'O Nissan LEAF oferece até 592 km de autonomia em ciclo WLTP. A autonomia real pode variar consoante o estilo de condução, temperatura ambiente e utilização de sistemas de climatização.',
+    title: 'Sobre a Reserva',
+    items: [
+      {
+        q: 'Por que devo reservar agora?',
+        a: 'Ao reservar, garantes prioridade na entrega quando o teu LEAF estiver disponível, além de acesso antecipado a condições especiais de lançamento. O número de reservas é limitado.',
+      },
+      {
+        q: 'Quanto custa fazer uma reserva?',
+        a: 'A reserva tem um valor de 250 €, totalmente deduzido no momento da compra do veículo.',
+      },
+      {
+        q: 'Posso cancelar a minha reserva?',
+        a: 'Sim, podes cancelar a qualquer momento antes da confirmação final da encomenda. O valor da reserva é reembolsado na totalidade, sem qualquer penalização.',
+      },
+      {
+        q: 'O que acontece depois de reservar?',
+        a: 'Um representante Nissan entrará em contacto contigo em breve para confirmar os detalhes, discutir opções de financiamento e agendar um test drive.',
+      },
+      {
+        q: 'A minha reserva compromete-me a comprar o veículo?',
+        a: 'Não. A reserva é uma manifestação de interesse prioritária — não existe qualquer compromisso de compra. Podes cancelar e ser reembolsado a qualquer momento.',
+      },
+    ],
   },
   {
-    q: 'Quanto tempo demora a carregar?',
-    a: 'Em carregamento rápido (CHAdeMO), passa de 20% a 80% em apenas 30 minutos. Em carregamento AC em casa (7,4 kW), uma carga completa demora aproximadamente 8 horas.',
-  },
-  {
-    q: 'Posso instalar um carregador em casa?',
-    a: 'Sim. A Nissan disponibiliza soluções de carregamento doméstico (Wallbox) compatíveis com o LEAF. A instalação é simples e pode ser feita por um electricista certificado.',
-  },
-  {
-    q: 'Quais são as vantagens fiscais em Portugal?',
-    a: 'Os veículos elétricos estão isentos de IUC e beneficiam de redução de ISV. Empresas podem ainda deduzir 100% do custo de aquisição em IRC.',
-  },
-  {
-    q: 'A bateria tem garantia?',
-    a: 'Sim. A bateria do Nissan LEAF tem garantia de 8 anos ou 160 000 km, cobrindo degradação abaixo de 9 células de capacidade.',
-  },
-  {
-    q: 'Qual o custo médio por km em eletricidade?',
-    a: 'Com um consumo de 17 kWh/100 km e tarifa média de 0,15 €/kWh, o custo por km é de aproximadamente 0,026 €, face a 0,11 €/km num veículo a combustão.',
-  },
-  {
-    q: 'Por que devo reservar agora?',
-    a: 'Ao reservar, garantes prioridade na entrega quando o teu LEAF estiver disponível, além de acesso antecipado a condições especiais de lançamento. O número de reservas é limitado.',
-  },
-  {
-    q: 'Quanto custa fazer uma reserva?',
-    a: 'A reserva tem um valor de 250 €, totalmente deduzido no momento da compra do veículo.',
-  },
-  {
-    q: 'Posso cancelar a minha reserva?',
-    a: 'Sim, podes cancelar a qualquer momento antes da confirmação final da encomenda. O valor da reserva é reembolsado na totalidade, sem qualquer penalização.',
-  },
-  {
-    q: 'O que acontece depois de reservar?',
-    a: 'Um representante Nissan entrará em contacto contigo em breve para confirmar os detalhes, discutir opções de financiamento e agendar um test drive.',
-  },
-  {
-    q: 'A minha reserva compromete-me a comprar o veículo?',
-    a: 'Não. A reserva é uma manifestação de interesse prioritária — não existe qualquer compromisso de compra. Podes cancelar e ser reembolsado a qualquer momento.',
+    title: 'Sobre o Nissan Leaf',
+    items: [
+      {
+        q: 'Qual é a autonomia real do Nissan LEAF?',
+        a: 'O Nissan LEAF oferece até 592 km de autonomia em ciclo WLTP. A autonomia real pode variar consoante o estilo de condução, temperatura ambiente e utilização de sistemas de climatização.',
+      },
+      {
+        q: 'Quanto tempo demora a carregar?',
+        a: 'Em carregamento rápido (CHAdeMO), passa de 20% a 80% em apenas 30 minutos. Em carregamento AC em casa (7,4 kW), uma carga completa demora aproximadamente 8 horas.',
+      },
+      {
+        q: 'Posso instalar um carregador em casa?',
+        a: 'Sim. A Nissan disponibiliza soluções de carregamento doméstico (Wallbox) compatíveis com o LEAF. A instalação é simples e pode ser feita por um electricista certificado.',
+      },
+      {
+        q: 'Quais são as vantagens fiscais em Portugal?',
+        a: 'Os veículos elétricos estão isentos de IUC e beneficiam de redução de ISV. Empresas podem ainda deduzir 100% do custo de aquisição em IRC.',
+      },
+      {
+        q: 'A bateria tem garantia?',
+        a: 'Sim. A bateria do Nissan LEAF tem garantia de 8 anos ou 160 000 km, cobrindo degradação abaixo de 9 células de capacidade.',
+      },
+      {
+        q: 'Qual o custo médio por km em eletricidade?',
+        a: 'Com um consumo de 17 kWh/100 km e tarifa média de 0,15 €/kWh, o custo por km é de aproximadamente 0,026 €, face a 0,11 €/km num veículo a combustão.',
+      },
+    ],
   },
 ]
 
@@ -125,7 +134,7 @@ export default function InfoFormSection() {
 
   if (status === 'success') {
     return (
-      <section id="info-form" className="bg-[#F5F5F7] overflow-hidden py-16">
+      <section id="contacto" className="bg-[#F5F5F7] overflow-hidden py-16">
         <div className="max-w-6xl mx-auto px-6 text-center py-16">
           <p className="text-2xl font-semibold mb-2 text-[#0A0A0A]">Obrigado!</p>
           <p className="text-[#6B6B6B]">A nossa equipa entrará em contacto em breve.</p>
@@ -135,7 +144,7 @@ export default function InfoFormSection() {
   }
 
   return (
-    <section id="info-form" className="bg-[#F5F5F7] overflow-hidden relative">
+    <section id="contacto" className="bg-[#F5F5F7] overflow-hidden relative">
       <div className="container mx-auto px-6 py-24">
         <div className="grid md:grid-cols-2 gap-12 md:gap-24">
 
@@ -247,9 +256,13 @@ export default function InfoFormSection() {
                 <p className="text-red-500 text-sm">Ocorreu um erro. Por favor tenta novamente.</p>
               )}
 
-              <Button type="submit" variant="primary" className="w-full" disabled={status === 'loading'}>
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="w-full bg-[#0A0A0A] text-white font-semibold text-sm py-3 rounded-full hover:bg-[#0A0A0A]/80 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 {status === 'loading' ? 'A enviar...' : 'Enviar'}
-              </Button>
+              </button>
             </form>
           </motion.div>
 
@@ -293,7 +306,7 @@ export default function InfoFormSection() {
 
           {/* Accordion */}
           <FAQAccordion
-            items={FAQ_ITEMS}
+            sections={FAQ_SECTIONS}
             openIndex={faqIndex}
             onToggle={(i) => setFaqIndex((prev) => (prev === i ? null : i))}
           />
@@ -383,40 +396,52 @@ function TextareaField({
 // ─── FAQ Accordion ─────────────────────────────────────────────────────────────
 
 function FAQAccordion({
-  items,
+  sections,
   openIndex,
   onToggle,
 }: {
-  items: { q: string; a: string }[]
+  sections: { title: string; items: { q: string; a: string }[] }[]
   openIndex: number | null
   onToggle: (index: number) => void
 }) {
+  let globalIndex = 0
+
   return (
-    <div className="px-6 pb-10">
-      <div className="border-t border-[#E5E5E5]">
-        {items.map((item, i) => (
-          <div key={i} className="border-b border-[#E5E5E5]">
-            <button
-              type="button"
-              onClick={() => onToggle(i)}
-              className="w-full flex items-center justify-between py-4 text-left gap-4 cursor-pointer"
-              aria-expanded={openIndex === i}
-            >
-              <span className="text-md font-medium text-[#0A0A0A] tracking-[-0.01em]">
-                {item.q}
-              </span>
-              <span className="flex-shrink-0 text-[#0A0A0A] text-lg leading-none w-5 h-5 flex items-center justify-center">
-                {openIndex === i ? '−' : '+'}
-              </span>
-            </button>
-            {openIndex === i && (
-              <p className="text-md text-[#6B6B6B] leading-relaxed pb-4">
-                {item.a}
-              </p>
-            )}
+    <div className="px-6 pb-10 space-y-10">
+      {sections.map((section) => (
+        <div key={section.title}>
+          <p className="text-xs font-bold tracking-widest uppercase text-[#86868b] mb-4">
+            {section.title}
+          </p>
+          <div className="border-t border-[#E5E5E5]">
+            {section.items.map((item) => {
+              const idx = globalIndex++
+              return (
+                <div key={idx} className="border-b border-[#E5E5E5]">
+                  <button
+                    type="button"
+                    onClick={() => onToggle(idx)}
+                    className="w-full flex items-center justify-between py-4 text-left gap-4 cursor-pointer"
+                    aria-expanded={openIndex === idx}
+                  >
+                    <span className="text-md font-medium text-[#0A0A0A] tracking-[-0.01em]">
+                      {item.q}
+                    </span>
+                    <span className="flex-shrink-0 text-[#0A0A0A] text-lg leading-none w-5 h-5 flex items-center justify-center">
+                      {openIndex === idx ? '−' : '+'}
+                    </span>
+                  </button>
+                  {openIndex === idx && (
+                    <p className="text-md text-[#6B6B6B] leading-relaxed pb-4">
+                      {item.a}
+                    </p>
+                  )}
+                </div>
+              )
+            })}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   )
 }
