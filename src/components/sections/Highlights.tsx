@@ -8,19 +8,25 @@ const HIGHLIGHTS = [
   {
     imageSrc: '/images/highlights/nissan_leaf_aerodynamic.jpeg',
     imageAlt: 'Silhueta aerodinâmica do Nissan Leaf',
-    description: <><strong>Linhas Aerodinâmicas.</strong> Com a forma de uma lágrima, a silhueta aerodinâmica reduz a resistência do ar para melhorar a eficiência.</>,
+    description: <><strong>Linhas aerodinâmicas</strong> Belo e eficiente. Menos resistência ao vento significa mais quilómetros com a mesma energia.</>,
+    textPosition: 'bottom' as const,
+  },
+  {
+    imageSrc: '/images/889857a-F275-25TDIEULHD_PZ1D_01_LO.jpg',
+    imageAlt: 'Vista exterior do Nissan Leaf',
+    description: <><strong>Visualmente inteligente</strong> Da forma à função, até aos detalhes de acabamento, o Nissan LEAF é tão elegante quanto inteligente.</>,
+    textPosition: 'bottom' as const,
+  },
+  {
+    imageSrc: '/images/highlights/nissan_leaf_lights.jpeg',
+    imageAlt: 'Faróis traseiros 3D do Nissan Leaf',
+    description: <><strong>Iluminação traseira marcante</strong> Os faróis traseiros 3D do Nissan LEAF, conferem um aspeto futurista.</>,
     textPosition: 'bottom' as const,
   },
   {
     imageSrc: '/images/highlights/nissan_leaf_dimensions.jpg',
     imageAlt: 'Dimensões do Nissan Leaf',
     description: <><strong>Espaço para Explorar.</strong> Compacto o suficiente para ser manobrado facilmente, sem comprometer o espaço do habitáculo.</>,
-    textPosition: 'bottom' as const,
-  },
-  {
-    imageSrc: '/images/highlights/nissan_leaf_lights.jpeg',
-    imageAlt: 'Faróis traseiros 3D do Nissan Leaf',
-    description: <><strong>Iluminação Marcante.</strong> Os faróis traseiros 3D curvam-se à volta do Nissan LEAF para um aspeto futurista.</>,
     textPosition: 'bottom' as const,
   },
 ]
