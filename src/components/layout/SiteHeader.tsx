@@ -8,7 +8,7 @@ export default function SiteHeader() {
   return (
     <div className="absolute left-0 right-0 top-6 z-50 pointer-events-none">
       <header
-        className="mx-auto flex items-center justify-between pointer-events-auto px-6"
+        className="mx-auto flex items-center justify-between pointer-events-auto px-6 md:px-10 lg:px-16"
         style={{
           width: '100%',
           height: '64px',
