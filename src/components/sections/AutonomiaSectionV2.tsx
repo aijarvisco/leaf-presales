@@ -6,9 +6,9 @@ import Modal from '@/components/ui/Modal'
 import SavingsCalculator from '@/components/forms/SavingsCalculator'
 
 const STATS = [
-  { qualifier: 'Até', number: '75',  unit: 'kWh',    descriptor: 'Capacidade da bateria' },
-  { qualifier: 'Até', number: '592', unit: 'km',      descriptor: 'Autonomia em ciclo WLTP' },
-  { qualifier: '',    number: '30',  unit: 'min',     descriptor: 'De 20 a 80% em carga rápida' },
+  { qualifier: 'Até', number: '75',  unit: 'kWh',   descriptor: 'Capacidade da bateria' },
+  { qualifier: 'Até', number: '622', unit: 'km',     descriptor: 'Autonomia.' },
+  { qualifier: '',    number: '8',   unit: 'anos',   descriptor: 'de garantia na bateria' },
 ]
 
 const statsContainerVariants = {
@@ -66,7 +66,7 @@ export default function AutonomiaSectionV2() {
             className="leading-none text-white font-medium tracking-[-0.07em] max-w-3xl"
             style={{ fontSize: 'var(--text-display)' }}
           >
-            Uma bateria que vai onde tu vais.
+            Excelência elétrica para chegar mais longe
           </h2>
 
           {/* EV Savings Calculator button — appears with stats */}
@@ -81,7 +81,7 @@ export default function AutonomiaSectionV2() {
             onClick={() => setModalOpen(true)}
           >
             <span className="text-white font-medium" style={{ fontSize: '17px', letterSpacing: '-0.01em' }}>
-              Calculadora de Poupança EV
+              Calcule o que vai poupar
             </span>
             <span
               className="flex items-center justify-center rounded-full shrink-0"
