@@ -79,7 +79,7 @@ export default function Hero() {
 
       {/* Content block — fades and lifts on scroll */}
       <motion.div
-        className="absolute bottom-24 md:bottom-32 left-6 z-20"
+        className="absolute bottom-24 md:bottom-32 left-6 right-6 z-20"
         style={{ opacity: textOpacity, y: textY }}
       >
         {/* Left — copy block */}
