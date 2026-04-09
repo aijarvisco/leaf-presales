@@ -63,9 +63,11 @@ export default function Modal({ open, onClose, children }: ModalProps) {
             <button
               onClick={onClose}
               aria-label="Fechar"
-              className="absolute top-5 right-5 w-9 h-9 rounded-full bg-[#f0f0f0] hover:bg-[#e0e0e0] flex items-center justify-center text-[#0A0A0A]/60 hover:text-[#0A0A0A] text-xl leading-none cursor-pointer transition-colors"
+              className="absolute top-5 right-5 w-10 h-10 rounded-full bg-[#e8e8e8] hover:bg-[#dcdcdc] flex items-center justify-center cursor-pointer transition-colors"
             >
-              ×
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M1 1l10 10M11 1L1 11" stroke="#0A0A0A" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
             </button>
 
             {children}
