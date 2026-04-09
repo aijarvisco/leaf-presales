@@ -10,16 +10,24 @@ export interface LeadFormData {
   preferredContactTime?: string
 }
 
-export interface SavingsInputs {
-  monthlyFuelSpend: number   // €/month
-  monthlyKm: number          // km/month
-  electricityTariff: number  // €/kWh
+export interface EVSavingsInputs {
+  km_per_year: number
+  ev_energy_price_per_kwh: number
+  ice_consumption_l_per_100km: number
+  fuel_price_per_l: number
+  adjustment_factors?: {
+    driving?: number
+    temperature?: number
+    load?: number
+  }
 }
 
-export interface SavingsResult {
-  monthlySavings: number
-  annualSavings: number
-  co2AvoidedKgPerYear: number
+export interface EVSavingsResult {
+  ev_cost_year: number
+  ice_cost_year: number
+  annual_savings: number
+  monthly_savings: number
+  savings_per_km: number
 }
 
 export type ConfiguratorView = 'exterior' | 'interior'
