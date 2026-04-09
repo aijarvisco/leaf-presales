@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import Button from '@/components/ui/Button'
+import Modal from '@/components/ui/Modal'
 import dealersData from '@/data/concessionarios.json'
 import type { ContactFormData } from '@/types'
 
@@ -16,6 +17,55 @@ interface Dealer {
   objectId: string
   address: string
 }
+
+// ─── FAQ Data ──────────────────────────────────────────────────────────────────
+
+const FAQ_ITEMS: { q: string; a: string }[] = [
+  {
+    q: 'Qual é a autonomia real do Nissan LEAF?',
+    a: 'O Nissan LEAF oferece até 592 km de autonomia em ciclo WLTP. A autonomia real pode variar consoante o estilo de condução, temperatura ambiente e utilização de sistemas de climatização.',
+  },
+  {
+    q: 'Quanto tempo demora a carregar?',
+    a: 'Em carregamento rápido (CHAdeMO), passa de 20% a 80% em apenas 30 minutos. Em carregamento AC em casa (7,4 kW), uma carga completa demora aproximadamente 8 horas.',
+  },
+  {
+    q: 'Posso instalar um carregador em casa?',
+    a: 'Sim. A Nissan disponibiliza soluções de carregamento doméstico (Wallbox) compatíveis com o LEAF. A instalação é simples e pode ser feita por um electricista certificado.',
+  },
+  {
+    q: 'Quais são as vantagens fiscais em Portugal?',
+    a: 'Os veículos elétricos estão isentos de IUC e beneficiam de redução de ISV. Empresas podem ainda deduzir 100% do custo de aquisição em IRC.',
+  },
+  {
+    q: 'A bateria tem garantia?',
+    a: 'Sim. A bateria do Nissan LEAF tem garantia de 8 anos ou 160 000 km, cobrindo degradação abaixo de 9 células de capacidade.',
+  },
+  {
+    q: 'Qual o custo médio por km em eletricidade?',
+    a: 'Com um consumo de 17 kWh/100 km e tarifa média de 0,15 €/kWh, o custo por km é de aproximadamente 0,026 €, face a 0,11 €/km num veículo a combustão.',
+  },
+  {
+    q: 'Por que devo reservar agora?',
+    a: 'Ao reservar, garantes prioridade na entrega quando o teu LEAF estiver disponível, além de acesso antecipado a condições especiais de lançamento. O número de reservas é limitado.',
+  },
+  {
+    q: 'Quanto custa fazer uma reserva?',
+    a: 'A reserva tem um valor de 250 €, totalmente deduzido no momento da compra do veículo.',
+  },
+  {
+    q: 'Posso cancelar a minha reserva?',
+    a: 'Sim, podes cancelar a qualquer momento antes da confirmação final da encomenda. O valor da reserva é reembolsado na totalidade, sem qualquer penalização.',
+  },
+  {
+    q: 'O que acontece depois de reservar?',
+    a: 'Um representante Nissan entrará em contacto contigo em breve para confirmar os detalhes, discutir opções de financiamento e agendar um test drive.',
+  },
+  {
+    q: 'A minha reserva compromete-me a comprar o veículo?',
+    a: 'Não. A reserva é uma manifestação de interesse prioritária — não existe qualquer compromisso de compra. Podes cancelar e ser reembolsado a qualquer momento.',
+  },
+]
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -36,6 +86,8 @@ export default function InfoFormSection() {
   const [form, setForm] = useState<Partial<ContactFormData>>({})
   const [status, setStatus] = useState<Status>('idle')
   const [dealers, setDealers] = useState<Dealer[]>([])
+  const [faqOpen, setFaqOpen] = useState(false)
+  const [faqIndex, setFaqIndex] = useState<number | null>(null)
 
   const set =
     (key: keyof ContactFormData) =>
