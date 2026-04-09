@@ -88,6 +88,13 @@ export default function Configurador() {
     ))
   }, [isDrawerOpen])
 
+  // Open drawer when BottomCTABar fires ctabar:reserve
+  useEffect(() => {
+    const onReserve = () => setIsDrawerOpen(true)
+    window.addEventListener('ctabar:reserve', onReserve)
+    return () => window.removeEventListener('ctabar:reserve', onReserve)
+  }, [])
+
   return (
     <section ref={sectionRef} id="configurador" className="relative bg-white">
 
