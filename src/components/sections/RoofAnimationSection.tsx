@@ -39,7 +39,7 @@ export default function RoofAnimationSection() {
     target: sectionRef,
     offset: ['start start', 'end end'],
   })
-  const overlayOpacity = useTransform(scrollYProgress, [0.82, 0.95], [0, 1])
+  const overlayOpacity = useTransform(scrollYProgress, [0.72, 0.87], [0, 1])
 
   // ── Draw a frame to canvas ──────────────────────────────────────────────────
   const drawFrame = (index: number) => {
@@ -159,17 +159,22 @@ export default function RoofAnimationSection() {
           style={{
             opacity: overlayOpacity,
             background:
-              'linear-gradient(to top, rgba(0,0,0,0.80) 0%, transparent 55%)',
+              'linear-gradient(to top, rgba(0,0,0,0.92) 0%, transparent 65%)',
           }}
         >
-          <div className="absolute bottom-8 left-6 max-w-sm sm:bottom-12 sm:left-12">
-            <h2 className="text-white font-medium tracking-[-0.04em] text-2xl sm:text-3xl leading-tight mb-3">
-              Interior de uma nova era
-            </h2>
-            <p className="text-white/80 text-sm sm:text-base leading-relaxed">
-              O Teto panorâmico escurecido oferece uma experiência de habitáculo
-              premium com maior altura livre e um isolamento térmico eficiente.
-            </p>
+          <div className="absolute bottom-0 left-0 right-0">
+            <div className="max-w-5xl mx-auto px-6 pb-8 sm:pb-12">
+              <h2
+                className="text-white font-medium tracking-[-0.07em] leading-none mb-3"
+                style={{ fontSize: 'var(--text-h2)' }}
+              >
+                Interior de uma nova era
+              </h2>
+              <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-sm">
+                O Teto panorâmico escurecido oferece uma experiência de habitáculo
+                premium com maior altura livre e um isolamento térmico eficiente.
+              </p>
+            </div>
           </div>
         </motion.div>
 
