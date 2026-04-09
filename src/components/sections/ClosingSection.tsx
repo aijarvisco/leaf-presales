@@ -46,10 +46,8 @@ export default function ClosingSection() {
           className="absolute inset-x-0 z-10 text-center px-6"
           style={{ top: copyY }}
         >
-          <h2 className="leading-none font-medium text-white tracking-[-0.07em]" style={{ fontSize: 'var(--text-h2)' }}>
-            Não imagine mais.
-            <br />
-            Conduza-o.
+          <h2 className="leading-none font-medium text-white tracking-[-0.07em] max-w-3xl mx-auto" style={{ fontSize: 'var(--text-display)' }}>
+            Chega de imaginar. É hora de conduzir.
           </h2>
         </motion.div>
 
@@ -65,11 +63,11 @@ export default function ClosingSection() {
               className="group flex flex-col justify-between gap-8 w-full sm:w-[36%] px-6 py-5 bg-neutral-900/80 backdrop-blur-sm text-left cursor-pointer transition-colors duration-200 hover:bg-neutral-900/90"
             >
               <p className="text-[10px] font-medium uppercase tracking-widest text-white">
-                Ser Contactado
+                Fale connosco
               </p>
               <div className="flex items-end justify-between gap-4">
                 <p className="text-xl font-medium text-white/80 leading-snug tracking-[-0.02em] max-w-[70%]">
-                  Tem dúvidas? Nós respondemos.
+                  Tem dúvidas? A nossa equipa responde em menos de 24 horas.
                 </p>
                 <div className="shrink-0 w-8 h-8 rounded-full bg-white/15 flex items-center justify-center group-hover:bg-white/25 transition-colors duration-200">
                   <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -85,11 +83,11 @@ export default function ClosingSection() {
               className="group flex flex-col justify-between gap-8 flex-1 px-6 py-5 bg-[#E8372F] text-left cursor-pointer transition-colors duration-200 hover:bg-[#D42F27]"
             >
               <p className="text-[10px] font-medium uppercase tracking-widest text-white">
-                Reservar Agora
+                Reservar
               </p>
               <div className="flex items-end justify-between gap-4">
                 <p className="text-xl font-medium text-white leading-snug tracking-[-0.02em] max-w-[70%]">
-                  Garanta o seu lugar com 300€ totalmente reembolsáveis.
+                  300€ totalmente reembolsáveis · Garanta o seu lugar entre os primeiros. Sem compromisso, sem risco.
                 </p>
                 <div className="shrink-0 w-8 h-8 rounded-full bg-black/20 flex items-center justify-center group-hover:bg-black/35 transition-colors duration-200">
                   <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
