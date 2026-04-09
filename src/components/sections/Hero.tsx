@@ -86,16 +86,16 @@ export default function Hero() {
         <div className="max-w-4xl">
           {/* Label */}
           <motion.p
-            className="text-2xl sm:text-3xl 2xl:text-4xl text-white font-medium uppercase mb-3 tracking-[-0.07em] leading-none"
+            className="text-xl sm:text-2xl 2xl:text-2xl text-white font-medium uppercase mb-3 leading-none"
             {...entryFade(0)}
           >
-            Nissan Leaf. Nova Geração.
+            Nissan Leaf · Nova Geração
           </motion.p>
 
           {/* Headline */}
           <div className="block overflow-hidden mb-6">
             <motion.h1
-              className="font-medium text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-7xl 2xl:text-8xl text-white leading-none tracking-[-0.05em]"
+              className="font-medium text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl 2xl:text-7xl text-white leading-none tracking-[-0.05em] max-w-xl"
               {...clipReveal(0.2)}
             >
               A energia que vai mover a sua vida

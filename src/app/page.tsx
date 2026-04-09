@@ -52,8 +52,8 @@ export default function Home() {
         <ValuesSection
           id="battery-highlights"
           tagline="Carregamento"
-          title="Descubra novas fronteiras."
-          paragraphHtml='Descubra o <strong class="font-semibold">verdadeiro potencial da condução elétrica</strong> graças ao design aerodinâmico inteligente, ao planeamento inteligente de rotas e aos sistemas eficientes de gestão da bateria.'
+          title="Atravesse novas fronteiras<br/>no seu dia a dia."
+          paragraphHtml='Sinta o <strong class="font-semibold">verdadeiro potencial da condução elétrica</strong> graças ao design aerodinâmico inteligente, ao planeamento inteligente de rotas e aos sistemas eficientes de gestão da bateria.'
         />
         <InfoFormSection />
         <ClosingSection />

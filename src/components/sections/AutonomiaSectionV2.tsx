@@ -63,7 +63,7 @@ export default function AutonomiaSectionV2() {
             Autonomia
           </p>
           <h2
-            className="leading-none text-white font-medium tracking-[-0.07em] max-w-3xl"
+            className="leading-none text-white font-medium tracking-[-0.07em] max-w-5xl"
             style={{ fontSize: 'var(--text-display)' }}
           >
             Excelência elétrica para chegar mais longe

@@ -159,20 +159,20 @@ export default function RoofAnimationSection() {
           style={{
             opacity: overlayOpacity,
             background:
-              'linear-gradient(to top, rgba(0,0,0,0.92) 0%, transparent 65%)',
+              'linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 85%)',
           }}
         >
-          <div className="absolute bottom-0 left-0 right-0">
+          <div className="absolute bottom-24 left-0 right-0">
             <div className="max-w-5xl mx-auto px-6 pb-8 sm:pb-12">
               <h2
-                className="text-white font-medium tracking-[-0.07em] leading-none mb-3"
+                className="text-white font-medium tracking-[-0.07em] leading-none mb-3 max-w-xl"
                 style={{ fontSize: 'var(--text-h2)' }}
               >
-                Interior de uma nova era
+                Descubra uma nova era de interior.
               </h2>
-              <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-sm">
-                O Teto panorâmico escurecido oferece uma experiência de habitáculo
-                premium com maior altura livre e um isolamento térmico eficiente.
+              <p className="text-white/80 text-base sm:text-xl leading-relaxed max-w-2xl mt-6 leading-relaxed">
+                  O <strong className="font-semibold">teto panorâmico escurecido</strong> oferece uma experiência de habitáculo
+                  premium com maior altura livre e um isolamento térmico eficiente.
               </p>
             </div>
           </div>

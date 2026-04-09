@@ -16,7 +16,7 @@ const VALUES = [
     imageSrc: '/images/autonomy/nissan_leaf_warranty.jpeg',
     imageAlt: 'Nissan Leaf — garantia de bateria',
     boldText: '8 anos de garantia na bateria.',
-    bodyText: 'A tua tranquilidade começa aqui — cobertura total para que te focuses no essencial: conduzir.',
+    bodyText: 'Não é uma promessa — é um compromisso escrito. Cobertura total para que se concentre no essencial: conduzir.',
   },
   {
     imageSrc: '/images/autonomy/nissan_leaf_driving.jpg',
@@ -60,9 +60,9 @@ interface ValuesSectionProps {
 export default function ValuesSection({
   id = 'values',
   cards = VALUES,
-  tagline = 'Values',
-  title = 'Designed to make a difference.',
-  paragraphHtml,
+  tagline = 'Interior',
+  title = 'Conforto e tecnologia<br/>para o seu dia a dia.',
+  paragraphHtml = 'O Nissan LEAF oferece um <strong class="font-semibold">interior moderno e tecnológico</strong>, com um design elegante e funcional. O seu design interior é pensado para proporcionar conforto e praticidade, com um design moderno e funcional.',
 }: ValuesSectionProps) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [viewportWidth, setViewportWidth] = useState(0)
@@ -171,9 +171,8 @@ export default function ValuesSection({
         <h2
           className="font-medium tracking-[-0.07em] text-[#0A0A0A] leading-none max-w-5xl"
           style={{ fontSize: 'var(--text-h2)' }}
-        >
-          {title}
-        </h2>
+          dangerouslySetInnerHTML={{ __html: title }}
+        />
         {paragraphHtml ? (
           <p
             className="mt-6 text-xl text-[#0A0A0A] max-w-2xl mx-auto leading-relaxed"
