@@ -41,10 +41,10 @@ describe('ClosingSection', () => {
     expect(container.querySelector('#closing')).toBeInTheDocument()
   })
 
-  it('applies --text-h2 CSS variable to the heading', () => {
+  it('applies --text-display CSS variable to the heading', () => {
     const { container } = render(<ClosingSection />)
     const heading = container.querySelector('h2')!
-    expect(heading.style.fontSize).toBe('var(--text-h2)')
+    expect(heading.style.fontSize).toBe('var(--text-display)')
   })
 
   it('CTA paragraphs have text-base class for mobile', () => {
