@@ -277,13 +277,16 @@ export default function InfoFormSection() {
       </motion.div>
 
       <Modal open={faqOpen} onClose={() => { setFaqOpen(false); setFaqIndex(null) }}>
-        <div>
+        <div className="container mx-auto p-6 md:px-24 md:py-16 min-h-[85vh]">
           {/* Header */}
           <div className="px-6 pt-2 pb-6">
-            <h3 className="text-2xl font-medium tracking-[-0.04em] text-[#0A0A0A]">
-              Tudo o que precisas de saber
+            <h3 
+            className="font-medium tracking-[-0.07em] text-[#0A0A0A] leading-none max-w-xl"
+            style={{ fontSize: 'var(--text-h2)' }}
+            >
+              FAQs
             </h3>
-            <p className="text-sm text-[#86868b] mt-2">
+            <p className="text-[#86868b] text-base sm:text-xl leading-relaxed max-w-2xl mt-4 leading-relaxed">
               Reunimos as perguntas mais comuns sobre o Nissan LEAF. Se tiveres mais dúvidas, a nossa equipa está disponível para ajudar.
             </p>
           </div>
@@ -399,7 +402,7 @@ function FAQAccordion({
               className="w-full flex items-center justify-between py-4 text-left gap-4 cursor-pointer"
               aria-expanded={openIndex === i}
             >
-              <span className="text-sm font-medium text-[#0A0A0A] tracking-[-0.01em]">
+              <span className="text-md font-medium text-[#0A0A0A] tracking-[-0.01em]">
                 {item.q}
               </span>
               <span className="flex-shrink-0 text-[#0A0A0A] text-lg leading-none w-5 h-5 flex items-center justify-center">
@@ -407,7 +410,7 @@ function FAQAccordion({
               </span>
             </button>
             {openIndex === i && (
-              <p className="text-sm text-[#6B6B6B] leading-relaxed pb-4">
+              <p className="text-md text-[#6B6B6B] leading-relaxed pb-4">
                 {item.a}
               </p>
             )}
