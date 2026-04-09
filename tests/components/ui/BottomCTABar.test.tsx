@@ -185,6 +185,13 @@ describe('BottomCTABar', () => {
     expect(bar.style.bottom).toContain('safe-area-inset-bottom')
   })
 
+  it('outer wrapper has max-w-[calc(100vw-2rem)] to prevent viewport overflow', () => {
+    setupAnchors()
+    const { container } = render(<BottomCTABar />)
+    const bar = container.firstChild as HTMLElement
+    expect(bar.className).toContain('max-w-[calc(100vw-2rem)]')
+  })
+
   // ── CTA bar – collapsed state ─────────────────────────────────────────────
 
   it('renders the "Reservar agora" main CTA button when collapsed', () => {

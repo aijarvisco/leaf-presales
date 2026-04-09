@@ -99,7 +99,7 @@ export default function BottomCTABar() {
   return (
     <div
       ref={barRef}
-      className={`fixed left-1/2 -translate-x-1/2 z-30 transition-all duration-300 ease-in-out motion-reduce:transition-none ${hidden ? 'translate-y-[calc(100%+2rem)] opacity-0 pointer-events-none' : 'opacity-100'}`}
+      className={`fixed left-1/2 -translate-x-1/2 z-30 max-w-[calc(100vw-2rem)] transition-all duration-300 ease-in-out motion-reduce:transition-none ${hidden ? 'translate-y-[calc(100%+2rem)] opacity-0 pointer-events-none' : 'opacity-100'}`}
       style={{ bottom: 'max(2rem, env(safe-area-inset-bottom))' }}
       aria-hidden={hidden ? 'true' : undefined}
     >
@@ -114,27 +114,29 @@ export default function BottomCTABar() {
             <span className="text-white font-semibold text-base whitespace-nowrap">Nissan Leaf</span>
             <span className="text-white/50 text-sm whitespace-nowrap">Desde 29.900€</span>
           </div>
-          <button
-            type="button"
-            onClick={openReservation}
-            tabIndex={hidden || isExpanded ? -1 : undefined}
-            aria-label="Reservar agora"
-            className="bg-[#E8372F] text-white font-semibold text-base px-6 py-2.5 rounded-full hover:bg-[#D42F27] transition-colors cursor-pointer whitespace-nowrap"
-          >
-            Reservar agora
-          </button>
-          <button
-            type="button"
-            onClick={() => setIsExpanded(true)}
-            tabIndex={hidden || isExpanded ? -1 : undefined}
-            aria-expanded={isExpanded}
-            aria-label="Ver mais opções"
-            className="bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 flex items-center justify-center text-white transition-colors cursor-pointer flex-shrink-0"
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M3 10L8 5L13 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={openReservation}
+              tabIndex={hidden || isExpanded ? -1 : undefined}
+              aria-label="Reservar agora"
+              className="bg-[#E8372F] text-white font-semibold text-base px-6 py-2.5 rounded-full hover:bg-[#D42F27] transition-colors cursor-pointer whitespace-nowrap"
+            >
+              Reservar agora
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsExpanded(true)}
+              tabIndex={hidden || isExpanded ? -1 : undefined}
+              aria-expanded={isExpanded}
+              aria-label="Ver mais opções"
+              className="bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 flex items-center justify-center text-white transition-colors cursor-pointer flex-shrink-0"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 10L8 5L13 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* ── EXPANDED PANEL ────────────────────────────────── */}
