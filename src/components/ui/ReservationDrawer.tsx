@@ -116,7 +116,15 @@ export default function ReservationDrawer({
 
           {/* StripePaymentForm mounts only when open so it re-fetches a fresh
               payment intent on each open with the current versionId */}
-          {isOpen && <StripePaymentForm versionId={versionId} />}
+          {isOpen && (
+            <StripePaymentForm
+              versionId={versionId}
+              versionName={versionName}
+              colorName={colorName}
+              colorHex={colorHex}
+              price={price}
+            />
+          )}
         </div>
       </div>
     </>,
