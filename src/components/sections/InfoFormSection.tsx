@@ -373,6 +373,7 @@ function FAQAccordion({
         {items.map((item, i) => (
           <div key={i} className="border-b border-[#E5E5E5]">
             <button
+              type="button"
               onClick={() => onToggle(i)}
               className="w-full flex items-center justify-between py-4 text-left gap-4 cursor-pointer"
               aria-expanded={openIndex === i}
