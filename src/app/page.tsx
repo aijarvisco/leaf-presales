@@ -35,6 +35,7 @@ import AutonomiaSectionV2 from '@/components/sections/AutonomiaSectionV2'
 import ValuesSection from '@/components/sections/ValuesSection'
 import Configurador from '@/components/sections/Configurador'
 import InfoFormSection from '@/components/sections/InfoFormSection'
+import DisclaimerSection from '@/components/sections/DisclaimerSection'
 import ClosingSection from '@/components/sections/ClosingSection'
 import BottomCTABar from '@/components/ui/BottomCTABar'
 
@@ -56,6 +57,7 @@ export default function Home() {
           paragraphHtml='Sinta o <strong class="font-semibold">verdadeiro potencial da condução elétrica</strong> graças ao design aerodinâmico inteligente, ao planeamento inteligente de rotas e aos sistemas eficientes de gestão da bateria.'
         />
         <InfoFormSection />
+        <DisclaimerSection />
         <ClosingSection />
       </main>
       <BottomCTABar />
