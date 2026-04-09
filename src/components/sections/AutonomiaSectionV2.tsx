@@ -59,11 +59,11 @@ export default function AutonomiaSectionV2() {
           className="absolute inset-x-0 z-10 flex flex-col items-center text-center px-6"
           style={{ top: copyY }}
         >
-          <p className="font-medium text-base md:text-xl max-w-5xl mx-auto tracking-[-0.07em] leading-none">
+          <p className="font-medium text-base md:text-xl mx-auto md:max-w-2xl 2xl:max-w-5xl tracking-[-0.07em] leading-none">
             Autonomia
           </p>
           <h2
-            className="leading-none text-white font-medium tracking-[-0.07em] max-w-5xl"
+            className="leading-none text-white font-medium tracking-[-0.07em] md:max-w-2xl 2xl:max-w-5xl"
             style={{ fontSize: 'var(--text-display)' }}
           >
             Excelência elétrica para chegar mais longe
@@ -101,7 +101,7 @@ export default function AutonomiaSectionV2() {
           style={{ opacity: statsOpacity }}
         >
           <motion.div
-            className="grid grid-cols-3 gap-4 md:gap-8 max-w-6xl mx-auto"
+            className="grid grid-cols-3 gap-4 md:gap-8 mx-auto md:max-w-5xl"
             variants={statsContainerVariants}
             initial="hidden"
             animate={statsVisible ? 'visible' : 'hidden'}

@@ -46,14 +46,14 @@ export default function ClosingSection() {
           className="absolute inset-x-0 z-10 text-center px-6"
           style={{ top: copyY }}
         >
-          <h2 className="leading-none font-medium text-white tracking-[-0.07em] max-w-3xl mx-auto" style={{ fontSize: 'var(--text-display)' }}>
-            Chega de imaginar. É hora de conduzir.
+          <h2 className="leading-none font-medium text-white tracking-[-0.07em] mx-auto md:max-w-2xl 2xl:max-w-5xl" style={{ fontSize: 'var(--text-display)' }}>
+            Chega de imaginar.<br/>É hora de conduzir.
           </h2>
         </motion.div>
 
         {/* Bottom CTAs — fade in as headline reaches top */}
         <motion.div
-          className="absolute z-10 bottom-0 left-1/2 -translate-x-1/2 w-full max-w-5xl px-6 pb-12"
+          className="absolute z-10 bottom-0 left-1/2 -translate-x-1/2 w-full md:max-w-5xl px-6 pb-12"
           style={{ opacity: ctasOpacity }}
         >
           <div className="flex flex-col sm:flex-row items-stretch gap-0 overflow-hidden rounded-xl">
