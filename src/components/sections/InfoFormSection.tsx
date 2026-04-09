@@ -157,9 +157,25 @@ export default function InfoFormSection() {
             >
               Fale connosco.
             </h2>
-            <p className="mt-6 text-xl text-[#0A0A0A] leading-relaxed mb-10">
+            <p className="mt-6 text-xl text-[#0A0A0A] leading-relaxed mb-6">
               Preencha o formulário e um representante Nissan entrará em contacto consigo em breve.
             </p>
+
+            <button
+              onClick={() => setFaqOpen(true)}
+              className="flex items-center gap-3 mb-10 group cursor-pointer"
+              aria-label="Ver perguntas frequentes"
+            >
+              <span className="flex items-center justify-center w-8 h-8 rounded-full border border-[#0A0A0A] group-hover:bg-[#0A0A0A] transition-colors">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                    className="text-[#0A0A0A] group-hover:text-white transition-colors" />
+                </svg>
+              </span>
+              <span className="text-xs font-bold tracking-widest uppercase text-[#0A0A0A]">
+                Perguntas Frequentes
+              </span>
+            </button>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
