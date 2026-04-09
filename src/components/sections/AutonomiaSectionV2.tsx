@@ -97,11 +97,11 @@ export default function AutonomiaSectionV2() {
 
         {/* Stats panel */}
         <motion.div
-          className="absolute bottom-24 inset-x-0 z-10 px-16"
+          className="absolute bottom-24 inset-x-0 z-10 px-4 md:px-16"
           style={{ opacity: statsOpacity }}
         >
           <motion.div
-            className="grid grid-cols-3 gap-8 max-w-6xl mx-auto"
+            className="grid grid-cols-3 gap-4 md:gap-8 max-w-6xl mx-auto"
             variants={statsContainerVariants}
             initial="hidden"
             animate={statsVisible ? 'visible' : 'hidden'}
@@ -109,19 +109,19 @@ export default function AutonomiaSectionV2() {
             {STATS.map((stat) => (
               <motion.div key={stat.descriptor} className="flex flex-col" variants={statItemVariants}>
                 {stat.qualifier ? (
-                  <p style={{ fontSize: '21px', color: '#86868b', fontWeight: 400 }}>{stat.qualifier}</p>
+                  <p className="text-sm md:text-xl text-[#86868b] font-normal">{stat.qualifier}</p>
                 ) : (
-                  <p aria-hidden="true" style={{ fontSize: '21px', color: 'transparent', fontWeight: 400 }}>&nbsp;</p>
+                  <p aria-hidden="true" className="text-sm md:text-xl text-transparent font-normal">&nbsp;</p>
                 )}
-                <div className="flex items-baseline gap-2">
-                  <span style={{ fontSize: '56px', fontWeight: 500, color: 'white', letterSpacing: '-0.02em' }}>
+                <div className="flex items-baseline gap-1 md:gap-2">
+                  <span className="text-4xl md:text-5xl font-medium text-white tracking-[-0.02em]">
                     {stat.number}
                   </span>
-                  <span style={{ fontSize: '56px', fontWeight: 500, color: 'white', letterSpacing: '-0.02em' }}>
+                  <span className="text-4xl md:text-5xl font-medium text-white tracking-[-0.02em]">
                     {stat.unit}
                   </span>
                 </div>
-                <p style={{ fontSize: '21px', color: '#86868b', fontWeight: 400 }}>{stat.descriptor}</p>
+                <p className="text-sm md:text-xl text-[#86868b] font-normal">{stat.descriptor}</p>
               </motion.div>
             ))}
           </motion.div>

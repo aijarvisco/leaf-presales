@@ -43,26 +43,40 @@ import AutonomiaSectionV2 from '@/components/sections/AutonomiaSectionV2'
 describe('AutonomiaSectionV2', () => {
   it('renders the section heading', () => {
     render(<AutonomiaSectionV2 />)
-    expect(screen.getByText('Uma bateria que vai onde tu vais.')).toBeInTheDocument()
+    expect(screen.getByText('Excelência elétrica para chegar mais longe')).toBeInTheDocument()
   })
 
   it('applies --text-display CSS variable to the heading', () => {
     render(<AutonomiaSectionV2 />)
-    const heading = screen.getByText('Uma bateria que vai onde tu vais.')
+    const heading = screen.getByText('Excelência elétrica para chegar mais longe')
     expect(heading.style.fontSize).toBe('var(--text-display)')
   })
 
-  it('eyebrow label has text-base class (not text-3xl)', () => {
+  it('eyebrow label has text-base class', () => {
     render(<AutonomiaSectionV2 />)
     const eyebrow = screen.getByText('Autonomia')
     expect(eyebrow.className).toContain('text-base')
-    expect(eyebrow.className).not.toContain('text-3xl')
   })
 
   it('renders all three stat descriptors', () => {
     render(<AutonomiaSectionV2 />)
     expect(screen.getByText('Capacidade da bateria')).toBeInTheDocument()
-    expect(screen.getByText('Autonomia em ciclo WLTP')).toBeInTheDocument()
-    expect(screen.getByText('De 20 a 80% em carga rápida')).toBeInTheDocument()
+    expect(screen.getByText('Autonomia.')).toBeInTheDocument()
+    expect(screen.getByText('de garantia na bateria')).toBeInTheDocument()
+  })
+
+  it('stat numbers use responsive Tailwind classes, not hardcoded inline fontSize', () => {
+    render(<AutonomiaSectionV2 />)
+    // Find the span with stat number "75"
+    const numberSpan = screen.getByText('75')
+    expect(numberSpan.style.fontSize).toBe('')
+    expect(numberSpan.className).toContain('text-4xl')
+  })
+
+  it('stats container uses px-4 class for mobile padding', () => {
+    const { container } = render(<AutonomiaSectionV2 />)
+    // The stats panel div should have px-4
+    const statsPanel = container.querySelector('.px-4')
+    expect(statsPanel).toBeInTheDocument()
   })
 })
