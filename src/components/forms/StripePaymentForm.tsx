@@ -15,10 +15,9 @@ interface Dealer {
   address: string
 }
 
-const districts = dealersData
-  .map((d) => d.district)
-  .filter(Boolean)
-  .sort((a, b) => a.localeCompare(b, 'pt'))
+const districts = [...new Set(dealersData.map((d) => d.district).filter(Boolean))].sort(
+  (a, b) => a.localeCompare(b, 'pt'),
+)
 
 function getDealers(district: string): Dealer[] {
   const found = dealersData.find((d) => d.district === district)
@@ -90,6 +89,7 @@ export default function StripePaymentForm({ versionId, versionName, colorName, c
   if (!clientSecret) {
     return (
       <div data-testid="payment-form-skeleton" className="space-y-3 animate-pulse">
+        <div className="h-10 rounded-lg bg-gray-100" />
         <div className="h-10 rounded-lg bg-gray-100" />
         <div className="h-10 rounded-lg bg-gray-100" />
         <div className="h-10 rounded-lg bg-gray-100" />
@@ -214,17 +214,22 @@ function CardElementForm({
         return
       }
 
-      // Step 3: dispatch to n8n via internal route (fire and continue)
-      await fetch('/api/reservation-complete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name, email, phone,
-          distrito, concessionarioId, concessionarioName,
-          line1, city, postalCode, country: 'PT', taxId,
-          versionId, versionName, colorName, colorHex, price,
-        }),
-      })
+      // Step 3: dispatch to n8n via internal route — wrap in its own catch so a
+      // webhook failure never surfaces as a payment error (payment already captured)
+      try {
+        await fetch('/api/reservation-complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name, email, phone,
+            distrito, concessionarioId, concessionarioName,
+            line1, city, postalCode, country: 'PT', taxId,
+            versionId, versionName, colorName, colorHex, price,
+          }),
+        })
+      } catch {
+        // webhook failed — payment already captured, redirect anyway
+      }
 
       window.location.href = window.location.origin + '/obrigado'
     } catch {
