@@ -12,11 +12,15 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      await fetch(webhookUrl, {
+      const res = await fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(5000),
       })
+      if (!res.ok) {
+        console.error('[reservation-complete] n8n responded', res.status)
+      }
     } catch (webhookErr) {
       console.error('[reservation-complete] n8n webhook failed:', webhookErr)
       // payment already captured — do not block the user
