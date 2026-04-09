@@ -167,7 +167,7 @@ export default function ValuesSection({
 
       {/* Title block */}
       <div className="max-w-5xl mx-auto px-6 mb-10 md:mb-14 xl:mb-20 text-center">
-        <p className="font-medium text-xl text-[#86868b] mb-2 tracking-[-0.07em] leading-none">{tagline}</p>
+        <p className="font-medium text-base md:text-xl text-[#86868b] mb-2 tracking-[-0.07em] leading-none">{tagline}</p>
         <h2
           className="font-medium tracking-[-0.07em] text-[#0A0A0A] leading-none max-w-5xl"
           style={{ fontSize: 'var(--text-h2)' }}
@@ -175,11 +175,11 @@ export default function ValuesSection({
         />
         {paragraphHtml ? (
           <p
-            className="mt-6 text-xl text-[#0A0A0A] max-w-2xl mx-auto leading-relaxed"
+            className="mt-6 text-base md:text-xl text-[#0A0A0A] max-w-2xl mx-auto leading-relaxed"
             dangerouslySetInnerHTML={{ __html: paragraphHtml }}
           />
         ) : (
-          <p className="mt-6 text-xl text-[#0A0A0A] max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-6 text-base md:text-xl text-[#0A0A0A] max-w-2xl mx-auto leading-relaxed">
             <strong className="font-semibold">Our values lead the way.</strong>{' '}
             Apple Vision Pro was designed to help protect your privacy and keep you in control of your data. Its built‑in accessibility features are designed to work the way you do.
           </p>

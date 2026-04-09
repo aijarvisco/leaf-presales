@@ -31,12 +31,13 @@ import ValuesSection from '@/components/sections/ValuesSection'
 describe('ValuesSection', () => {
   it('renders the section heading', () => {
     render(<ValuesSection />)
-    expect(screen.getByText('Designed to make a difference.')).toBeInTheDocument()
+    // Default title uses dangerouslySetInnerHTML — text is split at <br/>
+    expect(screen.getByText(/Conforto e tecnologia/)).toBeInTheDocument()
   })
 
   it('applies --text-h2 CSS variable to the heading', () => {
     render(<ValuesSection />)
-    const heading = screen.getByText('Designed to make a difference.')
+    const heading = screen.getByRole('heading', { level: 2 })
     expect(heading.style.fontSize).toBe('var(--text-h2)')
   })
 
@@ -54,5 +55,18 @@ describe('ValuesSection', () => {
     const nextButton = container.querySelector('button[aria-label="Próximo"]')
     expect(prevButton).toBeInTheDocument()
     expect(nextButton).toBeInTheDocument()
+  })
+
+  it('paragraph below title has text-base class for mobile', () => {
+    const { container } = render(<ValuesSection paragraphHtml="Test paragraph" />)
+    const para = container.querySelector('p.text-base')
+    expect(para).toBeInTheDocument()
+  })
+
+  it('paragraph below title does not use text-xl without breakpoint', () => {
+    const { container } = render(<ValuesSection paragraphHtml="Test paragraph" />)
+    // Should have md:text-xl (responsive), not bare text-xl
+    const para = container.querySelector('p.text-xl')
+    expect(para).toBeNull()
   })
 })
