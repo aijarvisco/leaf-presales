@@ -42,7 +42,7 @@ import BottomCTABar from '@/components/ui/BottomCTABar'
 export default function Home() {
   return (
     <>
-      <main className="overflow-x-hidden">
+      <main className="overflow-x-clip">
         <SiteHeader />
         <Hero />
         <Highlights />
