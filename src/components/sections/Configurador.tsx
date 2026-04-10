@@ -141,7 +141,7 @@ export default function Configurador() {
                 onClick={handleReserve}
                 className="bg-[#0A0A0A] text-white font-semibold text-sm px-6 py-3 rounded-full hover:bg-[#0A0A0A]/80 transition-colors cursor-pointer"
               >
-                Reservar agora
+                Tenho Interesse
               </button>
             </div>
 
@@ -155,7 +155,7 @@ export default function Configurador() {
                 onClick={handleReserve}
                 className="w-full bg-[#0A0A0A] text-white font-semibold text-sm py-3 rounded-full hover:bg-[#0A0A0A]/80 transition-colors cursor-pointer"
               >
-                Reservar agora
+                Tenho Interesse
               </button>
             </div>
           </div>
