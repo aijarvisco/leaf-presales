@@ -220,6 +220,7 @@ describe('Configurador — Tenho Interesse dropdown', () => {
     fireEvent.keyDown(document, { key: 'Escape' })
     const toggleBtns = screen.getAllByRole('button', { name: /tenho interesse/i })
     toggleBtns.forEach(btn => expect(btn).toHaveAttribute('aria-expanded', 'false'))
+    expect(screen.queryByRole('button', { name: /quero reservar/i })).not.toBeInTheDocument()
   })
 
   it('clicking outside the dropdown closes it', () => {
@@ -229,5 +230,16 @@ describe('Configurador — Tenho Interesse dropdown', () => {
     fireEvent.mouseDown(document.body)
     const toggleBtns = screen.getAllByRole('button', { name: /tenho interesse/i })
     toggleBtns.forEach(btn => expect(btn).toHaveAttribute('aria-expanded', 'false'))
+    expect(screen.queryByRole('button', { name: /quero reservar/i })).not.toBeInTheDocument()
+  })
+
+  it('clicking "Tenho Interesse" again closes the dropdown', () => {
+    render(<Configurador />)
+    const buttons = screen.getAllByRole('button', { name: /tenho interesse/i })
+    fireEvent.click(buttons[0])
+    expect(buttons[0]).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.click(buttons[0])
+    expect(buttons[0]).toHaveAttribute('aria-expanded', 'false')
+    expect(screen.queryByRole('button', { name: /quero reservar/i })).not.toBeInTheDocument()
   })
 })
