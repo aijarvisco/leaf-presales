@@ -11,10 +11,24 @@ const FRAME_COUNT = 120
 
 const DEFAULT_PATH = '/images/360-exterior/pearl-white/25tdieulhd_pz1d_xkj_h_'
 
-function buildFrames(pathPrefix: string): string[] {
-  return Array.from({ length: FRAME_COUNT }, (_, i) =>
-    `${pathPrefix}${String(i).padStart(3, '0')}.webp`
-  )
+// On mobile or slow connections, load every Nth frame to reduce bandwidth ~50-75%
+function getFrameStep(): number {
+  if (typeof window === 'undefined') return 1
+  if (window.matchMedia('(max-width: 767px)').matches) return 2
+  const conn = (navigator as Navigator & { connection?: { effectiveType?: string } }).connection
+  const type = conn?.effectiveType
+  if (type === 'slow-2g' || type === '2g') return 4
+  if (type === '3g') return 2
+  return 1
+}
+
+// Returns {src, frameIndex} pairs — frameIndex is the actual 0-119 position
+function buildFrameSources(pathPrefix: string, step: number) {
+  const sources: Array<{ src: string; frameIndex: number }> = []
+  for (let i = 0; i < FRAME_COUNT; i += step) {
+    sources.push({ src: `${pathPrefix}${String(i).padStart(3, '0')}.webp`, frameIndex: i })
+  }
+  return sources
 }
 
 function wrapFrame(raw: number): number {
@@ -27,7 +41,9 @@ interface Canvas360ViewerProps {
 
 export default function Canvas360Viewer({ colorPath360 }: Canvas360ViewerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const imagesRef = useRef<HTMLImageElement[]>([])
+  // Sparse array sized FRAME_COUNT; only indices 0, step, 2*step… are filled
+  const imagesRef = useRef<Array<HTMLImageElement | null>>([])
+  const frameStepRef = useRef(1)
   const frameAccRef = useRef(0)       // floating-point frame accumulator
   const isDragging = useRef(false)
   const lastX = useRef(0)
@@ -39,13 +55,20 @@ export default function Canvas360Viewer({ colorPath360 }: Canvas360ViewerProps) 
   const [cursorPos, setCursorPos] = useState<CursorPos>({ x: 0, y: 0 })
   const [cursorVisible, setCursorVisible] = useState(false)
 
-  // Draw the current frame to canvas using object-cover behaviour (no distortion)
+  // Draw the current frame to canvas using object-cover behaviour (no distortion).
+  // Snaps to the nearest loaded frame when not all frames are available.
   const drawFrame = (index: number) => {
     const canvas = canvasRef.current
-    const img = imagesRef.current[index]
-    if (!canvas || !img) return
+    if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
+
+    const step = frameStepRef.current
+    const wrapped = wrapFrame(index)
+    // Round to nearest multiple of step, wrap back into [0, FRAME_COUNT)
+    const snapped = (Math.round(wrapped / step) * step) % FRAME_COUNT
+    const img = imagesRef.current[snapped]
+    if (!img?.naturalWidth) return  // frame not yet loaded — keep previous canvas content
 
     const cw = canvas.width
     const ch = canvas.height
@@ -63,23 +86,31 @@ export default function Canvas360Viewer({ colorPath360 }: Canvas360ViewerProps) 
     ctx.drawImage(img, sx, sy, sw, sh)
   }
 
-  // Preload all frames — re-runs when color changes
+  // Preload frames — re-runs when color changes.
+  // On mobile/slow connections loads every Nth frame; removes spinner as soon as frame 0 is ready.
   useEffect(() => {
     setLoading(true)
     frameAccRef.current = 0
-    const frames = buildFrames(colorPath360 ?? DEFAULT_PATH)
-    let loaded = 0
-    const imgs: HTMLImageElement[] = frames.map((src, i) => {
+
+    const step = getFrameStep()
+    frameStepRef.current = step
+    imagesRef.current = new Array(FRAME_COUNT).fill(null)
+
+    const sources = buildFrameSources(colorPath360 ?? DEFAULT_PATH, step)
+
+    sources.forEach(({ src, frameIndex }, idx) => {
       const img = new Image()
+      if (idx === 0) img.fetchPriority = 'high'  // browser prioritises the first frame
       img.src = src
       img.onload = () => {
-        if (i === 0) drawFrame(0)
-        loaded++
-        if (loaded === FRAME_COUNT) setLoading(false)
+        imagesRef.current[frameIndex] = img
+        // Allow interaction as soon as frame 0 is ready — don't wait for all frames
+        if (frameIndex === 0) {
+          drawFrame(0)
+          setLoading(false)
+        }
       }
-      return img
     })
-    imagesRef.current = imgs
   }, [colorPath360])
 
   // ResizeObserver: keep canvas pixel dims in sync with CSS size
