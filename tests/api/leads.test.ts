@@ -15,7 +15,22 @@ describe('POST /api/leads', () => {
     phone: '+351912345678',
   }
 
-  beforeEach(() => jest.clearAllMocks())
+  const originalWebhookUrl = process.env.N8N_LEAD_WEBHOOK_URL
+  const originalFetch = global.fetch
+
+  afterAll(() => {
+    global.fetch = originalFetch
+    if (originalWebhookUrl === undefined) {
+      delete process.env.N8N_LEAD_WEBHOOK_URL
+    } else {
+      process.env.N8N_LEAD_WEBHOOK_URL = originalWebhookUrl
+    }
+  })
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    delete process.env.N8N_LEAD_WEBHOOK_URL
+  })
 
   it('returns 400 when required fields are missing', async () => {
     const req = new NextRequest('http://localhost/api/leads', {
