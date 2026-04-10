@@ -5,7 +5,7 @@ import { POST } from '@/app/api/leads/route'
 import { NextRequest } from 'next/server'
 
 const mockFetch = jest.fn()
-global.fetch = mockFetch
+const originalFetch = global.fetch
 
 describe('POST /api/leads', () => {
   const validBody = {
@@ -16,7 +16,10 @@ describe('POST /api/leads', () => {
   }
 
   const originalWebhookUrl = process.env.N8N_LEAD_WEBHOOK_URL
-  const originalFetch = global.fetch
+
+  beforeAll(() => {
+    global.fetch = mockFetch
+  })
 
   afterAll(() => {
     global.fetch = originalFetch

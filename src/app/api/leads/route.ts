@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json() as Partial<LeadFormData>
 
   const { firstName, lastName, email, phone, preferredContactTime, privacyConsent, marketingConsent } = body
-  if (!firstName || !lastName || !email || !phone || !privacyConsent) {
+  if (!firstName || !lastName || !email || !phone || privacyConsent !== true) {
     return NextResponse.json(
       { error: 'firstName, lastName, email, phone, and privacyConsent are required' },
       { status: 400 },
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         firstName, lastName, email, phone,
         preferredContactTime,
-        privacyConsent,
+        privacyConsent: true,
         marketingConsent: !!marketingConsent,
       }),
       signal: AbortSignal.timeout(5000),
