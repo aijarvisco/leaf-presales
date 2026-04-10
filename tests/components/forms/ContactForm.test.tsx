@@ -34,4 +34,17 @@ describe('ContactForm', () => {
     render(<ContactForm />)
     expect(screen.getByLabelText(/comunicações de marketing/i)).not.toBeRequired()
   })
+
+  it('clicking privacy checkbox checks it', async () => {
+    render(<ContactForm />)
+    const checkbox = screen.getByLabelText(/Li e aceito a Política de Privacidade/i)
+    expect(checkbox).not.toBeChecked()
+    await userEvent.click(checkbox)
+    expect(checkbox).toBeChecked()
+  })
+
+  it('marketing consent checkbox is unchecked by default', () => {
+    render(<ContactForm />)
+    expect(screen.getByLabelText(/comunicações de marketing/i)).not.toBeChecked()
+  })
 })
