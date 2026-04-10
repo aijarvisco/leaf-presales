@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
+import { ChevronDown, ArrowRight } from 'lucide-react'
 import ImagePanel from '@/components/configurator/ImagePanel'
 import OptionsPanel from '@/components/configurator/OptionsPanel'
 import ReservationDrawer from '@/components/ui/ReservationDrawer'
@@ -12,6 +13,8 @@ export default function Configurador() {
   const [imageView, setImageView] = useState<'exterior' | 'interior' | '360'>('exterior')
   const [slideIndex, setSlideIndex] = useState(0)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   const sectionRef  = useRef<HTMLElement>(null)
   const clipRef     = useRef<HTMLDivElement>(null)
@@ -43,6 +46,16 @@ export default function Configurador() {
 
   function handleReserve() {
     setIsDrawerOpen(true)
+  }
+
+  function scrollToContacto() {
+    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' })
+    setIsDropdownOpen(false)
+  }
+
+  function openReservationFromDropdown() {
+    setIsDrawerOpen(true)
+    setIsDropdownOpen(false)
   }
 
   useEffect(() => {
@@ -97,6 +110,26 @@ export default function Configurador() {
     return () => window.removeEventListener('ctabar:reserve', onReserve)
   }, [])
 
+  useEffect(() => {
+    if (!isDropdownOpen) return
+    const onMouseDown = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsDropdownOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', onMouseDown)
+    return () => document.removeEventListener('mousedown', onMouseDown)
+  }, [isDropdownOpen])
+
+  useEffect(() => {
+    if (!isDropdownOpen) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsDropdownOpen(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [isDropdownOpen])
+
   return (
     <section ref={sectionRef} id="configurador" className="relative bg-white">
 
@@ -128,8 +161,44 @@ export default function Configurador() {
             </div>
           </div>
 
-          <div className="border-t border-gray-100 bg-white px-8 py-5">
-            {/* Desktop */}
+          <div ref={dropdownRef} className="border-t border-gray-100 bg-white px-8 py-5 relative">
+
+            {/* ── Dropdown panel ── */}
+            {isDropdownOpen && (
+              <div
+                id="configurador-interesse-menu"
+                className="absolute bottom-full left-0 right-0 bg-[#0A0A0A] rounded-t-xl overflow-hidden"
+              >
+                <div className="flex flex-col py-1">
+                  <button
+                    type="button"
+                    onClick={scrollToContacto}
+                    className="w-full text-white font-semibold text-base px-5 py-3 flex items-center justify-between hover:bg-white/[0.08] transition-colors cursor-pointer group"
+                  >
+                    <span>Quero ser contactado</span>
+                    <ArrowRight
+                      size={16}
+                      className="transition-transform duration-200 group-hover:translate-x-1"
+                      aria-hidden="true"
+                    />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={openReservationFromDropdown}
+                    className="w-full text-white font-semibold text-base px-5 py-3 flex items-center justify-between hover:bg-white/[0.08] transition-colors cursor-pointer group"
+                  >
+                    <span>Quero reservar</span>
+                    <ArrowRight
+                      size={16}
+                      className="transition-transform duration-200 group-hover:translate-x-1"
+                      aria-hidden="true"
+                    />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* ── Desktop ── */}
             <div className="hidden md:flex items-center justify-between">
               <div className="flex flex-col">
                 <span className="text-sm text-[#86868b]">Nissan Leaf {activeTrim.name}</span>
@@ -138,26 +207,43 @@ export default function Configurador() {
                 </span>
               </div>
               <button
-                onClick={handleReserve}
-                className="bg-[#0A0A0A] text-white font-semibold text-sm px-6 py-3 rounded-full hover:bg-[#0A0A0A]/80 transition-colors cursor-pointer"
+                type="button"
+                onClick={() => setIsDropdownOpen(prev => !prev)}
+                aria-expanded={isDropdownOpen}
+                aria-controls="configurador-interesse-menu"
+                className="bg-[#0A0A0A] text-white font-semibold text-sm px-6 py-3 rounded-full hover:bg-[#0A0A0A]/80 transition-colors cursor-pointer flex items-center gap-2"
               >
                 Tenho Interesse
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
+                  aria-hidden="true"
+                />
               </button>
             </div>
 
-            {/* Mobile */}
+            {/* ── Mobile ── */}
             <div className="flex md:hidden flex-col gap-3">
               <div className="flex items-center justify-between">
                 <span className="text-base font-semibold text-[#0A0A0A]">{activeTrim.name}</span>
                 <span className="text-base text-[#86868b]">€{effectivePrice.toLocaleString('pt-PT')}</span>
               </div>
               <button
-                onClick={handleReserve}
-                className="w-full bg-[#0A0A0A] text-white font-semibold text-sm py-3 rounded-full hover:bg-[#0A0A0A]/80 transition-colors cursor-pointer"
+                type="button"
+                onClick={() => setIsDropdownOpen(prev => !prev)}
+                aria-expanded={isDropdownOpen}
+                aria-controls="configurador-interesse-menu"
+                className="w-full bg-[#0A0A0A] text-white font-semibold text-sm py-3 rounded-full hover:bg-[#0A0A0A]/80 transition-colors cursor-pointer flex items-center justify-center gap-2"
               >
                 Tenho Interesse
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
+                  aria-hidden="true"
+                />
               </button>
             </div>
+
           </div>
 
         </div>
