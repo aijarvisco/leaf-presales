@@ -2,14 +2,15 @@ export interface BatteryOption {
   kWh: 52 | 75
   price: number
   commercialCode: string
+  autonomy: number
+  disabled?: boolean
 }
 
 export interface TrimLevel {
   id: 'engage' | 'advance' | 'evolve'
   name: string
   isPopular: boolean
-  batteryOptions?: BatteryOption[]
-  price?: number
+  batteryOptions: BatteryOption[]
   highlights: string[]
   availableColorIds: string[]
 }
@@ -32,8 +33,8 @@ export const TRIM_LEVELS: TrimLevel[] = [
     name: 'Engage',
     isPopular: false,
     batteryOptions: [
-      { kWh: 52, price: 39900, commercialCode: 'LE52KEG20A---' },
-      { kWh: 75, price: 43300, commercialCode: 'LE75KEG20A---' },
+      { kWh: 52, price: 39900, commercialCode: 'LE52KEG20A---', autonomy: 445 },
+      { kWh: 75, price: 43300, commercialCode: 'LE75KEG20A---', autonomy: 622 },
     ],
     highlights: [
       'Bateria 52 kWh ou 75 kWh',
@@ -50,7 +51,10 @@ export const TRIM_LEVELS: TrimLevel[] = [
     id: 'advance',
     name: 'Advance',
     isPopular: true,
-    price: 49100,
+    batteryOptions: [
+      { kWh: 52, price: 49100, commercialCode: '', autonomy: 445, disabled: true },
+      { kWh: 75, price: 49100, commercialCode: '', autonomy: 593 },
+    ],
     highlights: [
       'Tejadilho panorâmico escurecido',
       'Head-up display 8"',
@@ -73,7 +77,10 @@ export const TRIM_LEVELS: TrimLevel[] = [
     id: 'evolve',
     name: 'Evolve',
     isPopular: false,
-    price: 51600,
+    batteryOptions: [
+      { kWh: 52, price: 51600, commercialCode: '', autonomy: 445, disabled: true },
+      { kWh: 75, price: 51600, commercialCode: '', autonomy: 582 },
+    ],
     highlights: [
       'Jantes de liga leve 19"',
       'Banco de massagem do condutor',
@@ -92,35 +99,31 @@ export const TRIM_LEVELS: TrimLevel[] = [
 ]
 
 export const COLOR_OPTIONS: ColorOption[] = [
-  { id: 'PEARL_WHITE',                name: 'Pearl White',                hex: '#F5F5F0', type: 'single-tone', colorCode: 'QBE', imageSrc: '/images/exterior/PEARL WHITE.png',                chipSrc: '/images/color-chips/nissan_leaf_pearlwhite.png',                path360: '/images/360-exterior/pearl-white/25tdieulhd_pz1d_xkj_h_' },
-  { id: 'MIDNIGHT_BLACK',             name: 'Midnight Black',             hex: '#1A1A1A', type: 'single-tone', colorCode: 'GAT', imageSrc: '/images/exterior-colors/MIDNIGHT_BLACK.png',      chipSrc: '/images/color-chips/nissan_leaf_midnightblack.png' },
-  { id: 'SKYLINE_GREY',               name: 'Skyline Grey',               hex: '#6B6B6B', type: 'single-tone', colorCode: 'KAD', imageSrc: '/images/exterior/SKYLINE GREY.png',               chipSrc: '/images/color-chips/nissan_leaf_skylinegrey.png',               path360: '/images/360-exterior/skyline-grey/25tdieulhd_pz1d_gaq_h_' },
-  { id: 'FUJI_SUNSET_RED',            name: 'Fuji Sunset Red',            hex: '#C0392B', type: 'single-tone', colorCode: 'NBV', imageSrc: '/images/exterior/FUJI SUNSET RED.png',            chipSrc: '/images/color-chips/nissan_leaf_fugired.png',                   path360: '/images/360-exterior/fuji-red/25tdieulhd_pz1d_yau_h_' },
-  { id: 'PEARL_WHITE_BLACK_ROOF',     name: 'Pearl White + Black Roof',   hex: '#F5F5F0', type: 'two-tone',   colorCode: 'XKJ', imageSrc: '/images/exterior/PEARL WHITE.png',                chipSrc: '/images/color-chips/nissan_leaf_pearlwhite_blackroof.png',      path360: '/images/360-exterior/pearl-white/25tdieulhd_pz1d_xkj_h_' },
-  { id: 'CERAMIC_GREY_BLACK_ROOF',    name: 'Ceramic Grey + Black Roof',  hex: '#A8A8A0', type: 'two-tone',   colorCode: 'XEX', imageSrc: '/images/exterior/CERAMIC GREY.png',               chipSrc: '/images/color-chips/nissan_leaf_ceramicgrey_blackroof.png',     path360: '/images/360-exterior/ceramic-grey/25tdieulhd_pz1d_xex_h_' },
-  { id: 'SKYLINE_GREY_BLACK_ROOF',    name: 'Skyline Grey + Black Roof',  hex: '#6B6B6B', type: 'two-tone',   colorCode: 'GAQ', imageSrc: '/images/exterior/SKYLINE GREY.png',               chipSrc: '/images/color-chips/nissan_leaf_skylinegrey_blackroof.jpg',     path360: '/images/360-exterior/skyline-grey/25tdieulhd_pz1d_gaq_h_' },
-  { id: 'FUJI_SUNSET_RED_BLACK_ROOF', name: 'Fuji Sunset Red + Black Roof', hex: '#C0392B', type: 'two-tone', colorCode: 'YAU', imageSrc: '/images/exterior/FUJI SUNSET RED.png',            chipSrc: '/images/color-chips/nissan_leaf_fugired_blackroof.png',         path360: '/images/360-exterior/fuji-red/25tdieulhd_pz1d_yau_h_' },
-  { id: 'UNIVERSAL_BLUE_BLACK_ROOF',  name: 'Universal Blue + Black Roof', hex: '#2C4A8E', type: 'two-tone', colorCode: 'XHQ', imageSrc: '/images/exterior/UNIVERSAL BLUE.png',              chipSrc: '/images/color-chips/nissan_leaf_universalblue_blackroof.png',   path360: '/images/360-exterior/universal-blue/25tdieulhd_pz1d_xhq_h_' },
-  { id: 'TURQUOISE_BLACK_ROOF',       name: 'Turquoise + Black Roof',     hex: '#4ABFBF', type: 'two-tone',   colorCode: 'YBR', imageSrc: '/images/exterior/TURQUOISE.png',                  chipSrc: '/images/color-chips/nissan_leaf_turqoise_blackroof.png',        path360: '/images/360-exterior/turquoise/25tdieulhd_pz1d_ybr_h_' },
+  { id: 'PEARL_WHITE',                name: 'Pearl White',                hex: '#F5F5F0', type: 'single-tone', colorCode: 'QBE', imageSrc: '/images/exterior/PEARL WHITE.webp',                chipSrc: '/images/color-chips/nissan_leaf_pearlwhite.webp',                path360: '/images/360-exterior/pearl-white/25tdieulhd_pz1d_xkj_h_' },
+  { id: 'MIDNIGHT_BLACK',             name: 'Midnight Black',             hex: '#1A1A1A', type: 'single-tone', colorCode: 'GAT', imageSrc: '/images/exterior-colors/MIDNIGHT_BLACK.webp',      chipSrc: '/images/color-chips/nissan_leaf_midnightblack.webp' },
+  { id: 'SKYLINE_GREY',               name: 'Skyline Grey',               hex: '#6B6B6B', type: 'single-tone', colorCode: 'KAD', imageSrc: '/images/exterior/SKYLINE GREY.webp',               chipSrc: '/images/color-chips/nissan_leaf_skylinegrey.webp',               path360: '/images/360-exterior/skyline-grey/25tdieulhd_pz1d_gaq_h_' },
+  { id: 'FUJI_SUNSET_RED',            name: 'Fuji Sunset Red',            hex: '#C0392B', type: 'single-tone', colorCode: 'NBV', imageSrc: '/images/exterior/FUJI SUNSET RED.webp',            chipSrc: '/images/color-chips/nissan_leaf_fugired.webp',                   path360: '/images/360-exterior/fuji-red/25tdieulhd_pz1d_yau_h_' },
+  { id: 'PEARL_WHITE_BLACK_ROOF',     name: 'Pearl White + Black Roof',   hex: '#F5F5F0', type: 'two-tone',   colorCode: 'XKJ', imageSrc: '/images/exterior/PEARL WHITE.webp',                chipSrc: '/images/color-chips/nissan_leaf_pearlwhite_blackroof.webp',      path360: '/images/360-exterior/pearl-white/25tdieulhd_pz1d_xkj_h_' },
+  { id: 'CERAMIC_GREY_BLACK_ROOF',    name: 'Ceramic Grey + Black Roof',  hex: '#A8A8A0', type: 'two-tone',   colorCode: 'XEX', imageSrc: '/images/exterior/CERAMIC GREY.webp',               chipSrc: '/images/color-chips/nissan_leaf_ceramicgrey_blackroof.webp',     path360: '/images/360-exterior/ceramic-grey/25tdieulhd_pz1d_xex_h_' },
+  { id: 'SKYLINE_GREY_BLACK_ROOF',    name: 'Skyline Grey + Black Roof',  hex: '#6B6B6B', type: 'two-tone',   colorCode: 'GAQ', imageSrc: '/images/exterior/SKYLINE GREY.webp',               chipSrc: '/images/color-chips/nissan_leaf_skylinegrey_blackroof.webp',     path360: '/images/360-exterior/skyline-grey/25tdieulhd_pz1d_gaq_h_' },
+  { id: 'FUJI_SUNSET_RED_BLACK_ROOF', name: 'Fuji Sunset Red + Black Roof', hex: '#C0392B', type: 'two-tone', colorCode: 'YAU', imageSrc: '/images/exterior/FUJI SUNSET RED.webp',            chipSrc: '/images/color-chips/nissan_leaf_fugired_blackroof.webp',         path360: '/images/360-exterior/fuji-red/25tdieulhd_pz1d_yau_h_' },
+  { id: 'UNIVERSAL_BLUE_BLACK_ROOF',  name: 'Universal Blue + Black Roof', hex: '#2C4A8E', type: 'two-tone', colorCode: 'XHQ', imageSrc: '/images/exterior/UNIVERSAL BLUE.webp',              chipSrc: '/images/color-chips/nissan_leaf_universalblue_blackroof.webp',   path360: '/images/360-exterior/universal-blue/25tdieulhd_pz1d_xhq_h_' },
+  { id: 'TURQUOISE_BLACK_ROOF',       name: 'Turquoise + Black Roof',     hex: '#4ABFBF', type: 'two-tone',   colorCode: 'YBR', imageSrc: '/images/exterior/TURQUOISE.webp',                  chipSrc: '/images/color-chips/nissan_leaf_turqoise_blackroof.webp',        path360: '/images/360-exterior/turquoise/25tdieulhd_pz1d_ybr_h_' },
 ]
 
 export const INTERIOR_IMAGES: string[] = [
-  '/images/889857a-F275-25TDIEULHD_PZ1D_01_LO.jpg',
-  '/images/889858a-F275-25TDIEULHD_PZ1D_02_LO.jpg',
-  '/images/889861-F275-25TDIEU_PZ1D_03_LO.jpg',
-  '/images/889862-F275-25TDIEU_PZ1D_04_LO.jpg',
-  '/images/889866a-F275-25TDIEULHD_PZ1D_08_LO.jpg',
-  '/images/889867a-F275-25TDIEULHD_PZ1D_09_LO.jpg',
-  '/images/889888a-F275-25TDIEULHD_PZ1D_20_LO.jpg',
+  '/images/889857a-F275-25TDIEULHD_PZ1D_01_LO.webp',
+  '/images/889858a-F275-25TDIEULHD_PZ1D_02_LO.webp',
+  '/images/889861-F275-25TDIEU_PZ1D_03_LO.webp',
+  '/images/889862-F275-25TDIEU_PZ1D_04_LO.webp',
+  '/images/889866a-F275-25TDIEULHD_PZ1D_08_LO.webp',
+  '/images/889867a-F275-25TDIEULHD_PZ1D_09_LO.webp',
+  '/images/889888a-F275-25TDIEULHD_PZ1D_20_LO.webp',
 ]
 
 export function getEffectivePrice(trim: TrimLevel, batteryKwh?: 52 | 75): number {
-  if (trim.batteryOptions) {
-    const kWh = batteryKwh ?? 75
-    const opt = trim.batteryOptions.find(b => b.kWh === kWh)
-    if (!opt) throw new Error(`No battery option for ${kWh} kWh in trim "${trim.id}"`)
-    return opt.price
-  }
-  if (trim.price == null) throw new Error(`TrimLevel "${trim.id}" has no price and no batteryOptions`)
-  return trim.price
+  const kWh = batteryKwh ?? 75
+  const opt = trim.batteryOptions.find(b => b.kWh === kWh && !b.disabled) ?? trim.batteryOptions.find(b => !b.disabled)
+  if (!opt) throw new Error(`No enabled battery option in trim "${trim.id}"`)
+  return opt.price
 }

@@ -68,7 +68,7 @@ export default function AutonomiaSectionV2() {
         {/* Image */}
         <div className="relative w-full aspect-[4/3]">
           <Image
-            src="/images/889867a-F275-25TDIEULHD_PZ1D_09_LO.jpg"
+            src="/images/889867a-F275-25TDIEULHD_PZ1D_09_LO.webp"
             alt="Nissan Leaf autonomia"
             fill
             className="object-cover"
@@ -120,7 +120,7 @@ export default function AutonomiaSectionV2() {
           {/* Background image */}
           <div className="absolute inset-0 z-0">
             <Image
-              src="/images/889867a-F275-25TDIEULHD_PZ1D_09_LO.jpg"
+              src="/images/889867a-F275-25TDIEULHD_PZ1D_09_LO.webp"
               alt="Nissan Leaf autonomia"
               fill
               className="object-cover"

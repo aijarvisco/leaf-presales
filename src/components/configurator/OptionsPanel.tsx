@@ -57,43 +57,50 @@ export default function OptionsPanel({
             >
               <span className="font-semibold text-sm">{t.name}</span>
               <span className={`text-xs ${t.id === selectedTrimId ? 'text-white/60' : 'text-[#86868b]'}`}>
-                €{getEffectivePrice(t, t.id === 'engage' ? selectedBatteryKwh : undefined).toLocaleString('pt-PT')}
+                €{getEffectivePrice(t, t.id === selectedTrimId ? selectedBatteryKwh : undefined).toLocaleString('pt-PT')}
               </span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* 2. Battery selector — Engage only */}
-      {activeTrim.id === 'engage' && activeTrim.batteryOptions && (
-        <div>
-          <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-3">
-            Bateria
-          </p>
-          <div className="flex gap-2">
-            {activeTrim.batteryOptions.map((opt) => (
-              <button
-                key={opt.kWh}
-                aria-pressed={opt.kWh === selectedBatteryKwh}
-                onClick={() => onSelectBattery(opt.kWh)}
-                className={`flex-1 py-2 px-4 rounded-full text-sm font-semibold transition-colors ${
-                  opt.kWh === selectedBatteryKwh
+      {/* 2. Battery selector — all versions */}
+      <div>
+        <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-3">
+          Bateria
+        </p>
+        <div className="flex gap-2">
+          {activeTrim.batteryOptions.map((opt) => (
+            <button
+              key={opt.kWh}
+              aria-pressed={opt.kWh === selectedBatteryKwh}
+              disabled={opt.disabled}
+              onClick={() => !opt.disabled && onSelectBattery(opt.kWh)}
+              className={`flex-1 flex flex-col items-center gap-0.5 py-3 px-4 rounded-xl text-sm font-semibold transition-colors ${
+                opt.disabled
+                  ? 'bg-gray-100 text-[#86868b] cursor-not-allowed opacity-40'
+                  : opt.kWh === selectedBatteryKwh
                     ? 'bg-[#0A0A0A] text-white'
                     : 'bg-gray-100 text-[#0A0A0A] hover:bg-gray-200'
-                }`}
-              >
-                {opt.kWh} kWh
-              </button>
-            ))}
-          </div>
+              }`}
+            >
+              <span>{opt.kWh} kWh</span>
+              <span className={`text-xs font-normal ${opt.kWh === selectedBatteryKwh && !opt.disabled ? 'text-white/60' : 'text-[#86868b]'}`}>
+                {opt.autonomy} km
+              </span>
+            </button>
+          ))}
         </div>
-      )}
+      </div>
 
       {/* 3. Exterior colour */}
       <div>
-        <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider mb-3">
-          Exterior
-        </p>
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-xs font-semibold text-[#86868b] uppercase tracking-wider">
+            Exterior
+          </p>
+          <span className="text-xs font-semibold text-[#0A0A0A]">+750€</span>
+        </div>
         <div
           role="radiogroup"
           aria-label="Cor exterior"

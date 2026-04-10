@@ -62,7 +62,7 @@ export default function Hero() {
           muted
           loop
           playsInline
-          poster="/images/nissan-leaf-hero.jpg"
+          poster="/images/nissan-leaf-hero.webp"
           className="w-full h-full object-cover"
         >
           <source src="/videos/lhd_h.mp4" type="video/mp4" />

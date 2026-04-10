@@ -40,7 +40,7 @@ export default function ClosingSection() {
         {/* Image */}
         <div className="relative w-full aspect-[4/3]">
           <Image
-            src="/images/889888a-F275-25TDIEULHD_PZ1D_20_LO.jpg"
+            src="/images/889888a-F275-25TDIEULHD_PZ1D_20_LO.webp"
             alt="Nissan Leaf em paisagem natural"
             fill
             className="object-cover object-center"
@@ -96,7 +96,7 @@ export default function ClosingSection() {
         {/* Background image */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/889888a-F275-25TDIEULHD_PZ1D_20_LO.jpg"
+            src="/images/889888a-F275-25TDIEULHD_PZ1D_20_LO.webp"
             alt="Nissan Leaf em paisagem natural"
             fill
             className="object-cover object-center"
@@ -169,7 +169,7 @@ export default function ClosingSection() {
       {/* Minimal footer */}
       <footer className="bg-black py-5 px-8 flex flex-wrap items-center justify-between gap-4">
         <Image
-          src="/nissan-lettering.svg"
+          src="/nissan-next-logo-text.svg"
           alt="Nissan"
           width={80}
           height={20}

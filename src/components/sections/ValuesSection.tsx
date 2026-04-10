@@ -13,13 +13,13 @@ const CONTAINER_PAD = 24    // px-6
 
 const VALUES = [
   {
-    imageSrc: '/images/autonomy/nissan_leaf_warranty.jpeg',
+    imageSrc: '/images/autonomy/nissan_leaf_warranty.webp',
     imageAlt: 'Nissan Leaf — garantia de bateria',
     boldText: '8 anos de garantia na bateria.',
     bodyText: 'Não é uma promessa — é um compromisso escrito. Cobertura total para que se concentre no essencial: conduzir.',
   },
   {
-    imageSrc: '/images/autonomy/nissan_leaf_driving.jpg',
+    imageSrc: '/images/autonomy/nissan_leaf_driving.webp',
     imageAlt: 'Nissan Leaf — do quotidiano à escapadela',
     boldText: 'Do quotidiano à escapadela.',
     bodyText: 'Confortável na cidade e capaz na estrada — o Leaf adapta-se à tua vida.',
@@ -31,11 +31,17 @@ const VALUES = [
     bodyText: 'Em casa, no trabalho ou na rede pública — a carga encaixa no teu ritmo.',
   },
   {
-    imageSrc: '/images/autonomy/nissan_leaf_connected.jpg',
+    imageSrc: '/images/autonomy/nissan_leaf_connected.webp',
     imageAlt: 'Nissan Leaf — sempre ligado via app',
     boldText: 'Sempre ligado, onde estiveres.',
     bodyText: 'Com a app Nissan Connect tens o teu Leaf na palma da mão a qualquer momento.',
   },
+  {
+    imageSrc: '/images/autonomy/nissan_leaf_v2l.webp',
+    imageAlt: 'Nissan Leaf — energia para todos os dispositivos',
+    boldText: 'Energia para os seus dispositivos.',
+    bodyText: 'Com a tecnologia Vehicle-to-Load (V2L), utilize a bateria do seu veículo para alimentar aparelhos até 3,6 KW.',
+  }
 ]
 
 const animConfig: ValueAnimationTransition<number> = { type: 'tween', duration: 0.55, ease: 'easeInOut' }

@@ -7,7 +7,7 @@ import { TRIM_LEVELS, COLOR_OPTIONS, getEffectivePrice } from '@/components/conf
 
 export default function Configurador() {
   const [selectedTrimId, setSelectedTrimId] = useState<'engage' | 'advance' | 'evolve'>('engage')
-  const [selectedBatteryKwh, setSelectedBatteryKwh] = useState<52 | 75>(75)
+  const [selectedBatteryKwh, setSelectedBatteryKwh] = useState<52 | 75>(52)
   const [selectedColorId, setSelectedColorId] = useState('PEARL_WHITE')
   const [imageView, setImageView] = useState<'exterior' | 'interior' | '360'>('exterior')
   const [slideIndex, setSlideIndex] = useState(0)
@@ -22,7 +22,9 @@ export default function Configurador() {
     const newTrim = TRIM_LEVELS.find(t => t.id === id)
     if (!newTrim) return
     setSelectedTrimId(id as 'engage' | 'advance' | 'evolve')
-    setSelectedBatteryKwh(75)
+    // 52 kWh is disabled for Advance and Evolve — auto-switch to 75
+    const batteryAvailable = newTrim.batteryOptions.find(b => b.kWh === selectedBatteryKwh && !b.disabled)
+    if (!batteryAvailable) setSelectedBatteryKwh(75)
     setSelectedColorId(newTrim.availableColorIds[0])
   }
 
@@ -37,7 +39,7 @@ export default function Configurador() {
 
   const activeTrim   = TRIM_LEVELS.find(t => t.id === selectedTrimId) ?? TRIM_LEVELS[0]
   const activeColor  = COLOR_OPTIONS.find(c => c.id === selectedColorId) ?? COLOR_OPTIONS[0]
-  const effectivePrice = getEffectivePrice(activeTrim, selectedBatteryKwh)
+  const effectivePrice = getEffectivePrice(activeTrim, selectedBatteryKwh) + 750
 
   function handleReserve() {
     setIsDrawerOpen(true)

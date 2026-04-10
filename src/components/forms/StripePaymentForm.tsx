@@ -420,6 +420,16 @@ function CardElementForm({
         </label>
       </div>
 
+      {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
+
+      <button
+        type="submit"
+        disabled={submitting || !stripe || !elements}
+        className="w-full bg-[#0A0A0A] text-white font-semibold text-sm py-3 rounded-full hover:bg-[#0A0A0A]/80 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {submitting ? 'A processar...' : 'Reservar agora — €300'}
+      </button>
+
       {/* Stripe security badge */}
       <div className="flex items-center justify-center gap-2 py-1 text-xs text-[#6B6B6B]">
         {/* Lock */}
@@ -438,16 +448,6 @@ function CardElementForm({
           <path d="M14 1.46A9 9 0 0 1 18.54 9 9 9 0 0 1 14 16.54 9 9 0 0 1 9.46 9 9 9 0 0 1 14 1.46z" fill="#FF5F00"/>
         </svg>
       </div>
-
-      {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
-
-      <button
-        type="submit"
-        disabled={submitting || !stripe || !elements}
-        className="w-full bg-[#0A0A0A] text-white font-semibold text-sm py-3 rounded-full hover:bg-[#0A0A0A]/80 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {submitting ? 'A processar...' : 'Reservar agora — €300'}
-      </button>
     </form>
   )
 }

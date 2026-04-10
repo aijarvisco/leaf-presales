@@ -6,27 +6,27 @@ import HighlightCard from '@/components/ui/HighlightCard'
 
 const HIGHLIGHTS = [
   {
-    imageSrc: '/images/highlights/nissan_leaf_aerodynamic.jpeg',
+    imageSrc: '/images/highlights/nissan_leaf_aerodynamic.webp',
     imageAlt: 'Silhueta aerodinâmica do Nissan Leaf',
-    description: <><strong>Linhas aerodinâmicas</strong> Belo e eficiente. Menos resistência ao vento significa mais quilómetros com a mesma energia.</>,
+    description: <><strong>Linhas aerodinâmicas.</strong><br/>Belo e eficiente. Menos resistência ao vento significa mais quilómetros com a mesma energia.</>,
     textPosition: 'bottom' as const,
   },
   {
-    imageSrc: '/images/highlights/nissan_leaf_curves.jpg',
+    imageSrc: '/images/highlights/nissan_leaf_curves.webp',
     imageAlt: 'Vista exterior do Nissan Leaf',
-    description: <><strong>Visualmente inteligente</strong> Da forma à função, até aos detalhes de acabamento, o Nissan LEAF é tão elegante quanto inteligente.</>,
+    description: <><strong>Visualmente inteligente.</strong><br/>Da forma à função, até aos detalhes de acabamento, o Nissan LEAF é tão elegante quanto inteligente.</>,
     textPosition: 'bottom' as const,
   },
   {
-    imageSrc: '/images/highlights/nissan_leaf_lights.jpeg',
+    imageSrc: '/images/highlights/nissan_leaf_lights.webp',
     imageAlt: 'Faróis traseiros 3D do Nissan Leaf',
-    description: <><strong>Iluminação traseira marcante</strong> Os faróis traseiros 3D do Nissan LEAF, conferem um aspeto futurista.</>,
+    description: <><strong>Iluminação traseira marcante.</strong><br/>Os faróis traseiros 3D do Nissan LEAF, conferem um aspeto futurista.</>,
     textPosition: 'bottom' as const,
   },
   {
-    imageSrc: '/images/highlights/nissan_leaf_dimensions.jpg',
+    imageSrc: '/images/highlights/nissan_leaf_dimensions.webp',
     imageAlt: 'Dimensões do Nissan Leaf',
-    description: <><strong>Espaço para Explorar.</strong> Compacto o suficiente para ser manobrado facilmente, sem comprometer o espaço do habitáculo.</>,
+    description: <><strong>Espaço para Explorar.</strong><br/>Compacto o suficiente para ser manobrado facilmente, sem comprometer o espaço do habitáculo.</>,
     textPosition: 'bottom' as const,
   },
 ]

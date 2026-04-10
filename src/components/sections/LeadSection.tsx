@@ -33,7 +33,7 @@ export default function LeadSection() {
           transition={{ duration: 0.55, delay: 0.1 }}
         >
           <Image
-            src="/images/889858a-F275-25TDIEULHD_PZ1D_02_LO.jpg"
+            src="/images/889858a-F275-25TDIEULHD_PZ1D_02_LO.webp"
             alt="Nissan Leaf"
             fill
             className="object-cover"

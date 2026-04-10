@@ -16,7 +16,7 @@ export default function SiteHeader() {
         }}
       >
         <Image
-          src="/nissan-lettering.svg"
+          src="/nissan-next-logo-text.svg"
           alt="Nissan"
           width={180}
           height={26}

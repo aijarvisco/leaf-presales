@@ -50,7 +50,7 @@ export default function DesignIntroSection() {
           style={{ aspectRatio: '2680 / 1200', x: carX }}
         >
           <Image
-            src="/images/interior/leaf-top-view.png"
+            src="/images/interior/leaf-top-view.webp"
             alt="Nissan Leaf — vista de cima"
             fill
             className="object-contain"

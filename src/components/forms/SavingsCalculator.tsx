@@ -55,7 +55,7 @@ export default function SavingsCalculator({ onInterested }: { onInterested?: () 
 
         <div className="hidden md:block relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-[#f5f5f7]">
           <Image
-            src="/images/889248-F308-25TDIEU_PZ1D_L5_PS_YBR_005_HERO.png"
+            src="/images/889248-F308-25TDIEU_PZ1D_L5_PS_YBR_005_HERO.webp"
             alt="Nissan Leaf"
             fill
             className="object-contain"
