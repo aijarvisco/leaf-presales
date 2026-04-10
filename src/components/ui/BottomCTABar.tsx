@@ -100,6 +100,7 @@ export default function BottomCTABar() {
 
         {/* ── MENU PANEL (renders above main row) ───────────────────── */}
         <div
+          id="tenho-interesse-menu"
           data-testid="menu-panel"
           aria-hidden={isExpanded ? undefined : 'true'}
           style={{ display: 'grid', gridTemplateRows: isExpanded ? '1fr' : '0fr' }}
@@ -151,7 +152,7 @@ export default function BottomCTABar() {
             onClick={() => setIsExpanded(prev => !prev)}
             tabIndex={hidden ? -1 : undefined}
             aria-expanded={isExpanded}
-            aria-label="Tenho Interesse"
+            aria-controls="tenho-interesse-menu"
             className="bg-white text-[#0A0A0A] font-semibold text-base px-6 py-2.5 rounded-full hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap flex items-center gap-2 ml-auto"
           >
             Tenho Interesse
