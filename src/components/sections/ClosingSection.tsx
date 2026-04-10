@@ -25,8 +25,73 @@ export default function ClosingSection() {
 
   return (
     <>
-      {/* Full-screen closing section */}
-      <section id="closing" ref={containerRef} style={{ height: '300vh' }}>
+      {/* ── Mobile layout (static) ── */}
+      <section id="closing" className="md:hidden bg-white">
+        {/* Image */}
+        <div className="relative w-full aspect-[4/3]">
+          <Image
+            src="/images/889888a-F275-25TDIEULHD_PZ1D_20_LO.jpg"
+            alt="Nissan Leaf em paisagem natural"
+            fill
+            className="object-cover object-center"
+            priority={false}
+          />
+        </div>
+
+        {/* Title */}
+        <div className="px-6 pt-12 pb-12 text-center">
+          <h2
+            className="leading-none font-medium text-black tracking-[-0.07em]"
+            style={{ fontSize: 'var(--text-display)' }}
+          >
+            Chega de imaginar.<br/>É hora de conduzir.
+          </h2>
+        </div>
+
+        {/* CTAs */}
+        <div className="flex flex-col gap-0 overflow-hidden mb-10">
+          <button
+            onClick={() => scrollTo('contacto')}
+            className="group flex flex-col justify-between gap-8 w-full px-6 py-5 bg-neutral-900 text-left cursor-pointer"
+          >
+            <p className="text-[10px] font-medium uppercase tracking-widest text-white">
+              Fale connosco
+            </p>
+            <div className="flex items-end justify-between gap-4">
+              <p className="text-base font-medium text-white/80 leading-snug tracking-[-0.02em] max-w-[70%]">
+                Tem dúvidas? A nossa equipa responde em menos de 24 horas.
+              </p>
+              <div className="shrink-0 w-8 h-8 rounded-full bg-white/15 flex items-center justify-center">
+                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </div>
+            </div>
+          </button>
+
+          <button
+            onClick={() => scrollTo('configurador')}
+            className="group flex flex-col justify-between gap-8 w-full px-6 py-5 bg-[#E8372F] text-left cursor-pointer"
+          >
+            <p className="text-[10px] font-medium uppercase tracking-widest text-white">
+              Reservar
+            </p>
+            <div className="flex items-end justify-between gap-4">
+              <p className="text-base font-medium text-white leading-snug tracking-[-0.02em] max-w-[70%]">
+                300€ totalmente reembolsáveis · Garanta o seu lugar entre os primeiros. Sem compromisso, sem risco.
+              </p>
+              <div className="shrink-0 w-8 h-8 rounded-full bg-black/20 flex items-center justify-center">
+                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </div>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      {/* ── Desktop layout (sticky scroll animation) ── */}
+      <section ref={containerRef} className="hidden md:block" style={{ height: '300vh' }}>
         <div className="sticky top-0 h-screen overflow-hidden">
         {/* Background image */}
         <div className="absolute inset-0 z-0">
