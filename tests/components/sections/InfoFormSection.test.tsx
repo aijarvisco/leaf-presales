@@ -118,7 +118,7 @@ describe('InfoFormSection', () => {
     await user.type(screen.getByLabelText('Email'), 'joao@example.com')
     await user.selectOptions(screen.getByLabelText('Distrito'), 'LISBOA')
     await user.selectOptions(screen.getByLabelText('Concessionário'), 'OBJ001')
-    await user.click(screen.getByLabelText(/Aceito a Política de Privacidade/i))
+    await user.click(screen.getByLabelText(/Li e aceito a Política de Privacidade/i))
     await user.click(screen.getByRole('button', { name: /Enviar/i }))
 
     expect(await screen.findByText(/Obrigado/i)).toBeInTheDocument()
@@ -134,9 +134,24 @@ describe('InfoFormSection', () => {
     await user.type(screen.getByLabelText('Email'), 'joao@example.com')
     await user.selectOptions(screen.getByLabelText('Distrito'), 'LISBOA')
     await user.selectOptions(screen.getByLabelText('Concessionário'), 'OBJ001')
-    await user.click(screen.getByLabelText(/Aceito a Política de Privacidade/i))
+    await user.click(screen.getByLabelText(/Li e aceito a Política de Privacidade/i))
     await user.click(screen.getByRole('button', { name: /Enviar/i }))
 
     expect(await screen.findByText(/Ocorreu um erro/i)).toBeInTheDocument()
+  })
+
+  it('privacy checkbox label contains the new Nissan copy', () => {
+    render(<InfoFormSection />)
+    expect(screen.getByText(/Li e aceito a/i)).toBeInTheDocument()
+  })
+
+  it('marketing checkbox label contains the new Nissan copy', () => {
+    render(<InfoFormSection />)
+    expect(screen.getByText(/comunicações de marketing, nomeadamente promoções/i)).toBeInTheDocument()
+  })
+
+  it('FAQ button is present', () => {
+    render(<InfoFormSection />)
+    expect(screen.getByRole('button', { name: /Perguntas Frequentes/i })).toBeInTheDocument()
   })
 })

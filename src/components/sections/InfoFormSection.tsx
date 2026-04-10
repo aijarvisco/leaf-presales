@@ -29,7 +29,7 @@ const FAQ_SECTIONS: { title: string; items: { q: string; a: string }[] }[] = [
       },
       {
         q: 'Quanto custa fazer uma reserva?',
-        a: 'A reserva tem um valor de 250 €, totalmente deduzido no momento da compra do veículo.',
+        a: 'A reserva tem um valor de 300 €, totalmente deduzido no momento da compra do veículo.',
       },
       {
         q: 'Posso cancelar a minha reserva?',
@@ -234,14 +234,13 @@ export default function InfoFormSection() {
                   checked={form.privacyConsent ?? false}
                   onChange={handleCheckbox('privacyConsent')}
                   className="mt-0.5"
-                  aria-label="Aceito a Política de Privacidade"
+                  aria-label="Li e aceito a Política de Privacidade"
                 />
                 <span>
-                  Aceito a{' '}
-                  <a href="/politica-de-privacidade" className="underline hover:text-[#0A0A0A] transition-colors">
-                    Política de Privacidade
+                  Li e aceito a{' '}
+                  <a href="/politica-de-privacidade" className="font-bold underline hover:text-[#0A0A0A] transition-colors">
+                    Política de Privacidade.
                   </a>
-                  .
                 </span>
               </label>
 
@@ -252,9 +251,11 @@ export default function InfoFormSection() {
                   checked={form.marketingConsent ?? false}
                   onChange={handleCheckbox('marketingConsent')}
                   className="mt-0.5"
-                  aria-label="Aceito receber comunicações de marketing da Nissan"
+                  aria-label="Gostaria de receber comunicações de marketing da Nissan"
                 />
-                <span>Aceito receber comunicações de marketing da Nissan.</span>
+                <span>
+                  Gostaria de receber comunicações de marketing, nomeadamente promoções, eventos, novos produtos e serviços Nissan, seja através de e-mail, telefone ou SMS e no veículo (se suportado), por forma a personalizar e a melhorar a minha experiência enquanto cliente.
+                </span>
               </label>
 
               {status === 'error' && (
