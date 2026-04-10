@@ -141,7 +141,7 @@ export default function BottomCTABar() {
         {/* ── MAIN ROW (always visible) ──────────────────────────────── */}
         <div
           data-testid="main-row"
-          className="flex items-center justify-between pl-7 pr-2.5 py-2.5"
+          className="flex items-center justify-between md:gap-16 pl-7 pr-2.5 py-2.5"
         >
           <div className="hidden md:flex items-baseline gap-3">
             <span className="text-white font-semibold text-base whitespace-nowrap">Nissan Leaf</span>
@@ -153,7 +153,7 @@ export default function BottomCTABar() {
             tabIndex={hidden ? -1 : undefined}
             aria-expanded={isExpanded}
             aria-controls="tenho-interesse-menu"
-            className="bg-white text-[#0A0A0A] font-semibold text-base px-6 py-2.5 rounded-full hover:bg-white/90 transition-colors cursor-pointer whitespace-nowrap flex items-center gap-2 ml-auto"
+            className="bg-[#E8372F] text-white font-semibold text-base px-6 py-2.5 rounded-full hover:bg-[#D42F27] transition-colors cursor-pointer whitespace-nowrap flex items-center gap-2 ml-auto"
           >
             Tenho Interesse
             <ChevronDown
