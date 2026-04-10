@@ -13,6 +13,7 @@ describe('POST /api/leads', () => {
     lastName: 'Silva',
     email: 'joao@example.com',
     phone: '+351912345678',
+    privacyConsent: true,
   }
 
   const originalWebhookUrl = process.env.N8N_LEAD_WEBHOOK_URL
@@ -81,5 +82,31 @@ describe('POST /api/leads', () => {
     })
     const res = await POST(req)
     expect(res.status).toBe(500)
+  })
+
+  it('returns 400 when privacyConsent is missing', async () => {
+    process.env.N8N_LEAD_WEBHOOK_URL = 'https://n8n.example.com/webhook/leads'
+    const { privacyConsent, ...bodyWithoutConsent } = validBody
+    const req = new NextRequest('http://localhost/api/leads', {
+      method: 'POST',
+      body: JSON.stringify(bodyWithoutConsent),
+    })
+    const res = await POST(req)
+    expect(res.status).toBe(400)
+    const body = await res.json()
+    expect(body.error).toMatch(/required/i)
+  })
+
+  it('forwards privacyConsent and marketingConsent to n8n', async () => {
+    process.env.N8N_LEAD_WEBHOOK_URL = 'https://n8n.example.com/webhook/leads'
+    mockFetch.mockResolvedValueOnce({ ok: true })
+    const req = new NextRequest('http://localhost/api/leads', {
+      method: 'POST',
+      body: JSON.stringify({ ...validBody, privacyConsent: true, marketingConsent: true }),
+    })
+    await POST(req)
+    const sentBody = JSON.parse((mockFetch.mock.calls[0][1] as RequestInit).body as string)
+    expect(sentBody.privacyConsent).toBe(true)
+    expect(sentBody.marketingConsent).toBe(true)
   })
 })

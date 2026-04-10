@@ -4,9 +4,12 @@ import type { LeadFormData } from '@/types'
 export async function POST(req: NextRequest) {
   const body = await req.json() as Partial<LeadFormData>
 
-  const { firstName, lastName, email, phone } = body
-  if (!firstName || !lastName || !email || !phone) {
-    return NextResponse.json({ error: 'firstName, lastName, email, and phone are required' }, { status: 400 })
+  const { firstName, lastName, email, phone, preferredContactTime, privacyConsent, marketingConsent } = body
+  if (!firstName || !lastName || !email || !phone || !privacyConsent) {
+    return NextResponse.json(
+      { error: 'firstName, lastName, email, phone, and privacyConsent are required' },
+      { status: 400 },
+    )
   }
 
   const webhookUrl = process.env.N8N_LEAD_WEBHOOK_URL
@@ -20,7 +23,12 @@ export async function POST(req: NextRequest) {
     const res = await fetch(webhookUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ firstName, lastName, email, phone, preferredContactTime: body.preferredContactTime }),
+      body: JSON.stringify({
+        firstName, lastName, email, phone,
+        preferredContactTime,
+        privacyConsent: true,
+        marketingConsent: !!marketingConsent,
+      }),
       signal: AbortSignal.timeout(5000),
     })
     if (!res.ok) {

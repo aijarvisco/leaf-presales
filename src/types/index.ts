@@ -8,6 +8,8 @@ export interface LeadFormData {
   email: string
   phone: string
   preferredContactTime?: string
+  privacyConsent: boolean
+  marketingConsent?: boolean
 }
 
 export interface EVSavingsInputs {
