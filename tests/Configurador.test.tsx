@@ -101,18 +101,20 @@ describe('Configurador', () => {
     expect(screen.queryByTestId('canvas-360-viewer')).not.toBeInTheDocument()
   })
 
-  it('clicking Tenho Interesse opens the reservation drawer', () => {
+  it('clicking "Tenho Interesse" opens the dropdown, not the drawer directly', () => {
     render(<Configurador />)
     expect(screen.queryByTestId('reservation-drawer')).not.toBeInTheDocument()
     const buttons = screen.getAllByRole('button', { name: /tenho interesse/i })
     fireEvent.click(buttons[0])
-    expect(screen.getByTestId('reservation-drawer')).toBeInTheDocument()
+    expect(screen.queryByTestId('reservation-drawer')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /quero reservar/i })).toBeInTheDocument()
   })
 
   it('closing the drawer hides it', () => {
     render(<Configurador />)
     const buttons = screen.getAllByRole('button', { name: /tenho interesse/i })
     fireEvent.click(buttons[0])
+    fireEvent.click(screen.getByRole('button', { name: /quero reservar/i }))
     expect(screen.getByTestId('reservation-drawer')).toBeInTheDocument()
     fireEvent.click(screen.getByText('Fechar'))
     expect(screen.queryByTestId('reservation-drawer')).not.toBeInTheDocument()
@@ -143,10 +145,13 @@ describe('Configurador — drawer events', () => {
     expect(receivedEvents).not.toContain('reservationdrawer:open')
   })
 
-  it('dispatches reservationdrawer:open when the reserve button is clicked', async () => {
+  it('dispatches reservationdrawer:open when "Quero reservar" is clicked in dropdown', async () => {
     render(<Configurador />)
     await act(async () => {
       fireEvent.click(screen.getAllByRole('button', { name: /tenho interesse/i })[0])
+    })
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /quero reservar/i }))
     })
     expect(receivedEvents).toContain('reservationdrawer:open')
   })
@@ -157,8 +162,72 @@ describe('Configurador — drawer events', () => {
       fireEvent.click(screen.getAllByRole('button', { name: /tenho interesse/i })[0])
     })
     await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /quero reservar/i }))
+    })
+    await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /fechar/i }))
     })
     expect(receivedEvents).toContain('reservationdrawer:close')
+  })
+})
+
+describe('Configurador — Tenho Interesse dropdown', () => {
+  it('"Tenho Interesse" buttons have aria-expanded=false by default', () => {
+    render(<Configurador />)
+    const buttons = screen.getAllByRole('button', { name: /tenho interesse/i })
+    buttons.forEach(btn => expect(btn).toHaveAttribute('aria-expanded', 'false'))
+  })
+
+  it('clicking "Tenho Interesse" sets aria-expanded=true and shows dropdown options', () => {
+    render(<Configurador />)
+    const buttons = screen.getAllByRole('button', { name: /tenho interesse/i })
+    fireEvent.click(buttons[0])
+    expect(buttons[0]).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByRole('button', { name: /quero ser contactado/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /quero reservar/i })).toBeInTheDocument()
+  })
+
+  it('clicking "Quero reservar" opens the reservation drawer and closes the dropdown', () => {
+    render(<Configurador />)
+    fireEvent.click(screen.getAllByRole('button', { name: /tenho interesse/i })[0])
+    fireEvent.click(screen.getByRole('button', { name: /quero reservar/i }))
+    expect(screen.getByTestId('reservation-drawer')).toBeInTheDocument()
+    const toggleBtns = screen.getAllByRole('button', { name: /tenho interesse/i })
+    toggleBtns.forEach(btn => expect(btn).toHaveAttribute('aria-expanded', 'false'))
+  })
+
+  it('clicking "Quero ser contactado" scrolls to #contacto and closes the dropdown', () => {
+    render(<Configurador />)
+    const mockScrollIntoView = jest.fn()
+    const mockGetElementById = jest
+      .spyOn(document, 'getElementById')
+      .mockReturnValue({ scrollIntoView: mockScrollIntoView } as unknown as HTMLElement)
+
+    fireEvent.click(screen.getAllByRole('button', { name: /tenho interesse/i })[0])
+    fireEvent.click(screen.getByRole('button', { name: /quero ser contactado/i }))
+
+    expect(mockGetElementById).toHaveBeenCalledWith('contacto')
+    expect(mockScrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
+    const toggleBtns = screen.getAllByRole('button', { name: /tenho interesse/i })
+    toggleBtns.forEach(btn => expect(btn).toHaveAttribute('aria-expanded', 'false'))
+    mockGetElementById.mockRestore()
+  })
+
+  it('pressing Escape closes the dropdown', () => {
+    render(<Configurador />)
+    fireEvent.click(screen.getAllByRole('button', { name: /tenho interesse/i })[0])
+    expect(screen.getByRole('button', { name: /quero reservar/i })).toBeInTheDocument()
+    fireEvent.keyDown(document, { key: 'Escape' })
+    const toggleBtns = screen.getAllByRole('button', { name: /tenho interesse/i })
+    toggleBtns.forEach(btn => expect(btn).toHaveAttribute('aria-expanded', 'false'))
+  })
+
+  it('clicking outside the dropdown closes it', () => {
+    render(<Configurador />)
+    fireEvent.click(screen.getAllByRole('button', { name: /tenho interesse/i })[0])
+    expect(screen.getByRole('button', { name: /quero reservar/i })).toBeInTheDocument()
+    fireEvent.mouseDown(document.body)
+    const toggleBtns = screen.getAllByRole('button', { name: /tenho interesse/i })
+    toggleBtns.forEach(btn => expect(btn).toHaveAttribute('aria-expanded', 'false'))
   })
 })
