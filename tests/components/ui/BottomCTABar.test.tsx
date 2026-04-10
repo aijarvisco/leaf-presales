@@ -218,8 +218,17 @@ describe('BottomCTABar', () => {
     const { container } = render(<BottomCTABar />)
     act(() => scrollPastHeader())
     const panel = container.querySelector('[data-testid="menu-panel"]')!
-    // inner content div should carry opacity-0
-    expect(panel.querySelector('.opacity-0')).toBeInTheDocument()
+    expect(panel).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('collapses menu when bar becomes hidden', () => {
+    const { configurador } = setupAnchors()
+    render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    fireEvent.click(screen.getByRole('button', { name: /tenho interesse/i }))
+    expect(screen.getByRole('button', { name: /tenho interesse/i })).toHaveAttribute('aria-expanded', 'true')
+    act(() => triggerIntersection(configurador, true))
+    expect(screen.getByRole('button', { name: /tenho interesse/i, hidden: true })).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('menu shows "Quero ser contactado" item when expanded', () => {
