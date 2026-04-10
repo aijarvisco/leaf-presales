@@ -65,10 +65,15 @@ describe('StripePaymentForm', () => {
     await waitFor(() => screen.getByLabelText(/Nome completo/i))
 
     await userEvent.type(screen.getByLabelText(/Nome completo/i), 'João Silva')
+    await userEvent.type(screen.getByLabelText(/Email/i), 'joao@email.com')
+    await userEvent.type(screen.getByLabelText(/Telemóvel/i), '912345678')
+    await userEvent.selectOptions(screen.getByLabelText(/Distrito/i), 'LISBOA')
+    await userEvent.selectOptions(screen.getByLabelText(/Concessionário/i), 'NI00130004')
     await userEvent.type(screen.getByLabelText(/Morada/i), 'Rua das Flores 1')
     await userEvent.type(screen.getByRole('textbox', { name: /Cidade/i }), 'Lisboa')
     await userEvent.type(screen.getByLabelText(/Código postal/i), '1000-001')
     await userEvent.type(screen.getByLabelText(/NIF \/ NIPC/i), '123456789')
+    await userEvent.click(screen.getByLabelText(/Li e aceito a Política de Privacidade/i))
     await userEvent.click(screen.getByRole('button', { name: /Reservar agora/i }))
 
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3))
@@ -113,10 +118,15 @@ describe('StripePaymentForm', () => {
     await waitFor(() => screen.getByLabelText(/Nome completo/i))
 
     await userEvent.type(screen.getByLabelText(/Nome completo/i), 'João Silva')
+    await userEvent.type(screen.getByLabelText(/Email/i), 'joao@email.com')
+    await userEvent.type(screen.getByLabelText(/Telemóvel/i), '912345678')
+    await userEvent.selectOptions(screen.getByLabelText(/Distrito/i), 'LISBOA')
+    await userEvent.selectOptions(screen.getByLabelText(/Concessionário/i), 'NI00130004')
     await userEvent.type(screen.getByLabelText(/Morada/i), 'Rua das Flores 1')
     await userEvent.type(screen.getByRole('textbox', { name: /Cidade/i }), 'Lisboa')
     await userEvent.type(screen.getByLabelText(/Código postal/i), '1000-001')
     await userEvent.type(screen.getByLabelText(/NIF \/ NIPC/i), '123456789')
+    await userEvent.click(screen.getByLabelText(/Li e aceito a Política de Privacidade/i))
     await userEvent.click(screen.getByRole('button', { name: /Reservar agora/i }))
 
     await waitFor(() => expect(screen.getByRole('alert')).toBeInTheDocument())
@@ -134,10 +144,15 @@ describe('StripePaymentForm', () => {
     await waitFor(() => screen.getByLabelText(/Nome completo/i))
 
     await userEvent.type(screen.getByLabelText(/Nome completo/i), 'João Silva')
+    await userEvent.type(screen.getByLabelText(/Email/i), 'joao@email.com')
+    await userEvent.type(screen.getByLabelText(/Telemóvel/i), '912345678')
+    await userEvent.selectOptions(screen.getByLabelText(/Distrito/i), 'LISBOA')
+    await userEvent.selectOptions(screen.getByLabelText(/Concessionário/i), 'NI00130004')
     await userEvent.type(screen.getByLabelText(/Morada/i), 'Rua das Flores 1')
     await userEvent.type(screen.getByRole('textbox', { name: /Cidade/i }), 'Lisboa')
     await userEvent.type(screen.getByLabelText(/Código postal/i), '1000-001')
     await userEvent.type(screen.getByLabelText(/NIF \/ NIPC/i), '123456789')
+    await userEvent.click(screen.getByLabelText(/Li e aceito a Política de Privacidade/i))
     await userEvent.click(screen.getByRole('button', { name: /Reservar agora/i }))
 
     await waitFor(() => expect(screen.getByText('O teu cartão foi recusado.')).toBeInTheDocument())
@@ -201,5 +216,22 @@ describe('StripePaymentForm', () => {
     const sentBody = JSON.parse(reservationCall[1].body)
     expect(sentBody.privacyConsent).toBe(true)
     expect(sentBody.marketingConsent).toBe(true)
+  })
+
+  it('blocks submission and shows error when privacy checkbox is not checked', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ clientSecret: CLIENT_SECRET }),
+    })
+    render(<StripePaymentForm />)
+    await waitFor(() => screen.getByLabelText(/Nome completo/i))
+
+    await userEvent.type(screen.getByLabelText(/Nome completo/i), 'João Silva')
+    await userEvent.click(screen.getByRole('button', { name: /Reservar agora/i }))
+
+    await waitFor(() => expect(screen.getByRole('alert')).toBeInTheDocument())
+    expect(screen.getByRole('alert')).toHaveTextContent(/Política de Privacidade/i)
+    // fetch should only have been called once (for client secret), not for update/reservation
+    expect(mockFetch).toHaveBeenCalledTimes(1)
   })
 })

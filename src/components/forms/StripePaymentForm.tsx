@@ -176,6 +176,10 @@ function CardElementForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!stripe || !elements) return
+    if (!privacyConsent) {
+      setError('Deve aceitar a Política de Privacidade para continuar.')
+      return
+    }
     setSubmitting(true)
     setError(null)
 
@@ -228,7 +232,7 @@ function CardElementForm({
             distrito, concessionarioId, concessionarioName,
             line1, city, postalCode, country: 'PT', taxId,
             versionId, versionName, colorName, colorHex, price,
-            privacyConsent: true,
+            privacyConsent,
             marketingConsent,
           }),
         })
