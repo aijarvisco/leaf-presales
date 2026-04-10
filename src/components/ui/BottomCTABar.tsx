@@ -143,9 +143,9 @@ export default function BottomCTABar() {
           data-testid="main-row"
           className="flex items-center justify-between md:gap-16 pl-7 pr-2.5 py-2.5"
         >
-          <div className="hidden md:flex items-baseline gap-3">
+          <div className="md:flex items-baseline gap-3">
             <span className="text-white font-semibold text-base whitespace-nowrap">Nissan Leaf</span>
-            <span className="text-white/50 text-sm whitespace-nowrap">Desde 39.900€</span>
+            <span className="hidden md:flex text-white/50 text-sm whitespace-nowrap">Desde 39.900€</span>
           </div>
           <button
             type="button"

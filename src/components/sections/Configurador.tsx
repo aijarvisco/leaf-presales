@@ -167,13 +167,13 @@ export default function Configurador() {
             {isDropdownOpen && (
               <div
                 id="configurador-interesse-menu"
-                className="absolute bottom-full left-0 right-0 bg-[#0A0A0A] rounded-t-xl overflow-hidden"
+                className="absolute bottom-[60%] md:bottom-[80%] right-8 left-8 md:left-auto bg-[#0A0A0A] rounded-xl overflow-hidden"
               >
                 <div className="flex flex-col py-1">
                   <button
                     type="button"
                     onClick={scrollToContacto}
-                    className="w-full text-white font-semibold text-base px-5 py-3 rounded-xl flex items-center justify-between hover:bg-white/[0.08] transition-colors cursor-pointer group"
+                    className="w-full text-white gap-6 font-semibold text-base px-5 py-3 rounded-xl flex items-center justify-between hover:bg-white/[0.08] transition-colors cursor-pointer group"
                   >
                     <span>Quero ser contactado</span>
                     <ArrowRight
