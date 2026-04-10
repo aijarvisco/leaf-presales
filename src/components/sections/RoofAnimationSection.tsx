@@ -143,7 +143,7 @@ export default function RoofAnimationSection() {
         {/* Canvas — always in DOM so ResizeObserver attaches immediately */}
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 z-0 w-full h-full"
         />
 
         {/* Spinner — shown until batch 1 is ready */}
@@ -155,7 +155,7 @@ export default function RoofAnimationSection() {
 
         {/* Overlay */}
         <motion.div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 z-10 pointer-events-none"
           style={{
             opacity: overlayOpacity,
             background:

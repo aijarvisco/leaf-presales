@@ -79,11 +79,11 @@ export default function Hero() {
 
       {/* Content block — fades and lifts on scroll */}
       <motion.div
-        className="absolute bottom-24 md:bottom-32 left-6 right-6 md:left-16 md:right-auto lg:left-24 z-20"
+        className="absolute bottom-16 md:bottom-32 left-6 right-0 pr-4 md:pr-0 md:left-16 md:right-auto lg:left-24 z-20"
         style={{ opacity: textOpacity, y: textY }}
       >
         {/* Left — copy block */}
-        <div className="max-w-4xl">
+        <div className="max-w-4xl pr-4">
           {/* Label */}
           <motion.p
             className="text-xl sm:text-2xl 2xl:text-2xl text-white font-medium uppercase mb-3 leading-none"

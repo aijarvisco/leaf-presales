@@ -99,7 +99,7 @@ export default function BottomCTABar() {
   return (
     <div
       ref={barRef}
-      className={`fixed left-1/2 -translate-x-1/2 z-30 max-w-[calc(100vw-2rem)] transition-[transform,opacity] duration-300 ease-out motion-reduce:transition-none ${hidden ? 'translate-y-[calc(100%+2rem)] opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'}`}
+      className={`fixed left-4 right-4 md:left-1/2 md:right-auto md:-translate-x-1/2 z-30 md:max-w-[calc(100vw-2rem)] transition-[transform,opacity] duration-300 ease-out motion-reduce:transition-none ${hidden ? 'translate-y-[calc(100%+2rem)] opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'}`}
       style={{ bottom: 'max(2rem, env(safe-area-inset-bottom))' }}
       aria-hidden={hidden ? 'true' : undefined}
     >
@@ -115,7 +115,7 @@ export default function BottomCTABar() {
             <div className={`flex items-center gap-4 md:gap-24 pl-7 pr-2.5 py-2.5 transition-opacity duration-200 ${isExpanded ? 'opacity-0' : 'opacity-100'}`}>
               <div className="hidden md:flex items-baseline gap-3">
                 <span className="text-white font-semibold text-base whitespace-nowrap">Nissan Leaf</span>
-                <span className="text-white/50 text-sm whitespace-nowrap">Desde 29.900€</span>
+                <span className="text-white/50 text-sm whitespace-nowrap">Desde 39.900€</span>
               </div>
               <div className="flex items-center gap-1">
                 <button
