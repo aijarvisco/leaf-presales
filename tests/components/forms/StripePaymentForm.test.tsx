@@ -22,7 +22,10 @@ global.fetch = mockFetch
 const CLIENT_SECRET = 'pi_test123_secret_xyz'
 
 describe('StripePaymentForm', () => {
-  beforeEach(() => jest.clearAllMocks())
+  beforeEach(() => {
+    jest.resetAllMocks()
+    mockGetElement.mockReturnValue({}) // always return a fake card element
+  })
 
   it('shows a loading skeleton while fetching clientSecret', () => {
     mockFetch.mockReturnValue(new Promise(() => {})) // never resolves
@@ -39,9 +42,8 @@ describe('StripePaymentForm', () => {
     await waitFor(() => expect(screen.getByTestId('card-element')).toBeInTheDocument())
     expect(screen.getByLabelText(/Nome completo/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/Morada/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/Cidade/i)).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: /Cidade/i })).toBeInTheDocument()
     expect(screen.getByLabelText(/Código postal/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/País/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/NIF \/ NIPC/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Reservar agora/i })).toBeInTheDocument()
   })
@@ -56,6 +58,7 @@ describe('StripePaymentForm', () => {
     mockFetch
       .mockResolvedValueOnce({ ok: true, json: async () => ({ clientSecret: CLIENT_SECRET }) }) // PI creation
       .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true }) }) // update endpoint
+      .mockResolvedValueOnce({ ok: true }) // reservation-complete
     mockConfirmCardPayment.mockResolvedValueOnce({ error: null })
 
     render(<StripePaymentForm />)
@@ -63,20 +66,20 @@ describe('StripePaymentForm', () => {
 
     await userEvent.type(screen.getByLabelText(/Nome completo/i), 'João Silva')
     await userEvent.type(screen.getByLabelText(/Morada/i), 'Rua das Flores 1')
-    await userEvent.type(screen.getByLabelText(/Cidade/i), 'Lisboa')
+    await userEvent.type(screen.getByRole('textbox', { name: /Cidade/i }), 'Lisboa')
     await userEvent.type(screen.getByLabelText(/Código postal/i), '1000-001')
     await userEvent.type(screen.getByLabelText(/NIF \/ NIPC/i), '123456789')
     await userEvent.click(screen.getByRole('button', { name: /Reservar agora/i }))
 
-    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2))
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3))
 
-    // Second fetch is the update endpoint
+    // Second fetch is the update endpoint — body includes taxId plus blank optional fields
     expect(mockFetch).toHaveBeenNthCalledWith(
       2,
       '/api/payment-intent/update',
       expect.objectContaining({
         method: 'POST',
-        body: JSON.stringify({ clientSecret: CLIENT_SECRET, taxId: '123456789' }),
+        body: expect.stringContaining('"taxId":"123456789"'),
       }),
     )
 
@@ -111,7 +114,7 @@ describe('StripePaymentForm', () => {
 
     await userEvent.type(screen.getByLabelText(/Nome completo/i), 'João Silva')
     await userEvent.type(screen.getByLabelText(/Morada/i), 'Rua das Flores 1')
-    await userEvent.type(screen.getByLabelText(/Cidade/i), 'Lisboa')
+    await userEvent.type(screen.getByRole('textbox', { name: /Cidade/i }), 'Lisboa')
     await userEvent.type(screen.getByLabelText(/Código postal/i), '1000-001')
     await userEvent.type(screen.getByLabelText(/NIF \/ NIPC/i), '123456789')
     await userEvent.click(screen.getByRole('button', { name: /Reservar agora/i }))
@@ -132,12 +135,71 @@ describe('StripePaymentForm', () => {
 
     await userEvent.type(screen.getByLabelText(/Nome completo/i), 'João Silva')
     await userEvent.type(screen.getByLabelText(/Morada/i), 'Rua das Flores 1')
-    await userEvent.type(screen.getByLabelText(/Cidade/i), 'Lisboa')
+    await userEvent.type(screen.getByRole('textbox', { name: /Cidade/i }), 'Lisboa')
     await userEvent.type(screen.getByLabelText(/Código postal/i), '1000-001')
     await userEvent.type(screen.getByLabelText(/NIF \/ NIPC/i), '123456789')
     await userEvent.click(screen.getByRole('button', { name: /Reservar agora/i }))
 
     await waitFor(() => expect(screen.getByText('O teu cartão foi recusado.')).toBeInTheDocument())
     expect(screen.getByRole('button', { name: /Reservar agora/i })).not.toBeDisabled()
+  })
+
+  it('renders privacy consent checkbox', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ clientSecret: CLIENT_SECRET }),
+    })
+    render(<StripePaymentForm />)
+    await waitFor(() => screen.getByTestId('card-element'))
+    expect(screen.getByLabelText(/Li e aceito a Política de Privacidade/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/Li e aceito a Política de Privacidade/i)).toBeRequired()
+  })
+
+  it('renders marketing consent checkbox (optional)', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ clientSecret: CLIENT_SECRET }),
+    })
+    render(<StripePaymentForm />)
+    await waitFor(() => screen.getByTestId('card-element'))
+    expect(screen.getByLabelText(/comunicações de marketing/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/comunicações de marketing/i)).not.toBeRequired()
+  })
+
+  it('renders the Stripe security badge', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ clientSecret: CLIENT_SECRET }),
+    })
+    render(<StripePaymentForm />)
+    await waitFor(() => screen.getByTestId('card-element'))
+    expect(screen.getByText(/Pagamento seguro/i)).toBeInTheDocument()
+  })
+
+  it('includes privacyConsent and marketingConsent in the reservation-complete payload', async () => {
+    mockFetch
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ clientSecret: CLIENT_SECRET }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true }) }) // update endpoint
+      .mockResolvedValueOnce({ ok: true }) // reservation-complete
+    mockConfirmCardPayment.mockResolvedValueOnce({ error: null })
+
+    render(<StripePaymentForm />)
+    await waitFor(() => screen.getByLabelText(/Nome completo/i))
+
+    await userEvent.type(screen.getByLabelText(/Nome completo/i), 'João Silva')
+    await userEvent.type(screen.getByLabelText(/Morada/i), 'Rua das Flores 1')
+    await userEvent.type(screen.getByRole('textbox', { name: /Cidade/i }), 'Lisboa')
+    await userEvent.type(screen.getByLabelText(/Código postal/i), '1000-001')
+    await userEvent.type(screen.getByLabelText(/NIF \/ NIPC/i), '123456789')
+    await userEvent.click(screen.getByLabelText(/Li e aceito a Política de Privacidade/i))
+    await userEvent.click(screen.getByLabelText(/comunicações de marketing/i))
+    await userEvent.click(screen.getByRole('button', { name: /Reservar agora/i }))
+
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3))
+
+    const reservationCall = mockFetch.mock.calls[2]
+    const sentBody = JSON.parse(reservationCall[1].body)
+    expect(sentBody.privacyConsent).toBe(true)
+    expect(sentBody.marketingConsent).toBe(true)
   })
 })

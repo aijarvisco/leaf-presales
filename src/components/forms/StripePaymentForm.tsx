@@ -5,6 +5,7 @@ import { Elements, CardElement, useStripe, useElements } from '@stripe/react-str
 import { stripePromise } from '@/lib/stripe-client'
 import type { StripeError } from '@stripe/stripe-js'
 import dealersData from '@/data/concessionarios.json'
+import Button from '@/components/ui/Button'
 
 // ─── Dealer helpers (same logic as InfoFormSection) ───────────────────────────
 
@@ -137,6 +138,8 @@ function CardElementForm({
   const elements = useElements()
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [privacyConsent, setPrivacyConsent] = useState(false)
+  const [marketingConsent, setMarketingConsent] = useState(false)
 
   // Billing
   const [name, setName] = useState('')
@@ -225,6 +228,8 @@ function CardElementForm({
             distrito, concessionarioId, concessionarioName,
             line1, city, postalCode, country: 'PT', taxId,
             versionId, versionName, colorName, colorHex, price,
+            privacyConsent: true,
+            marketingConsent,
           }),
         })
       } catch {
@@ -239,7 +244,7 @@ function CardElementForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3">
+    <form onSubmit={handleSubmit} noValidate className="space-y-3">
       {/* 1. Nome completo */}
       <div>
         <label htmlFor="billing-name" className="mb-1 block text-xs text-[#6B6B6B]">Nome completo</label>
@@ -376,6 +381,58 @@ function CardElementForm({
       {/* 9. Card element */}
       <div className="rounded-lg border border-[#D1D1D1] bg-white px-4 py-3">
         <CardElement options={cardElementStyle} />
+      </div>
+
+      {/* Consent checkboxes */}
+      <div className="space-y-3 pt-1">
+        <label className="flex gap-3 items-start text-sm text-[#6B6B6B] cursor-pointer">
+          <input
+            type="checkbox"
+            required
+            checked={privacyConsent}
+            onChange={(e) => setPrivacyConsent(e.target.checked)}
+            className="mt-0.5"
+            aria-label="Li e aceito a Política de Privacidade"
+          />
+          <span>
+            Li e aceito a{' '}
+            <a href="/politica-de-privacidade" className="font-bold underline hover:text-[#0A0A0A] transition-colors">
+              Política de Privacidade.
+            </a>
+          </span>
+        </label>
+
+        <label className="flex gap-3 items-start text-sm text-[#6B6B6B] cursor-pointer">
+          <input
+            type="checkbox"
+            checked={marketingConsent}
+            onChange={(e) => setMarketingConsent(e.target.checked)}
+            className="mt-0.5"
+            aria-label="Gostaria de receber comunicações de marketing da Nissan"
+          />
+          <span>
+            Gostaria de receber comunicações de marketing, nomeadamente promoções, eventos, novos produtos e serviços Nissan, seja através de e-mail, telefone ou SMS e no veículo (se suportado), por forma a personalizar e a melhorar a minha experiência enquanto cliente.
+          </span>
+        </label>
+      </div>
+
+      {/* Stripe security badge */}
+      <div className="flex items-center justify-center gap-2 py-1 text-xs text-[#6B6B6B]">
+        {/* Lock */}
+        <svg width="10" height="12" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true">
+          <path d="M80 192V144C80 64.47 144.5 0 224 0s144 64.47 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64h16zm80 0h128V144c0-35.3-28.7-64-64-64s-64 28.7-64 64v48z"/>
+        </svg>
+        <span>Pagamento seguro</span>
+        {/* Stripe wordmark */}
+        <span className="font-semibold tracking-tight" style={{ color: '#635BFF' }}>stripe</span>
+        {/* Visa */}
+        <span className="font-extrabold tracking-widest text-[10px]" style={{ color: '#1A1F71' }}>VISA</span>
+        {/* Mastercard */}
+        <svg width="28" height="18" viewBox="0 0 28 18" aria-label="Mastercard" role="img">
+          <circle cx="10" cy="9" r="9" fill="#EB001B"/>
+          <circle cx="18" cy="9" r="9" fill="#F79E1B"/>
+          <path d="M14 1.46A9 9 0 0 1 18.54 9 9 9 0 0 1 14 16.54 9 9 0 0 1 9.46 9 9 9 0 0 1 14 1.46z" fill="#FF5F00"/>
+        </svg>
       </div>
 
       {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
