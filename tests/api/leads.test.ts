@@ -4,14 +4,17 @@
 import { POST } from '@/app/api/leads/route'
 import { NextRequest } from 'next/server'
 
-jest.mock('@/lib/zoho', () => ({
-  createZohoLead: jest.fn(),
-}))
-
-import { createZohoLead } from '@/lib/zoho'
-const mockCreateZohoLead = createZohoLead as jest.Mock
+const mockFetch = jest.fn()
+global.fetch = mockFetch
 
 describe('POST /api/leads', () => {
+  const validBody = {
+    firstName: 'João',
+    lastName: 'Silva',
+    email: 'joao@example.com',
+    phone: '+351912345678',
+  }
+
   beforeEach(() => jest.clearAllMocks())
 
   it('returns 400 when required fields are missing', async () => {
@@ -25,34 +28,41 @@ describe('POST /api/leads', () => {
     expect(body.error).toMatch(/required/i)
   })
 
-  it('calls createZohoLead with correct data and returns 200', async () => {
-    mockCreateZohoLead.mockResolvedValueOnce({ id: 'lead-123' })
+  it('returns 200 and skips webhook when N8N_LEAD_WEBHOOK_URL is unset', async () => {
+    delete process.env.N8N_LEAD_WEBHOOK_URL
     const req = new NextRequest('http://localhost/api/leads', {
       method: 'POST',
-      body: JSON.stringify({
-        firstName: 'João',
-        lastName: 'Silva',
-        email: 'joao@example.com',
-        phone: '+351912345678',
-      }),
+      body: JSON.stringify(validBody),
     })
     const res = await POST(req)
     expect(res.status).toBe(200)
-    expect(mockCreateZohoLead).toHaveBeenCalledWith(expect.objectContaining({
-      firstName: 'João',
-      lastName: 'Silva',
-      email: 'joao@example.com',
-    }))
+    expect(mockFetch).not.toHaveBeenCalled()
   })
 
-  it('returns 500 when Zoho call fails', async () => {
-    mockCreateZohoLead.mockRejectedValueOnce(new Error('Zoho error'))
+  it('calls n8n webhook with correct payload and returns 200', async () => {
+    process.env.N8N_LEAD_WEBHOOK_URL = 'https://n8n.example.com/webhook/leads'
+    mockFetch.mockResolvedValueOnce({ ok: true })
     const req = new NextRequest('http://localhost/api/leads', {
       method: 'POST',
-      body: JSON.stringify({
-        firstName: 'João', lastName: 'Silva',
-        email: 'joao@example.com', phone: '+351912345678',
+      body: JSON.stringify(validBody),
+    })
+    const res = await POST(req)
+    expect(res.status).toBe(200)
+    expect(mockFetch).toHaveBeenCalledWith(
+      'https://n8n.example.com/webhook/leads',
+      expect.objectContaining({
+        method: 'POST',
+        body: expect.stringContaining('"firstName":"João"'),
       }),
+    )
+  })
+
+  it('returns 500 when n8n responds with a non-ok status', async () => {
+    process.env.N8N_LEAD_WEBHOOK_URL = 'https://n8n.example.com/webhook/leads'
+    mockFetch.mockResolvedValueOnce({ ok: false, status: 502 })
+    const req = new NextRequest('http://localhost/api/leads', {
+      method: 'POST',
+      body: JSON.stringify(validBody),
     })
     const res = await POST(req)
     expect(res.status).toBe(500)
