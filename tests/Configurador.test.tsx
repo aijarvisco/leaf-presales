@@ -76,9 +76,9 @@ describe('Configurador', () => {
     expect(screen.getAllByText(/engage/i).length).toBeGreaterThan(0)
   })
 
-  it('renders the Reservar agora CTA button', () => {
+  it('renders the Tenho Interesse CTA button', () => {
     render(<Configurador />)
-    const buttons = screen.getAllByRole('button', { name: /reservar agora/i })
+    const buttons = screen.getAllByRole('button', { name: /tenho interesse/i })
     expect(buttons.length).toBeGreaterThan(0)
   })
 
@@ -101,17 +101,17 @@ describe('Configurador', () => {
     expect(screen.queryByTestId('canvas-360-viewer')).not.toBeInTheDocument()
   })
 
-  it('clicking Reservar agora opens the reservation drawer', () => {
+  it('clicking Tenho Interesse opens the reservation drawer', () => {
     render(<Configurador />)
     expect(screen.queryByTestId('reservation-drawer')).not.toBeInTheDocument()
-    const buttons = screen.getAllByRole('button', { name: /reservar agora/i })
+    const buttons = screen.getAllByRole('button', { name: /tenho interesse/i })
     fireEvent.click(buttons[0])
     expect(screen.getByTestId('reservation-drawer')).toBeInTheDocument()
   })
 
   it('closing the drawer hides it', () => {
     render(<Configurador />)
-    const buttons = screen.getAllByRole('button', { name: /reservar agora/i })
+    const buttons = screen.getAllByRole('button', { name: /tenho interesse/i })
     fireEvent.click(buttons[0])
     expect(screen.getByTestId('reservation-drawer')).toBeInTheDocument()
     fireEvent.click(screen.getByText('Fechar'))
@@ -146,7 +146,7 @@ describe('Configurador — drawer events', () => {
   it('dispatches reservationdrawer:open when the reserve button is clicked', async () => {
     render(<Configurador />)
     await act(async () => {
-      fireEvent.click(screen.getAllByRole('button', { name: /reservar agora/i })[0])
+      fireEvent.click(screen.getAllByRole('button', { name: /tenho interesse/i })[0])
     })
     expect(receivedEvents).toContain('reservationdrawer:open')
   })
@@ -154,7 +154,7 @@ describe('Configurador — drawer events', () => {
   it('dispatches reservationdrawer:close when the drawer is closed', async () => {
     render(<Configurador />)
     await act(async () => {
-      fireEvent.click(screen.getAllByRole('button', { name: /reservar agora/i })[0])
+      fireEvent.click(screen.getAllByRole('button', { name: /tenho interesse/i })[0])
     })
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /fechar/i }))
