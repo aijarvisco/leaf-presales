@@ -9,6 +9,7 @@ type ImageView = 'exterior' | 'interior' | '360'
 
 interface ImagePanelProps {
   exteriorImageSrc: string
+  colorPath360?: string
   view: ImageView
   onViewChange: (view: ImageView) => void
   slideIndex: number
@@ -19,6 +20,7 @@ const SLIDE_ANIM: Transition = { type: 'tween', duration: 0.55, ease: 'easeInOut
 
 export default function ImagePanel({
   exteriorImageSrc,
+  colorPath360,
   view,
   onViewChange,
   slideIndex,
@@ -183,7 +185,7 @@ export default function ImagePanel({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <Canvas360Viewer />
+            <Canvas360Viewer colorPath360={colorPath360} />
 
             {/* Drag hint — auto-fades after 2s, pointer-events-none so it doesn't block dragging */}
             <motion.p

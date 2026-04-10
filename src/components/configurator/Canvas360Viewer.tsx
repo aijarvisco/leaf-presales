@@ -7,21 +7,25 @@ interface CursorPos { x: number; y: number }
 const SENSITIVITY = 0.2          // frames per pixel dragged
 const DAMPING = 0.92             // velocity decay per rAF frame
 const VELOCITY_THRESHOLD = 0.005 // px/ms — inertia stops below this
-// --- Frame URL array ---
-const encode = (n: number) => `/images/360/filters-quality-60-${n}.png`
-const FRAME_NUMBERS = [
-  0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 36, 37, 38, 39,
-  40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
-]
-const FRAME_COUNT = FRAME_NUMBERS.length
-const FRAMES: string[] = FRAME_NUMBERS.map(encode)
+const FRAME_COUNT = 120
+
+const DEFAULT_PATH = '/images/360-exterior/pearl-white/25tdieulhd_pz1d_xkj_h_'
+
+function buildFrames(pathPrefix: string): string[] {
+  return Array.from({ length: FRAME_COUNT }, (_, i) =>
+    `${pathPrefix}${String(i).padStart(3, '0')}.webp`
+  )
+}
 
 function wrapFrame(raw: number): number {
   return ((Math.floor(raw) % FRAME_COUNT) + FRAME_COUNT) % FRAME_COUNT
 }
 
-export default function Canvas360Viewer() {
+interface Canvas360ViewerProps {
+  colorPath360?: string
+}
+
+export default function Canvas360Viewer({ colorPath360 }: Canvas360ViewerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imagesRef = useRef<HTMLImageElement[]>([])
   const frameAccRef = useRef(0)       // floating-point frame accumulator
@@ -59,14 +63,16 @@ export default function Canvas360Viewer() {
     ctx.drawImage(img, sx, sy, sw, sh)
   }
 
-  // Preload all frames
+  // Preload all frames — re-runs when color changes
   useEffect(() => {
+    setLoading(true)
+    frameAccRef.current = 0
+    const frames = buildFrames(colorPath360 ?? DEFAULT_PATH)
     let loaded = 0
-    const imgs: HTMLImageElement[] = FRAMES.map((src, i) => {
+    const imgs: HTMLImageElement[] = frames.map((src, i) => {
       const img = new Image()
       img.src = src
       img.onload = () => {
-        // Draw frame 0 immediately when it loads
         if (i === 0) drawFrame(0)
         loaded++
         if (loaded === FRAME_COUNT) setLoading(false)
@@ -74,7 +80,7 @@ export default function Canvas360Viewer() {
       return img
     })
     imagesRef.current = imgs
-  }, [])
+  }, [colorPath360])
 
   // ResizeObserver: keep canvas pixel dims in sync with CSS size
   useEffect(() => {

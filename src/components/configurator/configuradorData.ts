@@ -22,6 +22,8 @@ export interface ColorOption {
   colorCode: string
   imageSrc: string
   chipSrc?: string
+  /** URL prefix for 360 frames, e.g. '/images/360-exterior/pearl-white/25tdieulhd_pz1d_xkj_h_' */
+  path360?: string
 }
 
 export const TRIM_LEVELS: TrimLevel[] = [
@@ -90,16 +92,16 @@ export const TRIM_LEVELS: TrimLevel[] = [
 ]
 
 export const COLOR_OPTIONS: ColorOption[] = [
-  { id: 'PEARL_WHITE',                name: 'Pearl White',                hex: '#F5F5F0', type: 'single-tone', colorCode: 'QBE', imageSrc: '/images/exterior/PEARL WHITE.png',                chipSrc: '/images/color-chips/nissan_leaf_pearlwhite.png' },
+  { id: 'PEARL_WHITE',                name: 'Pearl White',                hex: '#F5F5F0', type: 'single-tone', colorCode: 'QBE', imageSrc: '/images/exterior/PEARL WHITE.png',                chipSrc: '/images/color-chips/nissan_leaf_pearlwhite.png',                path360: '/images/360-exterior/pearl-white/25tdieulhd_pz1d_xkj_h_' },
   { id: 'MIDNIGHT_BLACK',             name: 'Midnight Black',             hex: '#1A1A1A', type: 'single-tone', colorCode: 'GAT', imageSrc: '/images/exterior-colors/MIDNIGHT_BLACK.png',      chipSrc: '/images/color-chips/nissan_leaf_midnightblack.png' },
-  { id: 'SKYLINE_GREY',               name: 'Skyline Grey',               hex: '#6B6B6B', type: 'single-tone', colorCode: 'KAD', imageSrc: '/images/exterior/SKYLINE GREY.png',               chipSrc: '/images/color-chips/nissan_leaf_skylinegrey.png' },
-  { id: 'FUJI_SUNSET_RED',            name: 'Fuji Sunset Red',            hex: '#C0392B', type: 'single-tone', colorCode: 'NBV', imageSrc: '/images/exterior/FUJI SUNSET RED.png',            chipSrc: '/images/color-chips/nissan_leaf_fugired.png' },
-  { id: 'PEARL_WHITE_BLACK_ROOF',     name: 'Pearl White + Black Roof',   hex: '#F5F5F0', type: 'two-tone',   colorCode: 'XKJ', imageSrc: '/images/exterior/PEARL WHITE.png',                chipSrc: '/images/color-chips/nissan_leaf_pearlwhite_blackroof.png' },
-  { id: 'CERAMIC_GREY_BLACK_ROOF',    name: 'Ceramic Grey + Black Roof',  hex: '#A8A8A0', type: 'two-tone',   colorCode: 'XEX', imageSrc: '/images/exterior/CERAMIC GREY.png',               chipSrc: '/images/color-chips/nissan_leaf_ceramicgrey_blackroof.png' },
-  { id: 'SKYLINE_GREY_BLACK_ROOF',    name: 'Skyline Grey + Black Roof',  hex: '#6B6B6B', type: 'two-tone',   colorCode: 'GAQ', imageSrc: '/images/exterior/SKYLINE GREY.png',               chipSrc: '/images/color-chips/nissan_leaf_skylinegrey_blackroof.jpg' },
-  { id: 'FUJI_SUNSET_RED_BLACK_ROOF', name: 'Fuji Sunset Red + Black Roof', hex: '#C0392B', type: 'two-tone', colorCode: 'YAU', imageSrc: '/images/exterior/FUJI SUNSET RED.png',            chipSrc: '/images/color-chips/nissan_leaf_fugired_blackroof.png' },
-  { id: 'UNIVERSAL_BLUE_BLACK_ROOF',  name: 'Universal Blue + Black Roof', hex: '#2C4A8E', type: 'two-tone', colorCode: 'XHQ', imageSrc: '/images/exterior/UNIVERSAL BLUE.png',              chipSrc: '/images/color-chips/nissan_leaf_universalblue_blackroof.png' },
-  { id: 'TURQUOISE_BLACK_ROOF',       name: 'Turquoise + Black Roof',     hex: '#4ABFBF', type: 'two-tone',   colorCode: 'YBR', imageSrc: '/images/exterior/TURQUOISE.png',                  chipSrc: '/images/color-chips/nissan_leaf_turqoise_blackroof.png' },
+  { id: 'SKYLINE_GREY',               name: 'Skyline Grey',               hex: '#6B6B6B', type: 'single-tone', colorCode: 'KAD', imageSrc: '/images/exterior/SKYLINE GREY.png',               chipSrc: '/images/color-chips/nissan_leaf_skylinegrey.png',               path360: '/images/360-exterior/skyline-grey/25tdieulhd_pz1d_gaq_h_' },
+  { id: 'FUJI_SUNSET_RED',            name: 'Fuji Sunset Red',            hex: '#C0392B', type: 'single-tone', colorCode: 'NBV', imageSrc: '/images/exterior/FUJI SUNSET RED.png',            chipSrc: '/images/color-chips/nissan_leaf_fugired.png',                   path360: '/images/360-exterior/fuji-red/25tdieulhd_pz1d_yau_h_' },
+  { id: 'PEARL_WHITE_BLACK_ROOF',     name: 'Pearl White + Black Roof',   hex: '#F5F5F0', type: 'two-tone',   colorCode: 'XKJ', imageSrc: '/images/exterior/PEARL WHITE.png',                chipSrc: '/images/color-chips/nissan_leaf_pearlwhite_blackroof.png',      path360: '/images/360-exterior/pearl-white/25tdieulhd_pz1d_xkj_h_' },
+  { id: 'CERAMIC_GREY_BLACK_ROOF',    name: 'Ceramic Grey + Black Roof',  hex: '#A8A8A0', type: 'two-tone',   colorCode: 'XEX', imageSrc: '/images/exterior/CERAMIC GREY.png',               chipSrc: '/images/color-chips/nissan_leaf_ceramicgrey_blackroof.png',     path360: '/images/360-exterior/ceramic-grey/25tdieulhd_pz1d_xex_h_' },
+  { id: 'SKYLINE_GREY_BLACK_ROOF',    name: 'Skyline Grey + Black Roof',  hex: '#6B6B6B', type: 'two-tone',   colorCode: 'GAQ', imageSrc: '/images/exterior/SKYLINE GREY.png',               chipSrc: '/images/color-chips/nissan_leaf_skylinegrey_blackroof.jpg',     path360: '/images/360-exterior/skyline-grey/25tdieulhd_pz1d_gaq_h_' },
+  { id: 'FUJI_SUNSET_RED_BLACK_ROOF', name: 'Fuji Sunset Red + Black Roof', hex: '#C0392B', type: 'two-tone', colorCode: 'YAU', imageSrc: '/images/exterior/FUJI SUNSET RED.png',            chipSrc: '/images/color-chips/nissan_leaf_fugired_blackroof.png',         path360: '/images/360-exterior/fuji-red/25tdieulhd_pz1d_yau_h_' },
+  { id: 'UNIVERSAL_BLUE_BLACK_ROOF',  name: 'Universal Blue + Black Roof', hex: '#2C4A8E', type: 'two-tone', colorCode: 'XHQ', imageSrc: '/images/exterior/UNIVERSAL BLUE.png',              chipSrc: '/images/color-chips/nissan_leaf_universalblue_blackroof.png',   path360: '/images/360-exterior/universal-blue/25tdieulhd_pz1d_xhq_h_' },
+  { id: 'TURQUOISE_BLACK_ROOF',       name: 'Turquoise + Black Roof',     hex: '#4ABFBF', type: 'two-tone',   colorCode: 'YBR', imageSrc: '/images/exterior/TURQUOISE.png',                  chipSrc: '/images/color-chips/nissan_leaf_turqoise_blackroof.png',        path360: '/images/360-exterior/turquoise/25tdieulhd_pz1d_ybr_h_' },
 ]
 
 export const INTERIOR_IMAGES: string[] = [

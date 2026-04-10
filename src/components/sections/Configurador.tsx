@@ -103,6 +103,7 @@ export default function Configurador() {
         <div className="w-full md:w-[65%] h-[50vh] md:h-full">
           <ImagePanel
             exteriorImageSrc={activeColor.imageSrc}
+            colorPath360={activeColor.path360}
             view={imageView}
             onViewChange={setImageView}
             slideIndex={slideIndex}
