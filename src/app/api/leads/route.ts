@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         firstName, lastName, email, phone,
         preferredContactTime,
-        privacyConsent: true,
+        privacyConsent,
         marketingConsent: !!marketingConsent,
       }),
       signal: AbortSignal.timeout(5000),

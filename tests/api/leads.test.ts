@@ -13,7 +13,6 @@ describe('POST /api/leads', () => {
     lastName: 'Silva',
     email: 'joao@example.com',
     phone: '+351912345678',
-    privacyConsent: true,
   }
 
   const originalWebhookUrl = process.env.N8N_LEAD_WEBHOOK_URL
@@ -48,7 +47,7 @@ describe('POST /api/leads', () => {
     delete process.env.N8N_LEAD_WEBHOOK_URL
     const req = new NextRequest('http://localhost/api/leads', {
       method: 'POST',
-      body: JSON.stringify(validBody),
+      body: JSON.stringify({ ...validBody, privacyConsent: true }),
     })
     const res = await POST(req)
     expect(res.status).toBe(200)
@@ -60,7 +59,7 @@ describe('POST /api/leads', () => {
     mockFetch.mockResolvedValueOnce({ ok: true })
     const req = new NextRequest('http://localhost/api/leads', {
       method: 'POST',
-      body: JSON.stringify(validBody),
+      body: JSON.stringify({ ...validBody, privacyConsent: true }),
     })
     const res = await POST(req)
     expect(res.status).toBe(200)
@@ -78,7 +77,7 @@ describe('POST /api/leads', () => {
     mockFetch.mockResolvedValueOnce({ ok: false, status: 502 })
     const req = new NextRequest('http://localhost/api/leads', {
       method: 'POST',
-      body: JSON.stringify(validBody),
+      body: JSON.stringify({ ...validBody, privacyConsent: true }),
     })
     const res = await POST(req)
     expect(res.status).toBe(500)
@@ -86,10 +85,9 @@ describe('POST /api/leads', () => {
 
   it('returns 400 when privacyConsent is missing', async () => {
     process.env.N8N_LEAD_WEBHOOK_URL = 'https://n8n.example.com/webhook/leads'
-    const { privacyConsent, ...bodyWithoutConsent } = validBody
     const req = new NextRequest('http://localhost/api/leads', {
       method: 'POST',
-      body: JSON.stringify(bodyWithoutConsent),
+      body: JSON.stringify(validBody),
     })
     const res = await POST(req)
     expect(res.status).toBe(400)
