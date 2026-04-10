@@ -17,7 +17,6 @@ function triggerIntersection(el: Element, isIntersecting: boolean) {
   observers.get(el)?.([{ isIntersecting, target: el } as IntersectionObserverEntry])
 }
 
-// ── DOM anchors the observers target ──────────────────────────────────────
 function setupAnchors() {
   const configurador = document.createElement('section')
   configurador.id = 'configurador'
@@ -28,10 +27,8 @@ function setupAnchors() {
   return { configurador, closing }
 }
 
-// The class applied when the bar is hidden (from BottomCTABar.tsx)
 const HIDDEN_CLASS = 'translate-y-[calc(100%+2rem)]'
 
-// Helper: simulate scrolling past the header so pastHeader becomes true
 function scrollPastHeader() {
   Object.defineProperty(window, 'scrollY', { value: 200, writable: true, configurable: true })
   fireEvent.scroll(window)
@@ -46,7 +43,7 @@ describe('BottomCTABar', () => {
     Object.defineProperty(window, 'scrollY', { value: 0, writable: true, configurable: true })
   })
 
-  // ── Rendering ─────────────────────────────────────────────────────────────
+  // ── Static content ────────────────────────────────────────────────────────
 
   it('renders the car name copy', () => {
     setupAnchors()
@@ -57,7 +54,13 @@ describe('BottomCTABar', () => {
   it('renders the price copy', () => {
     setupAnchors()
     render(<BottomCTABar />)
-    expect(screen.getByText('Desde 29.900€')).toBeInTheDocument()
+    expect(screen.getByText('Desde 39.900€')).toBeInTheDocument()
+  })
+
+  it('renders the "Tenho Interesse" toggle button', () => {
+    setupAnchors()
+    render(<BottomCTABar />)
+    expect(screen.getByRole('button', { name: /tenho interesse/i, hidden: true })).toBeInTheDocument()
   })
 
   // ── Initial visibility ────────────────────────────────────────────────────
@@ -159,24 +162,16 @@ describe('BottomCTABar', () => {
     expect(bar.getAttribute('aria-hidden')).toBeNull()
   })
 
-  it('sets tabIndex -1 on button when hidden', () => {
+  it('sets tabIndex -1 on toggle button when hidden', () => {
     const { configurador } = setupAnchors()
-    const { container } = render(<BottomCTABar />)
+    render(<BottomCTABar />)
     act(() => scrollPastHeader())
     act(() => triggerIntersection(configurador, true))
-    const collapsedRow = container.querySelector('[data-testid="collapsed-row"]')!
-    const btn = within(collapsedRow).getByRole('button', { name: /reservar agora/i, hidden: true })
+    const btn = screen.getByRole('button', { name: /tenho interesse/i, hidden: true })
     expect(btn).toHaveAttribute('tabindex', '-1')
   })
 
-  // ── Responsive layout ────────────────────────────────────────────────────
-
-  it('inner pill has gap-4 class for mobile', () => {
-    setupAnchors()
-    const { container } = render(<BottomCTABar />)
-    const pill = container.querySelector('.gap-4')
-    expect(pill).toBeInTheDocument()
-  })
+  // ── Layout ────────────────────────────────────────────────────────────────
 
   it('outer wrapper uses safe-area-inset-bottom for bottom positioning', () => {
     setupAnchors()
@@ -192,101 +187,112 @@ describe('BottomCTABar', () => {
     expect(bar.className).toContain('max-w-[calc(100vw-2rem)]')
   })
 
-  // ── CTA bar – collapsed state ─────────────────────────────────────────────
+  // ── Toggle behaviour ──────────────────────────────────────────────────────
 
-  it('renders the "Reservar agora" main CTA button when collapsed', () => {
-    setupAnchors()
-    const { container } = render(<BottomCTABar />)
-    const collapsedRow = container.querySelector('[data-testid="collapsed-row"]')!
-    const btn = within(collapsedRow).getByRole('button', { name: /reservar agora/i, hidden: true })
-    expect(btn).toBeInTheDocument()
-  })
-
-  it('renders the expand chevron button with aria-label "Ver mais opções"', () => {
+  it('"Tenho Interesse" button has aria-expanded=false by default', () => {
     setupAnchors()
     render(<BottomCTABar />)
-    expect(screen.getByRole('button', { name: /ver mais opções/i, hidden: true })).toBeInTheDocument()
+    const btn = screen.getByRole('button', { name: /tenho interesse/i, hidden: true })
+    expect(btn).toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('shows the label when collapsed', () => {
+  it('clicking "Tenho Interesse" sets aria-expanded=true', () => {
+    setupAnchors()
+    render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    fireEvent.click(screen.getByRole('button', { name: /tenho interesse/i }))
+    expect(screen.getByRole('button', { name: /tenho interesse/i })).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('menu panel becomes visible when toggle is clicked', () => {
     setupAnchors()
     const { container } = render(<BottomCTABar />)
     act(() => scrollPastHeader())
-    const collapsedRow = container.querySelector('[data-testid="collapsed-row"]')
-    expect(collapsedRow).not.toHaveClass('opacity-0')
+    fireEvent.click(screen.getByRole('button', { name: /tenho interesse/i }))
+    const panel = container.querySelector('[data-testid="menu-panel"]')!
+    expect(panel).not.toHaveClass('opacity-0')
   })
 
-  // ── Expand / collapse ─────────────────────────────────────────────────────
-
-  it('expands when chevron is clicked', () => {
+  it('menu panel is hidden when collapsed', () => {
     setupAnchors()
     const { container } = render(<BottomCTABar />)
     act(() => scrollPastHeader())
-    const chevron = screen.getByRole('button', { name: /ver mais opções/i })
-    fireEvent.click(chevron)
-    const expandedPanel = container.querySelector('[data-testid="expanded-panel"]')
-    expect(expandedPanel).not.toHaveClass('opacity-0')
+    const panel = container.querySelector('[data-testid="menu-panel"]')!
+    // inner content div should carry opacity-0
+    expect(panel.querySelector('.opacity-0')).toBeInTheDocument()
   })
 
-  it('collapses when close chevron is clicked', () => {
+  it('menu shows "Quero ser contactado" item when expanded', () => {
     setupAnchors()
     const { container } = render(<BottomCTABar />)
     act(() => scrollPastHeader())
-    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
-    fireEvent.click(screen.getByRole('button', { name: /fechar opções/i }))
-    const expandedPanel = container.querySelector('[data-testid="expanded-panel"]')
-    expect(expandedPanel).toHaveClass('opacity-0')
+    fireEvent.click(screen.getByRole('button', { name: /tenho interesse/i }))
+    const panel = container.querySelector('[data-testid="menu-panel"]')!
+    expect(within(panel).getByRole('button', { name: /quero ser contactado/i })).toBeInTheDocument()
+  })
+
+  it('menu shows "Quero reservar" item when expanded', () => {
+    setupAnchors()
+    const { container } = render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    fireEvent.click(screen.getByRole('button', { name: /tenho interesse/i }))
+    const panel = container.querySelector('[data-testid="menu-panel"]')!
+    expect(within(panel).getByRole('button', { name: /quero reservar/i })).toBeInTheDocument()
+  })
+
+  it('menu items have tabIndex -1 when panel is collapsed', () => {
+    setupAnchors()
+    render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    expect(screen.getByRole('button', { name: /quero ser contactado/i, hidden: true })).toHaveAttribute('tabindex', '-1')
+    expect(screen.getByRole('button', { name: /quero reservar/i, hidden: true })).toHaveAttribute('tabindex', '-1')
+  })
+
+  it('clicking "Tenho Interesse" again collapses the menu', () => {
+    setupAnchors()
+    render(<BottomCTABar />)
+    act(() => scrollPastHeader())
+    fireEvent.click(screen.getByRole('button', { name: /tenho interesse/i }))
+    fireEvent.click(screen.getByRole('button', { name: /tenho interesse/i }))
+    expect(screen.getByRole('button', { name: /tenho interesse/i })).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('collapses when Escape is pressed', () => {
     setupAnchors()
-    const { container } = render(<BottomCTABar />)
+    render(<BottomCTABar />)
     act(() => scrollPastHeader())
-    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
+    fireEvent.click(screen.getByRole('button', { name: /tenho interesse/i }))
     fireEvent.keyDown(document, { key: 'Escape' })
-    const expandedPanel = container.querySelector('[data-testid="expanded-panel"]')
-    expect(expandedPanel).toHaveClass('opacity-0')
+    expect(screen.getByRole('button', { name: /tenho interesse/i })).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('collapses when clicking outside the bar', () => {
     setupAnchors()
-    const { container } = render(<BottomCTABar />)
+    render(<BottomCTABar />)
     act(() => scrollPastHeader())
-    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
+    fireEvent.click(screen.getByRole('button', { name: /tenho interesse/i }))
     fireEvent.mouseDown(document.body)
-    const expandedPanel = container.querySelector('[data-testid="expanded-panel"]')
-    expect(expandedPanel).toHaveClass('opacity-0')
+    expect(screen.getByRole('button', { name: /tenho interesse/i })).toHaveAttribute('aria-expanded', 'false')
   })
 
-  // ── Expanded state – options and actions ──────────────────────────────────
+  // ── Menu item actions ─────────────────────────────────────────────────────
 
-  it('shows all three options when expanded', () => {
+  it('"Quero reservar" dispatches ctabar:reserve and collapses menu', () => {
     setupAnchors()
     const { container } = render(<BottomCTABar />)
     act(() => scrollPastHeader())
-    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
-    const panel = container.querySelector('[data-testid="expanded-panel"]')!
-    expect(within(panel).getByRole('button', { name: /reservar agora/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /configurar leaf/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /ser contactado/i })).toBeInTheDocument()
-  })
-
-  it('"Reservar agora" in expanded panel dispatches ctabar:reserve and collapses', () => {
-    setupAnchors()
-    const { container } = render(<BottomCTABar />)
-    act(() => scrollPastHeader())
-    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
+    fireEvent.click(screen.getByRole('button', { name: /tenho interesse/i }))
 
     const dispatched: Event[] = []
     window.addEventListener('ctabar:reserve', (e) => dispatched.push(e), { once: true })
 
-    const panel = container.querySelector('[data-testid="expanded-panel"]')!
-    fireEvent.click(within(panel).getByRole('button', { name: /reservar agora/i }))
+    const panel = container.querySelector('[data-testid="menu-panel"]')!
+    fireEvent.click(within(panel).getByRole('button', { name: /quero reservar/i }))
     expect(dispatched).toHaveLength(1)
-    expect(container.querySelector('[data-testid="expanded-panel"]')).toHaveClass('opacity-0')
+    expect(screen.getByRole('button', { name: /tenho interesse/i })).toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('"Configurar Leaf" scrolls to #configurador and collapses', () => {
+  it('"Quero ser contactado" scrolls to #contacto and collapses menu', () => {
     setupAnchors()
     const mockScrollIntoView = jest.fn()
     const mockGetElementById = jest.spyOn(document, 'getElementById').mockReturnValue({
@@ -295,53 +301,14 @@ describe('BottomCTABar', () => {
 
     const { container } = render(<BottomCTABar />)
     act(() => scrollPastHeader())
-    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
-    fireEvent.click(screen.getByRole('button', { name: /configurar leaf/i }))
+    fireEvent.click(screen.getByRole('button', { name: /tenho interesse/i }))
 
-    expect(mockGetElementById).toHaveBeenCalledWith('configurador')
-    expect(mockScrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
-    expect(container.querySelector('[data-testid="expanded-panel"]')).toHaveClass('opacity-0')
-    mockGetElementById.mockRestore()
-  })
-
-  it('"Ser Contactado" scrolls to #contacto and collapses', () => {
-    setupAnchors()
-    const mockScrollIntoView = jest.fn()
-    const mockGetElementById = jest.spyOn(document, 'getElementById').mockReturnValue({
-      scrollIntoView: mockScrollIntoView,
-    } as unknown as HTMLElement)
-
-    const { container } = render(<BottomCTABar />)
-    act(() => scrollPastHeader())
-    fireEvent.click(screen.getByRole('button', { name: /ver mais opções/i }))
-    fireEvent.click(screen.getByRole('button', { name: /ser contactado/i }))
+    const panel = container.querySelector('[data-testid="menu-panel"]')!
+    fireEvent.click(within(panel).getByRole('button', { name: /quero ser contactado/i }))
 
     expect(mockGetElementById).toHaveBeenCalledWith('contacto')
     expect(mockScrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
-    expect(container.querySelector('[data-testid="expanded-panel"]')).toHaveClass('opacity-0')
+    expect(screen.getByRole('button', { name: /tenho interesse/i })).toHaveAttribute('aria-expanded', 'false')
     mockGetElementById.mockRestore()
-  })
-
-  it('expanded options have tabIndex -1 when panel is collapsed', () => {
-    setupAnchors()
-    render(<BottomCTABar />)
-    act(() => scrollPastHeader())
-    const configurarBtn = screen.getByRole('button', { name: /configurar leaf/i, hidden: true })
-    expect(configurarBtn).toHaveAttribute('tabindex', '-1')
-  })
-
-  // ── "Reservar agora" main CTA (collapsed state) ───────────────────────────
-
-  it('"Reservar agora" main CTA dispatches ctabar:reserve', () => {
-    setupAnchors()
-    const { container } = render(<BottomCTABar />)
-    act(() => scrollPastHeader())
-
-    const dispatched: Event[] = []
-    window.addEventListener('ctabar:reserve', (e) => dispatched.push(e), { once: true })
-
-    const collapsedRow = container.querySelector('[data-testid="collapsed-row"]')!
-    fireEvent.click(within(collapsedRow).getByRole('button', { name: /reservar agora/i }))
-    expect(dispatched).toHaveLength(1)
   })
 })
