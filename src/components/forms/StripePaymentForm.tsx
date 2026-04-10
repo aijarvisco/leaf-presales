@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { stripePromise } from '@/lib/stripe-client'
-import Button from '@/components/ui/Button'
 import type { StripeError } from '@stripe/stripe-js'
 import dealersData from '@/data/concessionarios.json'
 
@@ -34,6 +33,7 @@ const selectClass =
   'w-full rounded-lg border border-[#D1D1D1] bg-white px-4 py-2.5 text-sm text-[#0A0A0A] focus:border-[#0070C9] focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed'
 
 const cardElementStyle = {
+  hidePostalCode: true,
   style: {
     base: {
       color: '#0A0A0A',
@@ -380,9 +380,13 @@ function CardElementForm({
 
       {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
 
-      <Button type="submit" variant="primary" className="w-full" disabled={submitting || !stripe || !elements}>
+      <button
+        type="submit"
+        disabled={submitting || !stripe || !elements}
+        className="w-full bg-[#0A0A0A] text-white font-semibold text-sm py-3 rounded-full hover:bg-[#0A0A0A]/80 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+      >
         {submitting ? 'A processar...' : 'Reservar agora — €300'}
-      </Button>
+      </button>
     </form>
   )
 }

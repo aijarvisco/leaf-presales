@@ -105,6 +105,11 @@ export default function InfoFormSection() {
       setForm((p) => ({ ...p, [key]: value }))
     }
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, '')
+    setForm((p) => ({ ...p, telemovel: value }))
+  }
+
   const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const district = e.target.value
     setForm((p) => ({ ...p, distrito: district, concessionarioId: '' }))
@@ -190,7 +195,7 @@ export default function InfoFormSection() {
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
               <Field id="nome" label="Nome" value={form.nome ?? ''} onChange={set('nome')} required />
-              <Field id="telemovel" label="Telemóvel" type="tel" value={form.telemovel ?? ''} onChange={set('telemovel')} required />
+              <Field id="telemovel" label="Telemóvel" type="tel" value={form.telemovel ?? ''} onChange={handlePhoneChange} inputMode="numeric" pattern="[0-9]+" required />
               <Field id="email" label="Email" type="email" value={form.email ?? ''} onChange={set('email')} required />
 
               <SelectField id="distrito" label="Distrito" value={form.distrito ?? ''} onChange={handleDistrictChange} required>
@@ -319,7 +324,7 @@ export default function InfoFormSection() {
 // ─── Field helpers ─────────────────────────────────────────────────────────────
 
 function Field({
-  id, label, value, onChange, type = 'text', required = false,
+  id, label, value, onChange, type = 'text', required = false, inputMode, pattern,
 }: {
   id: string
   label: string
@@ -327,6 +332,8 @@ function Field({
   onChange: React.ChangeEventHandler<HTMLInputElement>
   type?: string
   required?: boolean
+  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']
+  pattern?: string
 }) {
   return (
     <div>
@@ -337,6 +344,8 @@ function Field({
         value={value}
         onChange={onChange}
         required={required}
+        inputMode={inputMode}
+        pattern={pattern}
         className="w-full bg-white border border-[#E5E5E5] rounded-lg px-4 py-2.5 text-sm text-[#0A0A0A] placeholder:text-[#ADADAD] focus:outline-none focus:border-[#0A0A0A] transition-colors"
       />
     </div>

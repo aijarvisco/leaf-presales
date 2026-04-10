@@ -27,6 +27,16 @@ export default function ClosingSection() {
     <>
       {/* ── Mobile layout (static) ── */}
       <section id="closing" className="md:hidden bg-white">
+                {/* Title */}
+                <div className="px-6 pt-12 pb-12 text-center">
+          <h2
+            className="leading-none font-medium text-black tracking-[-0.07em]"
+            style={{ fontSize: 'var(--text-display)' }}
+          >
+            Chega de imaginar.<br/>É hora de conduzir.
+          </h2>
+        </div>
+        
         {/* Image */}
         <div className="relative w-full aspect-[4/3]">
           <Image
@@ -36,16 +46,6 @@ export default function ClosingSection() {
             className="object-cover object-center"
             priority={false}
           />
-        </div>
-
-        {/* Title */}
-        <div className="px-6 pt-12 pb-12 text-center">
-          <h2
-            className="leading-none font-medium text-black tracking-[-0.07em]"
-            style={{ fontSize: 'var(--text-display)' }}
-          >
-            Chega de imaginar.<br/>É hora de conduzir.
-          </h2>
         </div>
 
         {/* CTAs */}

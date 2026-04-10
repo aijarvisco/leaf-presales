@@ -4,10 +4,10 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(req: NextRequest) {
   try {
     const payload = await req.json()
-    const webhookUrl = process.env.N8N_WEBHOOK_URL
+    const webhookUrl = process.env.N8N_RESERVATION_WEBHOOK_URL
 
     if (!webhookUrl) {
-      console.warn('[reservation-complete] N8N_WEBHOOK_URL is not set — skipping webhook')
+      console.warn('[reservation-complete] N8N_RESERVATION_WEBHOOK_URL is not set — skipping webhook')
       return NextResponse.json({ ok: true })
     }
 
