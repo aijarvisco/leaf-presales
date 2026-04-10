@@ -173,7 +173,7 @@ export default function Configurador() {
                   <button
                     type="button"
                     onClick={scrollToContacto}
-                    className="w-full text-white font-semibold text-base px-5 py-3 flex items-center justify-between hover:bg-white/[0.08] transition-colors cursor-pointer group"
+                    className="w-full text-white font-semibold text-base px-5 py-3 rounded-xl flex items-center justify-between hover:bg-white/[0.08] transition-colors cursor-pointer group"
                   >
                     <span>Quero ser contactado</span>
                     <ArrowRight
@@ -185,7 +185,7 @@ export default function Configurador() {
                   <button
                     type="button"
                     onClick={openReservationFromDropdown}
-                    className="w-full text-white font-semibold text-base px-5 py-3 flex items-center justify-between hover:bg-white/[0.08] transition-colors cursor-pointer group"
+                    className="w-full text-white font-semibold text-base px-5 py-3 rounded-xl flex items-center justify-between hover:bg-white/[0.08] transition-colors cursor-pointer group"
                   >
                     <span>Quero reservar</span>
                     <ArrowRight
@@ -210,7 +210,7 @@ export default function Configurador() {
                 type="button"
                 onClick={() => setIsDropdownOpen(prev => !prev)}
                 aria-expanded={isDropdownOpen}
-                aria-controls="configurador-interesse-menu"
+                aria-controls={isDropdownOpen ? "configurador-interesse-menu" : undefined}
                 className="bg-[#0A0A0A] text-white font-semibold text-sm px-6 py-3 rounded-full hover:bg-[#0A0A0A]/80 transition-colors cursor-pointer flex items-center gap-2"
               >
                 Tenho Interesse
@@ -232,7 +232,7 @@ export default function Configurador() {
                 type="button"
                 onClick={() => setIsDropdownOpen(prev => !prev)}
                 aria-expanded={isDropdownOpen}
-                aria-controls="configurador-interesse-menu"
+                aria-controls={isDropdownOpen ? "configurador-interesse-menu" : undefined}
                 className="w-full bg-[#0A0A0A] text-white font-semibold text-sm py-3 rounded-full hover:bg-[#0A0A0A]/80 transition-colors cursor-pointer flex items-center justify-center gap-2"
               >
                 Tenho Interesse

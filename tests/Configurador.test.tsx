@@ -169,6 +169,14 @@ describe('Configurador — drawer events', () => {
     })
     expect(receivedEvents).toContain('reservationdrawer:close')
   })
+
+  it('opens the drawer when the ctabar:reserve custom event is fired', async () => {
+    render(<Configurador />)
+    await act(async () => {
+      window.dispatchEvent(new CustomEvent('ctabar:reserve'))
+    })
+    expect(screen.getByTestId('reservation-drawer')).toBeInTheDocument()
+  })
 })
 
 describe('Configurador — Tenho Interesse dropdown', () => {
