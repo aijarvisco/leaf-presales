@@ -12,6 +12,9 @@ export default function ContactForm() {
   const set = (key: keyof LeadFormData) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((p) => ({ ...p, [key]: e.target.value }))
 
+  const handleCheckbox = (key: keyof LeadFormData) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm((p) => ({ ...p, [key]: e.target.checked }))
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('loading')
@@ -47,13 +50,32 @@ export default function ContactForm() {
       <Field label="Melhor hora para contacto (opcional)" value={form.preferredContactTime ?? ''} onChange={set('preferredContactTime')} />
 
       <label className="flex gap-3 items-start text-sm text-text-secondary cursor-pointer">
-        <input type="checkbox" required className="mt-0.5 accent-accent" />
+        <input
+          type="checkbox"
+          required
+          checked={form.privacyConsent ?? false}
+          onChange={handleCheckbox('privacyConsent')}
+          className="mt-0.5 accent-accent"
+          aria-label="Li e aceito a Política de Privacidade"
+        />
         <span>
-          Aceito que os meus dados sejam utilizados para fins de contacto comercial,
-          de acordo com a{' '}
-          <a href="/politica-de-privacidade" className="text-accent hover:underline">
-            Política de Privacidade
-          </a>.
+          Li e aceito a{' '}
+          <a href="/politica-de-privacidade" className="font-bold underline text-white hover:text-accent transition-colors">
+            Política de Privacidade.
+          </a>
+        </span>
+      </label>
+
+      <label className="flex gap-3 items-start text-sm text-text-secondary cursor-pointer">
+        <input
+          type="checkbox"
+          checked={form.marketingConsent ?? false}
+          onChange={handleCheckbox('marketingConsent')}
+          className="mt-0.5 accent-accent"
+          aria-label="Gostaria de receber comunicações de marketing da Nissan"
+        />
+        <span>
+          Gostaria de receber comunicações de marketing, nomeadamente promoções, eventos, novos produtos e serviços Nissan, seja através de e-mail, telefone ou SMS e no veículo (se suportado), por forma a personalizar e a melhorar a minha experiência enquanto cliente.
         </span>
       </label>
 
