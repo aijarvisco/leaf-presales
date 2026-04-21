@@ -122,8 +122,8 @@ export const INTERIOR_IMAGES: string[] = [
 ]
 
 export function getEffectivePrice(trim: TrimLevel, batteryKwh?: 52 | 75): number {
-  const kWh = batteryKwh ?? 75
-  const opt = trim.batteryOptions.find(b => b.kWh === kWh && !b.disabled) ?? trim.batteryOptions.find(b => !b.disabled)
+  const available = trim.batteryOptions.filter(b => !b.disabled).sort((a, b) => a.kWh - b.kWh)
+  const opt = (batteryKwh ? available.find(b => b.kWh === batteryKwh) : null) ?? available[0]
   if (!opt) throw new Error(`No enabled battery option in trim "${trim.id}"`)
   return opt.price
 }

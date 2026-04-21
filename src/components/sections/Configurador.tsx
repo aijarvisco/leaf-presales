@@ -25,9 +25,11 @@ export default function Configurador() {
     const newTrim = TRIM_LEVELS.find(t => t.id === id)
     if (!newTrim) return
     setSelectedTrimId(id as 'engage' | 'advance' | 'evolve')
-    // 52 kWh is disabled for Advance and Evolve — auto-switch to 75
     const batteryAvailable = newTrim.batteryOptions.find(b => b.kWh === selectedBatteryKwh && !b.disabled)
-    if (!batteryAvailable) setSelectedBatteryKwh(75)
+    if (!batteryAvailable) {
+      const lowest = newTrim.batteryOptions.filter(b => !b.disabled).sort((a, b) => a.kWh - b.kWh)[0]
+      if (lowest) setSelectedBatteryKwh(lowest.kWh)
+    }
     setSelectedColorId(newTrim.availableColorIds[0])
   }
 
