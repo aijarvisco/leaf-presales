@@ -52,7 +52,7 @@ export const TRIM_LEVELS: TrimLevel[] = [
     name: 'Advance',
     isPopular: true,
     batteryOptions: [
-      { kWh: 52, price: 49100, commercialCode: '', autonomy: 445, disabled: true },
+      { kWh: 52, price: 45700, commercialCode: '', autonomy: 445 },
       { kWh: 75, price: 49100, commercialCode: '', autonomy: 593 },
     ],
     highlights: [
